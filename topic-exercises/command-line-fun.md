@@ -48,3 +48,79 @@ OS{FLAG}
 
 ## Managing Processes
 
+### VM1
+
+We need your help to complete some dirty jobs. These jobs are available on the VM #1 within the _/challenge_ folder. Follow the instructions given by the _dirty-jobs_ program to learn how to complete these jobs and get the flag.
+
+```bash
+$ ./dirty-jobs 
+So you want to help me complete some dirty jobs; Awesome!
+Go ahead and start by running each of the four dirty jobs available in ./jobs.
+Make sure you do NOT complete these jobs (i.e. do NOT end these processes).
+These jobs (processes) need to be visible in your process list for me to verify that you are working the job.
+
+Once you have one active session of each job (4 jobs total), press any key to continue: 
+
+^Z
+[1]+  Stopped                 ./dirty-jobs
+
+```
+
+Started all jobs and suspended them with `Ctrl + Z`.
+
+```bash
+$ jobs
+[1]   Stopped                 ./dirty-jobs  (wd: /challenge)
+[2]   Stopped                 ./avian-vomitologist
+[4]   Stopped                 ./garbage-collector
+[5]-  Stopped                 ./pig-farmer
+[6]+  Stopped                 ./sewer-inspector
+```
+
+Jumped back into `./dirty-jobs`.
+
+{% code overflow="wrap" %}
+```bash
+$ fg %1                                                                                                           
+./dirty-jobs    (wd: /challenge)
+
+You went pig-farming. Yuck.
+You collected some garbage. Gross.
+You inspected a sewer. Disgusting.
+You handled some avian vomit. I am starting to gag.
+
+
+Ugh. My stomach does not feel so good. Please hurry up and finish those jobs before I lose my lunch.
+At this time, pause this process and finish (i.e. end) all dirty jobs processes.
+In fact, end every other process (EXCEPT your shell of course - unless you want to start over).
+
+NOTE: Your process list should only list three processes (bash, dirty-jobs, and your process list command) once ready.
+The process list command is listed because it is running at the time of executing the ps (ps inception),
+but it does not exist after completion of the command. In other words, do not worry about the ps.
+
+NOTE2: The default kill (just `kill <pid>`) will not work on the dirty job processes.
+These processes do not respond to SIGTERM. Make sure you send SIGKILL if you are trying to use `kill`.
+
+Once all other jobs are complete (i.e. ended), press any key to continue: 
+
+^Z
+[1]+  Stopped                 ./dirty-jobs  (wd: /challenge)
+(wd now: /challenge/jobs)
+
+```
+{% endcode %}
+
+Killed all processes using a SIGKILL signal (`kill -9 <PID>`).
+
+```bash
+$ fg %1                                                                                                           
+./dirty-jobs    (wd: /challenge)
+
+Great job. Here is your flag:
+OS{2793b0bd43cfd4cb2d59513f26a841cf}
+
+Press any key to continue...
+```
+
+## File and Command Monitoring
+

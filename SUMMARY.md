@@ -24,6 +24,7 @@
   * [Text Search and Manipulation](linux/bash/text-search-and-manipulation.md)
   * [Editing Files From Command Line](linux/bash/editing-files-from-command-line.md)
   * [Comparing Files](linux/bash/comparing-files.md)
+  * [Managing Processes](linux/bash/managing-processes.md)
 
 ## Topic Exercises
 
