@@ -35,3 +35,16 @@ $ awk '{ print length, $0 }' values_and_flags.txt | sort -k1n | head -n 1 | cut 
 OS{FLAG}
 ```
 
+## Comparing Files
+
+### VM1
+
+There are two access-logs, `access-logA` and `access-logB`. Spot the differences (and ONLY the differences) _in order of appearance_ in their respective files to get this flag.
+
+```bash
+$ diff --suppress-common-lines access-logA.txt access-logB.txt | awk '/</ || />/' | grep -o '[A-Za-z0-9{}]' | paste -s -d ''
+OS{FLAG}
+```
+
+## Managing Processes
+

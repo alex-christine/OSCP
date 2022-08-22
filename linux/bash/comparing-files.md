@@ -21,7 +21,7 @@ It outputs three space-offset columns:
 
 ## `diff`
 
-sed to detect differences between files, similar to the comm command. However, diff is much more complex and supports many output formats.
+Used to detect differences between files, similar to the comm command. However, diff is much more complex and supports many output formats.
 
 ### Output Formats
 
@@ -82,5 +82,4 @@ There are a few shortcuts that may be useful.
 | `[c`       | Jumps to the previous change                                |
 | `Ctrl + W` | Switches to the other split window                          |
 
-![](../../.gitbook/assets/Example\_vimdiff.png)
-
+![vimdiff Example](../../.gitbook/assets/Example\_vimdiff.png)
