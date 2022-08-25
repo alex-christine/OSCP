@@ -124,3 +124,16 @@ Press any key to continue...
 
 ## File and Command Monitoring
 
+### VM1
+
+```bash
+$ cd /challenge && watch -n1 -e ./watchmen 
+```
+
+After awhile the output froze on a screen with the `OS{FLAG}`
+
+## Downloading Files
+
+### VM1
+
+Exercise was simply to start the VM and then download an HTML file from it via `curl`. The HTML page contained `OS{FLAG}`

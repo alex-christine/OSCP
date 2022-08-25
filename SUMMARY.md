@@ -25,6 +25,9 @@
   * [Editing Files From Command Line](linux/bash/editing-files-from-command-line.md)
   * [Comparing Files](linux/bash/comparing-files.md)
   * [Managing Processes](linux/bash/managing-processes.md)
+  * [File and Command Monitoring](linux/bash/file-and-command-monitoring.md)
+  * [Downloading Files](linux/bash/downloading-files.md)
+  * [Configuring Environment](linux/bash/configuring-environment.md)
 
 ## Topic Exercises
 
