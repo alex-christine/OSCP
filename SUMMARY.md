@@ -10,6 +10,28 @@
   * [Topic Exercises](course-info/course-exercises/topic-exercises.md)
   * [Reporting](course-info/course-exercises/reporting.md)
 
+## Tools
+
+* [Netcat](tools/netcat/README.md)
+  * [Official Documentation](http://netcat.sourceforge.net/)
+  * [Client](tools/netcat/client.md)
+  * [Server](tools/netcat/server.md)
+  * [File Transfer](tools/netcat/file-transfer.md)
+  * [Remote Administration](tools/netcat/remote-administration.md)
+* [Nmap](tools/nmap/README.md)
+  * [Behavior Flags](tools/nmap/behavior-flags.md)
+  * [Host Discovery Scans](tools/nmap/host-discovery-scans.md)
+  * [Open Port Scans](tools/nmap/open-port-scans.md)
+  * [Other Flags](tools/nmap/other-flags.md)
+  * [Spoofing IP and MAC](tools/nmap/spoofing-ip-and-mac.md)
+  * [Nmap Scripting Engine (NSE)](tools/nmap/nmap-scripting-engine-nse.md)
+
+## Attack Vectors
+
+* [Web Shells](attack-vectors/web-shells/README.md)
+  * [Reverse Shell](attack-vectors/web-shells/reverse-shell.md)
+  * [Bind Shell](attack-vectors/web-shells/bind-shell.md)
+
 ## Linux
 
 * [Commands](linux/commands.md)
