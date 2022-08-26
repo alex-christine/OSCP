@@ -25,12 +25,16 @@
   * [Other Flags](tools/nmap/other-flags.md)
   * [Spoofing IP and MAC](tools/nmap/spoofing-ip-and-mac.md)
   * [Nmap Scripting Engine (NSE)](tools/nmap/nmap-scripting-engine-nse.md)
+* [Socat](tools/socat/README.md)
+  * [Official Documentation](http://www.dest-unreach.org/socat/doc/socat.html)
+  * [File Transfer](tools/socat/file-transfer.md)
+  * [Web Shells](tools/socat/web-shells.md)
 
 ## Attack Vectors
 
 * [Web Shells](attack-vectors/web-shells/README.md)
-  * [Reverse Shell](attack-vectors/web-shells/reverse-shell.md)
   * [Bind Shell](attack-vectors/web-shells/bind-shell.md)
+  * [Reverse Shell](attack-vectors/web-shells/reverse-shell.md)
 
 ## Linux
 
@@ -54,3 +58,4 @@
 ## Topic Exercises
 
 * [Command Line Fun](topic-exercises/command-line-fun.md)
+* [Practical Tools](topic-exercises/practical-tools.md)

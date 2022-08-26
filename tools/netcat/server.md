@@ -9,7 +9,7 @@ description: Notes on using the server functionality of Netcat
 Netcat can be used to catch reverse shells by listening on a specific port
 
 ```shell
-nc -lvnp <PORT>
+nc -lvnp {PORT}
 ```
 
 Must be run as root for any port below and including 1024.
@@ -66,5 +66,5 @@ This technique is particularly useful with Windows shells which are typically di
 RLWrap is simply included before `nc` command when spawning the listener.
 
 ```shell
-rlwrap nc -lvnp <PORT>
+rlwrap nc -lvnp {PORT}
 ```
