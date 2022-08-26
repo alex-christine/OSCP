@@ -21,4 +21,4 @@ Microsoft Windows [Version 10.0.17134.590]
 C:\Users\offsec>
 ```
 
-Thus giving the remote user an interactive shell. This is a highly simplified example of a **bind shell**. More information on Web Shells can be found [here](../../attack-vectors/web-shells/).
+Thus giving the remote user an interactive shell. This is a highly simplified example of a **bind shell**. More information on Web Shells can be found [here](../../attack-vectors/shells/).

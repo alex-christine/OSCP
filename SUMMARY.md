@@ -28,13 +28,13 @@
 * [Socat](tools/socat/README.md)
   * [Official Documentation](http://www.dest-unreach.org/socat/doc/socat.html)
   * [File Transfer](tools/socat/file-transfer.md)
-  * [Web Shells](tools/socat/web-shells.md)
+  * [Shells](tools/socat/shells.md)
 
 ## Attack Vectors
 
-* [Web Shells](attack-vectors/web-shells/README.md)
-  * [Bind Shell](attack-vectors/web-shells/bind-shell.md)
-  * [Reverse Shell](attack-vectors/web-shells/reverse-shell.md)
+* [Shells](attack-vectors/shells/README.md)
+  * [Bind Shell](attack-vectors/shells/bind-shell.md)
+  * [Reverse Shell](attack-vectors/shells/reverse-shell.md)
 
 ## Linux
 
