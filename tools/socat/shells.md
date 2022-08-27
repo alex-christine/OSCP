@@ -6,4 +6,4 @@ description: Utilizing Socat's Web Shell capabilities
 
 Socat can be used to build web shells fairly easily
 
-Significant detail on using socat shells (both reverse and bind) can be found in the [Shells](../../attack-vectors/shells/) notes section. For this reason it will not be duplicated here.
+Significant detail on using socat shells (both [reverse](../../attack-vectors/shells/reverse-shell/socat.md) and [bind](../../attack-vectors/shells/bind-shell/socat.md)) can be found in the linked sections and thus will not be duplicated here.

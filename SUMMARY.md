@@ -25,6 +25,9 @@
   * [Other Flags](tools/nmap/other-flags.md)
   * [Spoofing IP and MAC](tools/nmap/spoofing-ip-and-mac.md)
   * [Nmap Scripting Engine (NSE)](tools/nmap/nmap-scripting-engine-nse.md)
+* [Powercat](tools/powercat/README.md)
+  * [Official Repository](https://github.com/besimorhino/powercat)
+  * [File Transfer](tools/powercat/file-transfer.md)
 * [Socat](tools/socat/README.md)
   * [Official Documentation](http://www.dest-unreach.org/socat/doc/socat.html)
   * [File Transfer](tools/socat/file-transfer.md)
@@ -33,8 +36,15 @@
 ## Attack Vectors
 
 * [Shells](attack-vectors/shells/README.md)
-  * [Bind Shell](attack-vectors/shells/bind-shell.md)
-  * [Reverse Shell](attack-vectors/shells/reverse-shell.md)
+  * [Bind Shell](attack-vectors/shells/bind-shell/README.md)
+    * [Netcat](attack-vectors/shells/bind-shell/netcat.md)
+    * [Socat](attack-vectors/shells/bind-shell/socat.md)
+    * [PowerShell](attack-vectors/shells/bind-shell/powershell.md)
+    * [Powercat](attack-vectors/shells/bind-shell/powercat.md)
+  * [Reverse Shell](attack-vectors/shells/reverse-shell/README.md)
+    * [Netcat](attack-vectors/shells/reverse-shell/netcat.md)
+    * [Socat](attack-vectors/shells/reverse-shell/socat.md)
+    * [PowerShell](attack-vectors/shells/reverse-shell/powershell.md)
 
 ## Linux
 
@@ -54,6 +64,13 @@
   * [File and Command Monitoring](linux/bash/file-and-command-monitoring.md)
   * [Downloading Files](linux/bash/downloading-files.md)
   * [Configuring Environment](linux/bash/configuring-environment.md)
+
+## Windows
+
+* [PowerShell](windows/powershell/README.md)
+  * [File Transfers](windows/powershell/file-transfers.md)
+  * [Dot-Sourcing](windows/powershell/dot-sourcing.md)
+  * [Shells](windows/powershell/shells.md)
 
 ## Topic Exercises
 

