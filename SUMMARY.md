@@ -34,6 +34,9 @@
   * [Official Documentation](http://www.dest-unreach.org/socat/doc/socat.html)
   * [File Transfer](tools/socat/file-transfer.md)
   * [Shells](tools/socat/shells.md)
+* [Tcpdump](tools/tcpdump/README.md)
+  * [Reading Captures](tools/tcpdump/reading-captures.md)
+  * [Advanced Filtering with Examples](https://blog.wains.be/2007/2007-10-01-tcpdump-advanced-filters/)
 * [Wireshark](tools/wireshark/README.md)
   * [Filters Documentation](https://www.wireshark.org/docs/man-pages/wireshark-filter.html)
 
