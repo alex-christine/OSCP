@@ -28,10 +28,14 @@
 * [Powercat](tools/powercat/README.md)
   * [Official Repository](https://github.com/besimorhino/powercat)
   * [File Transfer](tools/powercat/file-transfer.md)
+  * [Shells](tools/powercat/shells.md)
+  * [Stand-Alone Payloads](tools/powercat/stand-alone-payloads.md)
 * [Socat](tools/socat/README.md)
   * [Official Documentation](http://www.dest-unreach.org/socat/doc/socat.html)
   * [File Transfer](tools/socat/file-transfer.md)
   * [Shells](tools/socat/shells.md)
+* [Wireshark](tools/wireshark/README.md)
+  * [Filters Documentation](https://www.wireshark.org/docs/man-pages/wireshark-filter.html)
 
 ## Attack Vectors
 
@@ -45,6 +49,7 @@
     * [Netcat](attack-vectors/shells/reverse-shell/netcat.md)
     * [Socat](attack-vectors/shells/reverse-shell/socat.md)
     * [PowerShell](attack-vectors/shells/reverse-shell/powershell.md)
+    * [Powercat](attack-vectors/shells/reverse-shell/powercat.md)
 
 ## Linux
 
