@@ -1,5 +1,5 @@
 ---
-description: Notes about the bash environment
+description: The GNU Bourne-Again Shell (Bash)
 ---
 
 # Bash
@@ -7,8 +7,3 @@ description: Notes about the bash environment
 An **sh-compatible shell** allowing users to run complex commands in a terminal window.
 
 Incorporates useful features from Korn shell (ksh) and C shell (csh).
-
-
-
-
-

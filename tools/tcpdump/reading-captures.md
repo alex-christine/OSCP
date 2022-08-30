@@ -178,3 +178,17 @@ Content-Type: text/html; charset=iso-8859-1
 ```
 
 The significant amount of HTTP 401 requests indicate a brute force attack. The eventual 301 (HTTP redirect) indicates that the attack succeeded and the attacker was redirected to the appropriate location.
+
+#### Matching with tcpflags <a href="#matching-with-tcpflags" id="matching-with-tcpflags"></a>
+
+Actually, there’s an easier way to filter flags (`man pcap-filter` and look for tcpflags):
+
+```bash
+tcpdump 'tcp[tcpflags] == tcp-ack'
+```
+
+Matching all packages with TCP-SYN or TCP-FIN set:
+
+```bash
+tcpdump 'tcp[tcpflags] & (tcp-syn|tcp-fin) != 0'
+```

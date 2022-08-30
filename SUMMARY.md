@@ -72,6 +72,10 @@
   * [File and Command Monitoring](linux/bash/file-and-command-monitoring.md)
   * [Downloading Files](linux/bash/downloading-files.md)
   * [Configuring Environment](linux/bash/configuring-environment.md)
+  * [Scripting](linux/bash/scripting/README.md)
+    * [Variables](linux/bash/scripting/variables.md)
+    * [Arguments](linux/bash/scripting/arguments.md)
+    * [Help Function](linux/bash/scripting/help-function.md)
 
 ## Windows
 
