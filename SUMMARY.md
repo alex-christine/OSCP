@@ -74,8 +74,16 @@
   * [Configuring Environment](linux/bash/configuring-environment.md)
   * [Scripting](linux/bash/scripting/README.md)
     * [Variables](linux/bash/scripting/variables.md)
-    * [Arguments](linux/bash/scripting/arguments.md)
     * [Help Function](linux/bash/scripting/help-function.md)
+    * [Reading Input](linux/bash/scripting/reading-input.md)
+    * [Conditionals](linux/bash/scripting/conditionals.md)
+    * [Boolean Logic](linux/bash/scripting/boolean-logic.md)
+    * [Loops](linux/bash/scripting/loops.md)
+    * [Functions](linux/bash/scripting/functions.md)
+    * [Arguments](linux/bash/scripting/arguments.md)
+    * [Practical Examples](linux/bash/scripting/practical-examples/README.md)
+      * [Bash One-Liners](https://www.bashoneliners.com/)
+      * [Search Exploit-DB](linux/bash/scripting/practical-examples/search-exploit-db.md)
 
 ## Windows
 
