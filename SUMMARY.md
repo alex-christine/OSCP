@@ -96,3 +96,4 @@
 
 * [Command Line Fun](topic-exercises/command-line-fun.md)
 * [Practical Tools](topic-exercises/practical-tools.md)
+* [Bash Scripting](topic-exercises/bash-scripting.md)
