@@ -1,0 +1,59 @@
+---
+description: Basic techniques for amassing a list of email addresses
+---
+
+# Email Harvesting
+
+## theHarvester
+
+CLI tool that gathers emails, names, subdomains, IPs, and URLs from multiple public data sources.
+
+#### Example
+
+```
+kali@kali:~$ theharvester -d megacorpone.com -b google
+...
+[-] Starting harvesting process for domain: megacorpone.com
+
+[-] Searching in Google:
+	Searching 0 results...
+	Searching 100 results...
+	Searching 200 results...
+	Searching 300 results...
+	Searching 400 results...
+	Searching 500 results...
+
+Harvesting results
+No IP addresses found
+
+
+[+] Emails found:
+------------------
+joe@megacorpone.com
+mcarlow@megacorpone.com
+first@megacorpone.com
+ 
+[+] Hosts found in search engines:
+------------------------------------
+
+Total hosts: 13
+
+[-] Resolving hostnames IPs... 
+ 
+Ns1.megacorpone.com:38.100.193.70
+Siem.megacorpone.com:38.100.193.89
+admin.megacorpone.com:38.100.193.83
+beta.megacorpone.com:38.100.193.88
+fs1.megacorpone.com:38.100.193.82
+intranet.megacorpone.com:38.100.193.87
+mail.megacorpone.com:38.100.193.84
+mail2.megacorpone.com:38.100.193.73
+ns1.megacorpone.com:38.100.193.70
+ns2.megacorpone.com:38.100.193.80
+url.megacorpone.com:empty
+www.megacorpone.com:38.100.193.76
+www2.megacorpone.com:38.100.193.79
+```
+
+* Running theHarvester with the `-d` flag specifies a domain to search&#x20;
+* The `-b` flag specifies the data source to search

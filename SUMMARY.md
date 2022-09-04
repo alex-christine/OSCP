@@ -52,6 +52,21 @@
 * [Recon-ng](passive-recon/recon-ng/README.md)
   * [Official Tool Page](https://www.kali.org/tools/recon-ng/)
 * [Open-Source Code](passive-recon/open-source-code.md)
+* [Shodan](passive-recon/shodan.md)
+* [Security Headers Scanner](passive-recon/security-headers-scanner/README.md)
+  * [Scanner](https://securityheaders.com/)
+* [SSL Server Test](passive-recon/ssl-server-test.md)
+* [Pastebin](passive-recon/pastebin.md)
+* [User Information Gathering](passive-recon/user-information-gathering/README.md)
+  * [Email Harvesting](passive-recon/user-information-gathering/email-harvesting/README.md)
+    * [theHarvester](https://github.com/laramies/theHarvester)
+  * [Password Dumps](passive-recon/user-information-gathering/password-dumps.md)
+  * [Social Media](passive-recon/user-information-gathering/social-media/README.md)
+    * [Social-Searcher](https://www.social-searcher.com/)
+    * [Site-Specific Tools](passive-recon/user-information-gathering/social-media/site-specific-tools.md)
+* [Stack Overflow](passive-recon/stack-overflow.md)
+* [Information Gathering Frameworks](passive-recon/information-gathering-frameworks/README.md)
+  * [OSINT Framework](https://osintframework.com/)
 
 ## Attack Vectors
 
