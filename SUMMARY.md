@@ -68,6 +68,14 @@
 * [Information Gathering Frameworks](passive-recon/information-gathering-frameworks/README.md)
   * [OSINT Framework](https://osintframework.com/)
 
+## Active Recon
+
+* [DNS Enumeration](active-recon/dns-enumeration/README.md)
+  * [Interacting with DNS Server](active-recon/dns-enumeration/interacting-with-dns-server.md)
+  * [Automating Lookups](active-recon/dns-enumeration/automating-lookups.md)
+  * [DNS Zone Transfer](active-recon/dns-enumeration/dns-zone-transfer.md)
+  * [Tools](active-recon/dns-enumeration/tools.md)
+
 ## Attack Vectors
 
 * [Shells](attack-vectors/shells/README.md)
