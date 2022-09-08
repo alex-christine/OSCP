@@ -133,3 +133,5 @@
 * [Command Line Fun](topic-exercises/command-line-fun.md)
 * [Practical Tools](topic-exercises/practical-tools.md)
 * [Bash Scripting](topic-exercises/bash-scripting.md)
+* [Active Information Gathering](topic-exercises/active-information-gathering/README.md)
+  * [DNS Enumeration](topic-exercises/active-information-gathering/dns-enumeration.md)
