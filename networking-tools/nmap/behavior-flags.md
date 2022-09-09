@@ -1,4 +1,10 @@
+---
+description: Flags for controlling Nmap operations
+---
+
 # Behavior Flags
+
+## General
 
 | Flag         | Description                                                    |
 | ------------ | -------------------------------------------------------------- |
@@ -12,6 +18,15 @@
 | `-R`         | Query DNS database for all hosts (even offline ones)           |
 | `-T`         | Scan Timing                                                    |
 | `-v` & `-vv` | Verbose mode & very verbose mode (respectively)                |
+
+## Machine Scan
+
+Flags controlling scans run on hosts (after port detection)
+
+| Flag | Description                                                             |
+| ---- | ----------------------------------------------------------------------- |
+| `-A` | Enable OS detection, version detection, script scanning, and traceroute |
+| `-O` | OS detection                                                            |
 
 ## Fragment Packets
 
@@ -45,3 +60,29 @@ Can be `-T<0-5>` where 0 is slowest (most delay between requests) and 5 is faste
 
 Throttling the scan can be useful for evading IDS/IPS and EDR defenses.
 
+## Advanced Controls <a href="#general" id="general"></a>
+
+| Flag                      | Description                                                                                      |
+| ------------------------- | ------------------------------------------------------------------------------------------------ |
+| `--data-length {NUM}`     | Append random data to reach given length (in bytes)                                              |
+| `--disable-arp-ping`      | Disable ARP pings                                                                                |
+| `--dns-servers {SERVER}`  | ​Set DNS server for reverse DNS                                                                  |
+| `-iL {FILENAME}`          | Accepts an input file containing hosts to be scanned (one per line)                              |
+| `--max-parallelism {NUM}` | Control parallelization an ensure nmap is using at most `NUM` probe(s) running in parallel       |
+| `--min-parallelism {NUM}` | Control parallelization an ensure nmap is using at least `NUM` probe(s) running in parallel      |
+| `--max-rate {NUM}`        | Ensures nmap is sending at most `NUM` request(s) per second                                      |
+| `--min-rate {NUM}`        | Ensures nmap is sending at least NUM request(s) per second                                       |
+| `--reason`                | Nmap will include the reasoning behind each of its conclusions on OS, port status, service, etc. |
+| `--source-port {PORT}`    | Specify source port for requests                                                                 |
+| `--traceroute`            | Add information on the route between scanner and target                                          |
+
+## Output Formats <a href="#output-formats" id="output-formats"></a>
+
+Used to send output to a file (as well as on screen)​.
+
+| Flag             | Description                                                                 |
+| ---------------- | --------------------------------------------------------------------------- |
+| `-oN {filepath}` | Normal (file will appear just like on-screen results)                       |
+| `-oG {filepath}` | Grepable, condenses output into fewer lines (more useful with `grep` later) |
+| `-oX {filepath}` | XML                                                                         |
+| `-oN {filepath}` | Generates all 3 output file types (same name, different extensions)         |

@@ -232,3 +232,11 @@ PORT     STATE    SERVICE VERSION
 ```
 
 It seems `192.168.229.254` is also listening on port 53.
+
+This proved to be a false lead. Eventually I decided to just do a simple brute force of the entire IP range (`192.168.229.0/24`) with `host`:
+
+```bash
+$ for ip in $(seq 0 255); do host 192.168.229.$ip; done | grep -v "not found" 
+124.229.168.192.in-addr.arpa domain name pointer OS{65cb59f090a126a3665e0515c0d75342}.
+149.229.168.192.in-addr.arpa domain name pointer dc.MAILMAN.com.
+```

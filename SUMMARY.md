@@ -19,10 +19,10 @@
   * [File Transfer](networking-tools/netcat/file-transfer.md)
   * [Remote Administration](networking-tools/netcat/remote-administration.md)
 * [Nmap](networking-tools/nmap/README.md)
-  * [Behavior Flags](networking-tools/nmap/behavior-flags.md)
+  * [Official Site](https://nmap.org/)
   * [Host Discovery Scans](networking-tools/nmap/host-discovery-scans.md)
   * [Open Port Scans](networking-tools/nmap/open-port-scans.md)
-  * [Other Flags](networking-tools/nmap/other-flags.md)
+  * [Behavior Flags](networking-tools/nmap/behavior-flags.md)
   * [Spoofing IP and MAC](networking-tools/nmap/spoofing-ip-and-mac.md)
   * [Nmap Scripting Engine (NSE)](networking-tools/nmap/nmap-scripting-engine-nse.md)
 * [Powercat](networking-tools/powercat/README.md)
@@ -75,6 +75,7 @@
   * [Automating Lookups](active-recon/dns-enumeration/automating-lookups.md)
   * [DNS Zone Transfer](active-recon/dns-enumeration/dns-zone-transfer.md)
   * [Tools](active-recon/dns-enumeration/tools.md)
+* [Port Scanning](active-recon/port-scanning.md)
 
 ## Attack Vectors
 
