@@ -4,6 +4,27 @@ description: List of some important locations within the Linux filesystem
 
 # Important System Locations
 
+## Networking
+
+### `/etc/resolv.conf`
+
+Configuration file used by the Linux operating system to store information about Domain Name System (DNS) servers. This file contains a list of DNS server addresses, as well as other options that control how DNS resolution works on the system.
+
+#### Example
+
+{% code title="/etc/resolv.conf" %}
+```
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+search example.com
+```
+{% endcode %}
+
+* First 2 lines of this example are the Google DNS servers
+* Third line in this file is the “search” line, which tells the system which domain should be used when resolving hostnames that are not fully qualified
+  * E.g., if you try to ping `host` without specifying a domain, the system will automatically search for `host.example.com`
+  * This line is optional and can be removed entirely if not needed
+
 ## Security and Credentials
 
 ### `/etc/passwd`
