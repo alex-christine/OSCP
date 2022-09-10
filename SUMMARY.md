@@ -75,7 +75,14 @@
   * [Automating Lookups](active-recon/dns-enumeration/automating-lookups.md)
   * [DNS Zone Transfer](active-recon/dns-enumeration/dns-zone-transfer.md)
   * [Tools](active-recon/dns-enumeration/tools.md)
-* [Port Scanning](active-recon/port-scanning.md)
+* [Port Scanning](active-recon/port-scanning/README.md)
+  * [Masscan](active-recon/port-scanning/masscan/README.md)
+    * [Official Page](https://github.com/robertdavidgraham/masscan)
+* [SMB Enumeration](active-recon/smb-enumeration/README.md)
+  * [Guide to SMB Enumeration](https://www.hackingarticles.in/a-little-guide-to-smb-enumeration/)
+* [enum4linux](active-recon/enum4linux/README.md)
+  * [Official Page](https://labs.portcullis.co.uk/tools/enum4linux/)
+  * [Enumerating SMB with enum4linux](https://null-byte.wonderhowto.com/how-to/enumerate-smb-with-enum4linux-smbclient-0198049/)
 
 ## Attack Vectors
 
@@ -136,3 +143,4 @@
 * [Bash Scripting](topic-exercises/bash-scripting.md)
 * [Active Information Gathering](topic-exercises/active-information-gathering/README.md)
   * [DNS Enumeration](topic-exercises/active-information-gathering/dns-enumeration.md)
+  * [SMB Enumeration](topic-exercises/active-information-gathering/smb-enumeration.md)

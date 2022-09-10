@@ -46,7 +46,7 @@ kali@kali:~$ nc -nv -u -z -w 1 10.11.1.115 160-162
 
 ## Nmap
 
-The following will be primarly academic discussion and cursory examples. For details on using Nmap scanning functions see [this section](../networking-tools/nmap/).
+The following will be primarly academic discussion and cursory examples. For details on using Nmap scanning functions see [this section](../../networking-tools/nmap/).
 
 ### Traffic Accountability
 
