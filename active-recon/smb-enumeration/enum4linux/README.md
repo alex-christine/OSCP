@@ -60,5 +60,4 @@ Dependancy info: You will need to have the samba package installed as this
 script is basically just a wrapper around rpcclient, net, nmblookup and 
 smbclient.  Polenum from http://labs.portcullis.co.uk/application/polenum/ 
 is required to get Password Policy info.
-
 ```
