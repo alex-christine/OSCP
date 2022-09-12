@@ -1,5 +1,5 @@
 ---
-description: Techniques for enumerating SMTP devices on a network
+description: Techniques for enumerating via SMTP
 ---
 
 # SMTP Enumeration

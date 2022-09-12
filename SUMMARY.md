@@ -85,6 +85,10 @@
     * [Enumerating SMB with enum4linux](https://null-byte.wonderhowto.com/how-to/enumerate-smb-with-enum4linux-smbclient-0198049/)
 * [NFS Enumeration](active-recon/nfs-enumeration.md)
 * [SMTP Enumeration](active-recon/smtp-enumeration.md)
+* [SNMP Enumeration](active-recon/snmp-enumeration/README.md)
+  * [onesixtyone](active-recon/snmp-enumeration/onesixtyone/README.md)
+    * [Official Documentation](http://www.phreedom.org/software/onesixtyone/)
+  * [snmpwalk](active-recon/snmp-enumeration/snmpwalk.md)
 
 ## Attack Vectors
 
