@@ -11,3 +11,5 @@ The basic syntax is:
 ```
 kali@kali:~$ snmp-check -c {string} {IP}
 ```
+
+My basic read is this tool is better to use as a human user (output is prettier and better organized than snmwalk), but for automation purposes snmp-walk (or a custom tool) would be better due to its simplicity and its ability to look at specific SNMP OIDs.
