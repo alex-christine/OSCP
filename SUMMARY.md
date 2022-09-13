@@ -89,6 +89,7 @@
   * [onesixtyone](active-recon/snmp-enumeration/onesixtyone/README.md)
     * [Official Documentation](http://www.phreedom.org/software/onesixtyone/)
   * [snmpwalk](active-recon/snmp-enumeration/snmpwalk.md)
+  * [snmpcheck](active-recon/snmp-enumeration/snmpcheck.md)
 
 ## Attack Vectors
 
