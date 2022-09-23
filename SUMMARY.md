@@ -98,6 +98,13 @@
   * [Installation and Setup](https://www.geeksforgeeks.org/installing-openvas-on-kali-linux/)
   * [Official Documentation](https://www.greenbone.net/en/documents/)
 
+## Web Application Attacks
+
+* [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+* [Assessment Methodology](web-application-attacks/assessment-methodology.md)
+* [Enumeration](web-application-attacks/enumeration.md)
+* [Web Frameworks](web-application-attacks/web-frameworks.md)
+
 ## Attack Vectors
 
 * [Shells](attack-vectors/shells/README.md)
