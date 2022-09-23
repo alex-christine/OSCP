@@ -91,6 +91,13 @@
   * [snmpwalk](active-recon/snmp-enumeration/snmpwalk.md)
   * [snmpcheck](active-recon/snmp-enumeration/snmpcheck.md)
 
+## Vulnerability Assessment
+
+* [Overview and Considerations](vulnerability-assessment/overview-and-considerations.md)
+* [OpenVAS](vulnerability-assessment/openvas/README.md)
+  * [Installation and Setup](https://www.geeksforgeeks.org/installing-openvas-on-kali-linux/)
+  * [Official Documentation](https://www.greenbone.net/en/documents/)
+
 ## Attack Vectors
 
 * [Shells](attack-vectors/shells/README.md)
