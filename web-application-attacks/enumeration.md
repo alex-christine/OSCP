@@ -31,3 +31,38 @@ It is important to understand the key web frameworks for this type of inspection
 * ASP.NET
 * Express
 
+## Response Headers
+
+HTTP response headers can be viewed both in the web inspector and via a proxy such as BurpSuite. They can provide valuable information about the structure of the underlying application.
+
+## Sitemaps
+
+The most common sitemap locations are `robots.txt` and `sitemap.xml`.
+
+For example one could retrieve the `robots.txt` file for `google.com` using the `curl` command.
+
+```bash
+kali@kali:~$ curl https://www.google.com/robots.txt
+User-agent: *
+Disallow: /search
+Allow: /search/about
+Allow: /search/static
+Allow: /search/howsearchworks
+Disallow: /sdch
+Disallow: /groups
+Disallow: /index.html?
+Disallow: /?
+Allow: /?hl=
+...
+```
+
+`Allow` and `Disallow` are directives for web crawlers indicating pages or directories that "polite" web crawlers may or may not access, respectively. Although the listed pages and directories in most cases may not be interesting and some may even be invalid, sitemap files should not be overlooked as they may contain clues about the website layout or other interesting information.
+
+## Locating Administration Consoles
+
+Web servers often ship with remote administration web applications, or consoles, which are accessible via a particular URL and often listening on a specific TCP port.
+
+Two common examples are the **manager** application for _Tomcat_ hosted at `/manager/html` and **phpMyAdmin** for _MySQL_ hosted at  and `/phpmyadmin` respectively.
+
+While these consoles can be restricted to local access or may be hosted on custom TCP ports, one often finds them externally exposed by default configurations.
+

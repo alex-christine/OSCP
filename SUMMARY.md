@@ -101,9 +101,13 @@
 ## Web Application Attacks
 
 * [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-* [Assessment Methodology](web-application-attacks/assessment-methodology.md)
-* [Enumeration](web-application-attacks/enumeration.md)
 * [Web Frameworks](web-application-attacks/web-frameworks.md)
+* [Assessment Methodology](web-application-attacks/assessment-methodology.md)
+* [Assessment Tools](web-application-attacks/assessment-tools/README.md)
+  * [DIRB](web-application-attacks/assessment-tools/dirb.md)
+  * [Burp Suite](web-application-attacks/assessment-tools/burp-suite.md)
+  * [Nikto](web-application-attacks/assessment-tools/nikto.md)
+* [Enumeration](web-application-attacks/enumeration.md)
 
 ## Attack Vectors
 
@@ -165,3 +169,4 @@
 * [Active Information Gathering](topic-exercises/active-information-gathering/README.md)
   * [DNS Enumeration](topic-exercises/active-information-gathering/dns-enumeration.md)
   * [SMB Enumeration](topic-exercises/active-information-gathering/smb-enumeration.md)
+* [Web Application Attacks](topic-exercises/web-application-attacks.md)
