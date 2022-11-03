@@ -33,6 +33,47 @@ Used via `--script=<category or script-name>`
 
 * Can be a comma-separated list of script-names
 
+## Unsafe
+
+Safe scripts are designed not to crash services and machines. However, if one sets the script parameter `unsafe=1`, the scripts that will run are almost (or in some cases, totally) guaranteed to crash a vulnerable system. Exercise extreme caution when enabling this argument, especially when scanning production systems.
+
+#### Example
+
+In this example a server is being scanned for vulnerability to [MS08-067](https://docs.microsoft.com/en-us/security-updates/SecurityBulletins/2008/ms08-067) and the  `unsafe=1` has been passed via `--script-args=`. This is almost guaranteed to crash the machine if it is vulnerable.
+
+```bash
+kali@kali:~$ nmap -v -p 139,445 --script=smb-vuln-ms08-067 --script-args=unsafe=1 10.11.1.5
+Starting Nmap 7.70 ( https://nmap.org ) at 2019-03-04 11:27 EST
+NSE: Loaded 1 scripts for scanning.
+NSE: Script Pre-scanning.
+...
+Scanning 10.11.1.5 [2 ports]
+...
+Completed NSE at 00:04, 17.39s elapsed
+Nmap scan report for 10.11.1.5
+Host is up (0.17s latency).
+PORT    STATE SERVICE
+139/tcp open  netbios-ssn
+445/tcp open  microsoft-ds
+MAC Address: 00:50:56:AF:02:91 (VMware)
+
+Host script results:
+| smb-vuln-ms08-067:
+|   VULNERABLE:
+|   Microsoft Windows system vulnerable to remote code execution (MS08-067)
+|     State: VULNERABLE
+|     IDs:  CVE:CVE-2008-4250
+|           The Server service in Microsoft Windows 2000 SP4, XP SP2 and SP3, Server 2
+|           Vista Gold and SP1, Server 2008, and 7 Pre-Beta allows remote attackers to
+|           code via a crafted RPC request that triggers the overflow during path cano
+|
+|     Disclosure date: 2008-10-23
+|     References:
+|       https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2008-4250
+|_      https://technet.microsoft.com/en-us/library/security/ms08-067.aspx
+...
+```
+
 ## Important Scripts
 
 Full list compiled [here](https://nmap.org/nsedoc/scripts/)

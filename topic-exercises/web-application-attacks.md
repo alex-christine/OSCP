@@ -1,3 +1,7 @@
+---
+description: Answers to exercises in Web Application Attacks sections
+---
+
 # Web Application Attacks
 
 ## Web Application Assessment Tools

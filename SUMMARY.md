@@ -108,6 +108,7 @@
   * [Burp Suite](web-application-attacks/assessment-tools/burp-suite.md)
   * [Nikto](web-application-attacks/assessment-tools/nikto.md)
 * [Enumeration](web-application-attacks/enumeration.md)
+* [Exploiting Admin Consoles](web-application-attacks/exploiting-admin-consoles.md)
 
 ## Attack Vectors
 
