@@ -109,6 +109,7 @@
   * [Nikto](web-application-attacks/assessment-tools/nikto.md)
 * [Enumeration](web-application-attacks/enumeration.md)
 * [Exploiting Admin Consoles](web-application-attacks/exploiting-admin-consoles.md)
+* [Cross Site Scripting](web-application-attacks/cross-site-scripting.md)
 
 ## Attack Vectors
 
