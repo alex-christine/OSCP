@@ -109,7 +109,10 @@
   * [Nikto](web-application-attacks/assessment-tools/nikto.md)
 * [Enumeration](web-application-attacks/enumeration.md)
 * [Exploiting Admin Consoles](web-application-attacks/exploiting-admin-consoles.md)
-* [Cross Site Scripting](web-application-attacks/cross-site-scripting.md)
+* [Cross Site Scripting](web-application-attacks/cross-site-scripting/README.md)
+  * [Identifying XSS Vulnerabilities](web-application-attacks/cross-site-scripting/identifying-xss-vulnerabilities.md)
+  * [Content Injection](web-application-attacks/cross-site-scripting/content-injection.md)
+  * [Stealing Cookies and Session Information](web-application-attacks/cross-site-scripting/stealing-cookies-and-session-information.md)
 
 ## Attack Vectors
 
