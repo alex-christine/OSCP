@@ -113,6 +113,7 @@
   * [Identifying XSS Vulnerabilities](web-application-attacks/cross-site-scripting/identifying-xss-vulnerabilities.md)
   * [Content Injection](web-application-attacks/cross-site-scripting/content-injection.md)
   * [Stealing Cookies and Session Information](web-application-attacks/cross-site-scripting/stealing-cookies-and-session-information.md)
+* [Directory Traversal](web-application-attacks/directory-traversal.md)
 
 ## Attack Vectors
 
