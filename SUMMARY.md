@@ -114,6 +114,8 @@
   * [Content Injection](web-application-attacks/cross-site-scripting/content-injection.md)
   * [Stealing Cookies and Session Information](web-application-attacks/cross-site-scripting/stealing-cookies-and-session-information.md)
 * [Directory Traversal](web-application-attacks/directory-traversal.md)
+* [File Inclusion](web-application-attacks/file-inclusion/README.md)
+  * [Local File Inclusion](web-application-attacks/file-inclusion/local-file-inclusion.md)
 
 ## Attack Vectors
 
