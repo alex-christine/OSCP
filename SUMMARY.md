@@ -116,6 +116,8 @@
 * [Directory Traversal](web-application-attacks/directory-traversal.md)
 * [File Inclusion](web-application-attacks/file-inclusion/README.md)
   * [Local File Inclusion](web-application-attacks/file-inclusion/local-file-inclusion.md)
+  * [Remote File Inclusion](web-application-attacks/file-inclusion/remote-file-inclusion.md)
+  * [Expanding File Inclusion Repertoire](web-application-attacks/file-inclusion/expanding-file-inclusion-repertoire.md)
 
 ## Attack Vectors
 
