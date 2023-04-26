@@ -4,7 +4,7 @@ description: Leveraging directory traversal vulnerabilities into actionable atta
 
 # Directory Traversal
 
-**Directory traversal** __ vulnerabilities, also known as **path traversal** vulnerabilities, allow attackers to gain unauthorized access to files within an application or files normally not accessible through a web interface, such as those outside the application's web root directory.
+**Directory traversal** vulnerabilities, also known as **path traversal** vulnerabilities, allow attackers to gain unauthorized access to files within an application or files normally not accessible through a web interface, such as those outside the application's web root directory.
 
 This vulnerability occurs when input is poorly validated, subsequently granting an attacker the ability to manipulate file paths with `../` or `..\` characters.
 

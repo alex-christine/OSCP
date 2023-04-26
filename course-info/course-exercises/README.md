@@ -17,4 +17,3 @@ Represents a fictitious internal company network and is used to demonstrate a fu
 
 * Only **accessible via VPN**
 
-****

