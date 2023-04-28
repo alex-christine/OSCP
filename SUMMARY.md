@@ -122,8 +122,11 @@
   * [OWASP - SQLi](https://owasp.org/www-community/attacks/SQL\_Injection)
   * [Identifying SQLi Vulnerabilities](web-application-attacks/sql-injection/identifying-sqli-vulnerabilities.md)
   * [Authentication Bypass](web-application-attacks/sql-injection/authentication-bypass.md)
+  * [Database Enumeration](web-application-attacks/sql-injection/database-enumeration.md)
+  * [Data Extraction](web-application-attacks/sql-injection/data-extraction.md)
+  * [Understanding the Database](web-application-attacks/sql-injection/understanding-the-database.md)
   * [Preventing SQLi](web-application-attacks/sql-injection/preventing-sqli.md)
-  * [SQLi Cheatsheet](https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/)
+  * [SQLi Cheat Sheet](https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/)
 
 ## Attack Vectors
 
