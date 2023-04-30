@@ -124,7 +124,8 @@
   * [Authentication Bypass](web-application-attacks/sql-injection/authentication-bypass.md)
   * [Database Enumeration](web-application-attacks/sql-injection/database-enumeration.md)
   * [Data Extraction](web-application-attacks/sql-injection/data-extraction.md)
-  * [Understanding the Database](web-application-attacks/sql-injection/understanding-the-database.md)
+  * [Code Execution](web-application-attacks/sql-injection/code-execution.md)
+  * [Automating SQLi](web-application-attacks/sql-injection/automating-sqli.md)
   * [Preventing SQLi](web-application-attacks/sql-injection/preventing-sqli.md)
   * [SQLi Cheat Sheet](https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/)
 
