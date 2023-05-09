@@ -192,3 +192,9 @@
 * [Web Application Attacks](topic-exercises/web-application-attacks/README.md)
   * [LFI](topic-exercises/web-application-attacks/lfi.md)
   * [RFI](topic-exercises/web-application-attacks/rfi.md)
+
+## Buffer Overflows
+
+* [Introduction](buffer-overflows/introduction/README.md)
+  * [x86 Architecture](buffer-overflows/introduction/x86-architecture.md)
+  * [Buffer Overflow Basics](buffer-overflows/introduction/buffer-overflow-basics.md)
