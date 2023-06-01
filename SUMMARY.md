@@ -198,3 +198,5 @@
 * [Introduction](buffer-overflows/introduction/README.md)
   * [x86 Architecture](buffer-overflows/introduction/x86-architecture.md)
   * [Buffer Overflow Basics](buffer-overflows/introduction/buffer-overflow-basics.md)
+  * [Windows Buffer Overflow](buffer-overflows/introduction/windows-buffer-overflow/README.md)
+    * [Discovering The Vulnerability](buffer-overflows/introduction/windows-buffer-overflow/discovering-the-vulnerability.md)
