@@ -97,13 +97,7 @@ Each line consists of nine colon (`:`) separated fields
   * The password is stored using the `$type$salt$hashed` format
     * `$type` is the method cryptographic hash algorithm
 
-| Type  | Hash Algorithm |
-| ----- | -------------- |
-| `$1`  | MD5            |
-| `$2a` | Blowfish       |
-| `$2y` | Eskblowfish    |
-| `$5`  | SHA-256        |
-| `$6`  | SHA-512        |
+<table><thead><tr><th width="86">Type</th><th>Hash Algorithm</th></tr></thead><tbody><tr><td><code>$1</code></td><td>MD5</td></tr><tr><td><code>$2a</code></td><td>Blowfish</td></tr><tr><td><code>$2y</code></td><td>Eskblowfish</td></tr><tr><td><code>$5</code></td><td>SHA-256</td></tr><tr><td><code>$6</code></td><td>SHA-512</td></tr></tbody></table>
 
 If the password field contains an asterisk (`*`) or exclamation point (`!`), the user will not be able to login to the system using password authentication.
 

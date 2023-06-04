@@ -24,10 +24,7 @@ Consider a webpage with the following PHP code snippet included in its `menu.php
 
 Clearly this parameter can be manipulated to allow for LFI. Unfortunately, in this example the attacker cannot upload files to the server (thus eliminating the ability to upload a custom PHP executable and reach it via the LFI). Instead the attacker will attempt an HTTP request (containing a PHP payload) to the server in the hopes the server writes the payload the the log and the LFI can be leveraged in that way.
 
-| Machine             | IP Address   |
-| ------------------- | ------------ |
-| Victim (Web Server) | `10.11.0.22` |
-| Attacker            | `10.11.0.4`  |
+<table><thead><tr><th width="207.33333333333331">Machine</th><th>IP Address</th></tr></thead><tbody><tr><td>Victim (Web Server)</td><td><code>10.11.0.22</code></td></tr><tr><td>Attacker</td><td><code>10.11.0.4</code></td></tr></tbody></table>
 
 #### &#x20;Attacker Machine
 

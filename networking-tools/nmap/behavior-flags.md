@@ -6,27 +6,13 @@ description: Flags for controlling Nmap operations
 
 ## General
 
-| Flag         | Description                                                    |
-| ------------ | -------------------------------------------------------------- |
-| `-d` & `-dd` | Include debug info (`-dd` is the more in-depth option)         |
-| `-e`         | Specify network interface (e.g. `-e tun0`)                     |
-| `-f`         | Fragment packets                                               |
-| `-F`         | Fast port scan (usually decreases scan from 1000 to 100 ports) |
-| `-n`         | Disable reverse DNS lookup                                     |
-| `-p`         | Specify port(s)                                                |
-| `-sn`        | Host discovery only                                            |
-| `-R`         | Query DNS database for all hosts (even offline ones)           |
-| `-T`         | Scan Timing                                                    |
-| `-v` & `-vv` | Verbose mode & very verbose mode (respectively)                |
+<table><thead><tr><th width="132">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-d</code> &#x26; <code>-dd</code></td><td>Include debug info (<code>-dd</code> is the more in-depth option)</td></tr><tr><td><code>-e</code></td><td>Specify network interface (e.g. <code>-e tun0</code>)</td></tr><tr><td><code>-f</code></td><td>Fragment packets</td></tr><tr><td><code>-F</code></td><td>Fast port scan (usually decreases scan from 1000 to 100 ports)</td></tr><tr><td><code>-n</code></td><td>Disable reverse DNS lookup</td></tr><tr><td><code>-p</code></td><td>Specify port(s)</td></tr><tr><td><code>-sn</code></td><td>Host discovery only</td></tr><tr><td><code>-R</code></td><td>Query DNS database for all hosts (even offline ones)</td></tr><tr><td><code>-T</code></td><td>Scan Timing</td></tr><tr><td><code>-v</code> &#x26; <code>-vv</code></td><td>Verbose mode &#x26; very verbose mode (respectively)</td></tr></tbody></table>
 
 ## Machine Scan
 
 Flags controlling scans run on hosts (after port detection)
 
-| Flag | Description                                                             |
-| ---- | ----------------------------------------------------------------------- |
-| `-A` | Enable OS detection, version detection, script scanning, and traceroute |
-| `-O` | OS detection                                                            |
+<table><thead><tr><th width="130">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-A</code></td><td>Enable OS detection, version detection, script scanning, and traceroute</td></tr><tr><td><code>-O</code></td><td>OS detection</td></tr></tbody></table>
 
 ## Fragment Packets
 
@@ -40,12 +26,7 @@ IP data will be divided into 8 bytes or less. This can be useful in circumventin
 
 Can be specified as a single port, range of ports, or all ports
 
-| Port Flag |                              |
-| --------- | ---------------------------- |
-| `-p-`     | Scan all ports               |
-| `-p21`    | Scan port 21 only            |
-| `-p21-25` | Scan ports 21-25 (inclusive) |
-| `-p21,25` | Scan only ports 21 and 25    |
+<table><thead><tr><th width="133">Port Flag</th><th></th></tr></thead><tbody><tr><td><code>-p-</code></td><td>Scan all ports</td></tr><tr><td><code>-p21</code></td><td>Scan port 21 only</td></tr><tr><td><code>-p21-25</code></td><td>Scan ports 21-25 (inclusive)</td></tr><tr><td><code>-p21,25</code></td><td>Scan only ports 21 and 25</td></tr></tbody></table>
 
 ## Scan Timing
 
@@ -62,27 +43,10 @@ Throttling the scan can be useful for evading IDS/IPS and EDR defenses.
 
 ## Advanced Controls <a href="#general" id="general"></a>
 
-| Flag                      | Description                                                                                      |
-| ------------------------- | ------------------------------------------------------------------------------------------------ |
-| `--data-length {NUM}`     | Append random data to reach given length (in bytes)                                              |
-| `--disable-arp-ping`      | Disable ARP pings                                                                                |
-| `--dns-servers {SERVER}`  | ​Set DNS server for reverse DNS                                                                  |
-| `-iL {FILENAME}`          | Accepts an input file containing hosts to be scanned (one per line)                              |
-| `--max-parallelism {NUM}` | Control parallelization an ensure nmap is using at most `NUM` probe(s) running in parallel       |
-| `--min-parallelism {NUM}` | Control parallelization an ensure nmap is using at least `NUM` probe(s) running in parallel      |
-| `--max-rate {NUM}`        | Ensures nmap is sending at most `NUM` request(s) per second                                      |
-| `--min-rate {NUM}`        | Ensures nmap is sending at least NUM request(s) per second                                       |
-| `--reason`                | Nmap will include the reasoning behind each of its conclusions on OS, port status, service, etc. |
-| `--source-port {PORT}`    | Specify source port for requests                                                                 |
-| `--traceroute`            | Add information on the route between scanner and target                                          |
+<table><thead><tr><th width="274">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>--data-length {NUM}</code></td><td>Append random data to reach given length (in bytes)</td></tr><tr><td><code>--disable-arp-ping</code></td><td>Disable ARP pings</td></tr><tr><td><code>--dns-servers {SERVER}</code></td><td>​Set DNS server for reverse DNS</td></tr><tr><td><code>-iL {FILENAME}</code></td><td>Accepts an input file containing hosts to be scanned (one per line)</td></tr><tr><td><code>--max-parallelism {NUM}</code></td><td>Control parallelization an ensure nmap is using at most <code>NUM</code> probe(s) running in parallel</td></tr><tr><td><code>--min-parallelism {NUM}</code></td><td>Control parallelization an ensure nmap is using at least <code>NUM</code> probe(s) running in parallel</td></tr><tr><td><code>--max-rate {NUM}</code></td><td>Ensures nmap is sending at most <code>NUM</code> request(s) per second</td></tr><tr><td><code>--min-rate {NUM}</code></td><td>Ensures nmap is sending at least NUM request(s) per second</td></tr><tr><td><code>--reason</code></td><td>Nmap will include the reasoning behind each of its conclusions on OS, port status, service, etc.</td></tr><tr><td><code>--source-port {PORT}</code></td><td>Specify source port for requests</td></tr><tr><td><code>--traceroute</code></td><td>Add information on the route between scanner and target</td></tr></tbody></table>
 
 ## Output Formats <a href="#output-formats" id="output-formats"></a>
 
 Used to send output to a file (as well as on screen)​.
 
-| Flag             | Description                                                                 |
-| ---------------- | --------------------------------------------------------------------------- |
-| `-oN {filepath}` | Normal (file will appear just like on-screen results)                       |
-| `-oG {filepath}` | Grepable, condenses output into fewer lines (more useful with `grep` later) |
-| `-oX {filepath}` | XML                                                                         |
-| `-oN {filepath}` | Generates all 3 output file types (same name, different extensions)         |
+<table><thead><tr><th width="240">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-oN {filepath}</code></td><td>Normal (file will appear just like on-screen results)</td></tr><tr><td><code>-oG {filepath}</code></td><td>Grepable, condenses output into fewer lines (more useful with <code>grep</code> later)</td></tr><tr><td><code>-oX {filepath}</code></td><td>XML</td></tr><tr><td><code>-oN {filepath}</code></td><td>Generates all 3 output file types (same name, different extensions)</td></tr></tbody></table>

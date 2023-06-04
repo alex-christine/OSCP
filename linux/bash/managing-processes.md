@@ -84,12 +84,7 @@ As a penetration tester, **one of the first things to check after obtaining remo
 
 #### Common Flags
 
-| Flag        | Description                                        |
-| ----------- | -------------------------------------------------- |
-| `-C <name>` | Select processes by command name                   |
-| `-e`        | Select all processes                               |
-| `-f`        | Display full format listing (UID, PID, PPID, etc.) |
-|             |                                                    |
+<table><thead><tr><th width="146">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-C &#x3C;name></code></td><td>Select processes by command name</td></tr><tr><td><code>-e</code></td><td>Select all processes</td></tr><tr><td><code>-f</code></td><td>Display full format listing (UID, PID, PPID, etc.)</td></tr><tr><td></td><td></td></tr></tbody></table>
 
 #### Examples
 

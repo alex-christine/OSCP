@@ -6,10 +6,7 @@ description: Performing boolean logic operations in Bash
 
 ## Logical Operators
 
-| Operator | Description                                                   |
-| -------- | ------------------------------------------------------------- |
-| `&&`     | <p>Logical and<br><br>Also used in <em>command lists</em></p> |
-| `\|\|`   | Logical or                                                    |
+<table><thead><tr><th width="156">Operator</th><th>Description</th></tr></thead><tbody><tr><td><code>&#x26;&#x26;</code></td><td>Logical and<br><br>Also used in <em>command lists</em></td></tr><tr><td><code>||</code></td><td>Logical or</td></tr></tbody></table>
 
 Logical operators can be tricky because Bash uses them in a variety of ways
 

@@ -25,10 +25,7 @@ Used to detect differences between files, similar to the comm command. However, 
 
 ### Output Formats
 
-| Format Flag | Description    |
-| ----------- | -------------- |
-| `-c`        | Context format |
-| `-u`        | Unified format |
+<table><thead><tr><th width="151">Format Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-c</code></td><td>Context format</td></tr><tr><td><code>-u</code></td><td>Unified format</td></tr></tbody></table>
 
 #### Example
 
@@ -74,12 +71,6 @@ vimdiff opens vim[1](https://portal.offensive-security.com/courses/pen-200/books
 
 There are a few shortcuts that may be useful.
 
-| Shortcut   | Action                                                      |
-| ---------- | ----------------------------------------------------------- |
-| `do`       | Gets changes from the other window into the current one     |
-| `dp`       | Puts the changes from the current window into the other one |
-| `]c`       | Jumps to the next change                                    |
-| `[c`       | Jumps to the previous change                                |
-| `Ctrl + W` | Switches to the other split window                          |
+<table><thead><tr><th width="139">Shortcut</th><th>Action</th></tr></thead><tbody><tr><td><code>do</code></td><td>Gets changes from the other window into the current one</td></tr><tr><td><code>dp</code></td><td>Puts the changes from the current window into the other one</td></tr><tr><td><code>]c</code></td><td>Jumps to the next change</td></tr><tr><td><code>[c</code></td><td>Jumps to the previous change</td></tr><tr><td><code>Ctrl + W</code></td><td>Switches to the other split window</td></tr></tbody></table>
 
 ![vimdiff Example](../../.gitbook/assets/Example\_vimdiff.png)

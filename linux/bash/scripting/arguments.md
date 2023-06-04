@@ -6,19 +6,7 @@ description: How arguments are declared and used in Bash
 
 Not all Bash scripts require arguments. However, it is extremely important to understand how they are interpreted by Bash and how to use them.
 
-| Variable    | Description                                                                           |
-| ----------- | ------------------------------------------------------------------------------------- |
-| `$0`        | Name of the Bash script                                                               |
-| `$1`-`$9`   | First 9 arguments of the Bash script                                                  |
-| `$#`        | Number of arguments passed to the Bash script                                         |
-| `$@`        | All arguments passed to the Bash script                                               |
-| `$?`        | Exit status of the most recently run process                                          |
-| `$$`        | Process ID of the current script                                                      |
-| `$USER`     | Username of the user running the script                                               |
-| `$HOSTNAME` | Hostname of the machine                                                               |
-| `$RANDOM`   | A random number                                                                       |
-| `$LINENO`   | Current line number in the script                                                     |
-| `$OPTARG`   | Variable name used for each new option argument (see [below](arguments.md#undefined)) |
+<table><thead><tr><th width="180">Variable</th><th>Description</th></tr></thead><tbody><tr><td><code>$0</code></td><td>Name of the Bash script</td></tr><tr><td><code>$1</code>-<code>$9</code></td><td>First 9 arguments of the Bash script</td></tr><tr><td><code>$#</code></td><td>Number of arguments passed to the Bash script</td></tr><tr><td><code>$@</code></td><td>All arguments passed to the Bash script</td></tr><tr><td><code>$?</code></td><td>Exit status of the most recently run process</td></tr><tr><td><code>$$</code></td><td>Process ID of the current script</td></tr><tr><td><code>$USER</code></td><td>Username of the user running the script</td></tr><tr><td><code>$HOSTNAME</code></td><td>Hostname of the machine</td></tr><tr><td><code>$RANDOM</code></td><td>A random number</td></tr><tr><td><code>$LINENO</code></td><td>Current line number in the script</td></tr><tr><td><code>$OPTARG</code></td><td>Variable name used for each new option argument (see <a href="arguments.md#undefined">below</a>)</td></tr></tbody></table>
 
 ## Named Arguments
 

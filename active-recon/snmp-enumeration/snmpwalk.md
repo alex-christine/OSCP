@@ -21,11 +21,7 @@ iso.3.6.1.2.1.1.4.0 = ""
 ...
 ```
 
-| Component      | Description                               |
-| -------------- | ----------------------------------------- |
-| `-c {string}`  | Specify the community string (`{string}`) |
-| `-v{ver}`      | Sets the version number (`{ver}`)         |
-| `-t {seconds}` | Sets the request timeout in seconds       |
+<table><thead><tr><th width="204">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>-c {string}</code></td><td>Specify the community string (<code>{string}</code>)</td></tr><tr><td><code>-v{ver}</code></td><td>Sets the version number (<code>{ver}</code>)</td></tr><tr><td><code>-t {seconds}</code></td><td>Sets the request timeout in seconds</td></tr></tbody></table>
 
 ### Requesting Specific Variables
 

@@ -4,18 +4,7 @@ description: Techniques for host discovery with nmap
 
 # Host Discovery Scans
 
-| Flag  | Description                                                          |
-| ----- | -------------------------------------------------------------------- |
-| `-PA` | [TCP ACK Scan](host-discovery-scans.md#tcp-ack-scan)                 |
-| `-PE` | ICMP Echo (ping) scan                                                |
-| `-PM` | ICMP Address Mask queries (ICMP Type 17 request/ ICMP Type 18 reply) |
-| `-PP` | ICMP Timestamp requests                                              |
-| `-PR` | ARP scan                                                             |
-| `-PS` | [TCP SYN Scan](host-discovery-scans.md#tcp-syn-scan)                 |
-| `-PU` | UDP Ping Scan                                                        |
-| `-Pn` | [Skip Host Discovery](host-discovery-scans.md#skip-host-discovery)   |
-
-
+<table><thead><tr><th width="122">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-PA</code></td><td><a href="host-discovery-scans.md#tcp-ack-scan">TCP ACK Scan</a></td></tr><tr><td><code>-PE</code></td><td>ICMP Echo (ping) scan</td></tr><tr><td><code>-PM</code></td><td>ICMP Address Mask queries (ICMP Type 17 request/ ICMP Type 18 reply)</td></tr><tr><td><code>-PP</code></td><td>ICMP Timestamp requests</td></tr><tr><td><code>-PR</code></td><td>ARP scan</td></tr><tr><td><code>-PS</code></td><td><a href="host-discovery-scans.md#tcp-syn-scan">TCP SYN Scan</a></td></tr><tr><td><code>-PU</code></td><td>UDP Ping Scan</td></tr><tr><td><code>-Pn</code></td><td><a href="host-discovery-scans.md#skip-host-discovery">Skip Host Discovery</a></td></tr></tbody></table>
 
 ## TCP ACK Scan
 

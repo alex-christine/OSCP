@@ -92,7 +92,8 @@ $ sudo ./flag
 <strong>* Verifying that you are running this binary as root on your Kali VM.
 </strong>Great job. Here is your flag: 
 OS{851243e508b87e039d0e52b2c6700cdc}
-Press any key to continue...</code></pre>
+Press any key to continue...
+</code></pre>
 
 ## Socat
 
@@ -138,7 +139,8 @@ password_cracking.pcap       100%[=============================================>
 
 2022-08-28 23:19:04 (637 KB/s) - ‘password_cracking.pcap’ saved [119497/119497]
 
-$ wireshark password_cracking.pcap </code></pre>
+$ wireshark password_cracking.pcap 
+</code></pre>
 
 First step is to find the valid login (HTTP 200) using the Wireshark filter `http.response.code == 80`and then tracing the HTTP stream of that response to find the request and thus the credentials
 
@@ -150,12 +152,7 @@ Let’s continue to test those network analysis skills; however, you will actual
 
 Utillizing the tool revealed the protocol was FTP over port 308
 
-| Information | Value  |
-| ----------- | ------ |
-| Protocol    | FTP    |
-| Port        | 3084   |
-| User        | offsec |
-| Password    | qwerty |
+<table><thead><tr><th width="165">Information</th><th>Value</th></tr></thead><tbody><tr><td>Protocol</td><td>FTP</td></tr><tr><td>Port</td><td>3084</td></tr><tr><td>User</td><td>offsec</td></tr><tr><td>Password</td><td>qwerty</td></tr></tbody></table>
 
 I was able to log in to the FTP server but the commands on the server did not seem to work properly and I was unable to download the flag.
 

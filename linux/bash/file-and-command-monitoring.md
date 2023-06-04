@@ -17,10 +17,7 @@ $ sudo tail -f /var/log/apache2/access.log
 
 ### Common Flags
 
-| Flag  | Description                                                             |
-| ----- | ----------------------------------------------------------------------- |
-| `-f`  | Follow. Used to continuously update the output as the target file grows |
-| `-nX` | Constrains output to `X` lines                                          |
+<table><thead><tr><th width="126">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-f</code></td><td>Follow. Used to continuously update the output as the target file grows</td></tr><tr><td><code>-nX</code></td><td>Constrains output to <code>X</code> lines</td></tr></tbody></table>
 
 ## `watch`
 

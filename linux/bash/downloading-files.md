@@ -41,9 +41,5 @@ Download accelerator that transfers a file from a FTP or HTTP server through mul
 
 ### Common Flags
 
-| Flag     | Description                                        |
-| -------- | -------------------------------------------------- |
-| `-a`     | Used to request a more concise progress indicator  |
-| `-n <X>` | Specify the number (`X`) of connections to be used |
-| `-o`     | Send output to a specific file                     |
+<table><thead><tr><th width="114">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-a</code></td><td>Used to request a more concise progress indicator</td></tr><tr><td><code>-n &#x3C;X></code></td><td>Specify the number (<code>X</code>) of connections to be used</td></tr><tr><td><code>-o</code></td><td>Send output to a specific file</td></tr></tbody></table>
 

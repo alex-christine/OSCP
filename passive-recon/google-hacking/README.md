@@ -8,12 +8,7 @@ Search engines like Google can be used to uncover critical information, vulnerab
 
 ## Important Operators
 
-| Operator             | Description                                                                                                                                                                  |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `site:{DOMIAN}`      | <p>Limits search results to addresses under<br><br>E.g. <code>site:domain.net</code> limits results to <code>domain.net</code></p>                                           |
-| `filetype:{TYPE}`    | <p>Searches for files of a particular type<br><br>E.g. <code>filetype:php</code> to search just PHP files</p>                                                                |
-| `ext:{EXTENSION}`    | <p>Similar to <code>filetype</code>, limits results to only files with a particular extension.<br><br>E.g. <code>ext:jsp</code> will return only <code>.jsp</code> files</p> |
-| `intitle:"{STRING}"` | Searches for `{STRING}` in the webpage's title                                                                                                                               |
+<table><thead><tr><th width="249">Operator</th><th>Description</th></tr></thead><tbody><tr><td><code>site:{DOMIAN}</code></td><td>Limits search results to addresses under<br><br>E.g. <code>site:domain.net</code> limits results to <code>domain.net</code></td></tr><tr><td><code>filetype:{TYPE}</code></td><td>Searches for files of a particular type<br><br>E.g. <code>filetype:php</code> to search just PHP files</td></tr><tr><td><code>ext:{EXTENSION}</code></td><td>Similar to <code>filetype</code>, limits results to only files with a particular extension.<br><br>E.g. <code>ext:jsp</code> will return only <code>.jsp</code> files</td></tr><tr><td><code>intitle:"{STRING}"</code></td><td>Searches for <code>{STRING}</code> in the webpage's title</td></tr></tbody></table>
 
 
 

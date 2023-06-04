@@ -10,10 +10,7 @@ searches text files for the occurrence of a given regular expression and outputs
 
 ### Common Flags
 
-| Flag | Meaning                                                                       |
-| ---- | ----------------------------------------------------------------------------- |
-| `-i` | Ignore case in of search term                                                 |
-| `-r` | Searches recursively through a directory for files containing the search term |
+<table><thead><tr><th width="157">Flag</th><th>Meaning</th></tr></thead><tbody><tr><td><code>-i</code></td><td>Ignore case in of search term</td></tr><tr><td><code>-r</code></td><td>Searches recursively through a directory for files containing the search term</td></tr></tbody></table>
 
 ## `sed`
 
@@ -32,13 +29,7 @@ Used to extract a section of text from a line and output it to the standard outp
 
 ### Common Flags
 
-| Flag | Description                                                                                                                                                          |
-| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-b` | Select using a specified byte, a byte set, or a byte range                                                                                                           |
-| `-c` | Select using a specified character, a character set, or a character range                                                                                            |
-| `-d` | Used to specify a delimiter to use instead of the default TAB delimiter                                                                                              |
-| `-f` | Select using a specified field, a field set, or a field range                                                                                                        |
-| `-s` | <p>Instructs cut not to print the lines that don't contain delimiters.<br><br>The default setting is to print the lines that don't contain delimiter characters.</p> |
+<table><thead><tr><th width="118">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-b</code></td><td>Select using a specified byte, a byte set, or a byte range</td></tr><tr><td><code>-c</code></td><td>Select using a specified character, a character set, or a character range</td></tr><tr><td><code>-d</code></td><td>Used to specify a delimiter to use instead of the default TAB delimiter</td></tr><tr><td><code>-f</code></td><td>Select using a specified field, a field set, or a field range</td></tr><tr><td><code>-s</code></td><td>Instructs cut not to print the lines that don't contain delimiters.<br><br>The default setting is to print the lines that don't contain delimiter characters.</td></tr></tbody></table>
 
 * The `-f`, `-b`, and `-c` options take a LIST argument, which is one of the following
   1. An integer `N` representing a byte, field or character, starting from 1
@@ -90,14 +81,7 @@ All sort commands write to standard output by default.
 
 ### Common Flags
 
-| Flag        | Description                                                                                                                                     |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-c`        | <p>Used to check if the file given is already sorted or not.<br><br>Will write to standard output if there are lines that are out of order.</p> |
-| `-k <col>`  | Sorts by column number specified in `col`                                                                                                       |
-| `-o <name>` | Send output to a file called `name`                                                                                                             |
-| `-n`        | Sort numerically                                                                                                                                |
-| `-r`        | Sort in reverse                                                                                                                                 |
-| `-u`        | Unique. Sorts and removes duplicates.                                                                                                           |
+<table><thead><tr><th width="144">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-c</code></td><td>Used to check if the file given is already sorted or not.<br><br>Will write to standard output if there are lines that are out of order.</td></tr><tr><td><code>-k &#x3C;col></code></td><td>Sorts by column number specified in <code>col</code></td></tr><tr><td><code>-o &#x3C;name></code></td><td>Send output to a file called <code>name</code></td></tr><tr><td><code>-n</code></td><td>Sort numerically</td></tr><tr><td><code>-r</code></td><td>Sort in reverse</td></tr><tr><td><code>-u</code></td><td>Unique. Sorts and removes duplicates.</td></tr></tbody></table>
 
 ## `awk`
 

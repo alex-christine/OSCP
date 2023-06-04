@@ -24,11 +24,7 @@ kali@kali:~$ nc -nvv -w 1 -z 10.11.1.220 3388-3390
  sent 0, rcvd 0
 ```
 
-| Flag       | Description                                                                                                                                                         |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-nvv`     | No DNS (`-n`) and very verbose (`-vv`)                                                                                                                              |
-| `-w {NUM}` | Sets timeout to `{NUM}` seconds (1 in the example)                                                                                                                  |
-| `-z`       | <p>Zero-I/O mode, which will send no data and is used for scanning.<br><br>Netcat sends <code>FIN-ACK</code> packet immediately after finishing the handshake. </p> |
+<table><thead><tr><th width="155">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-nvv</code></td><td>No DNS (<code>-n</code>) and very verbose (<code>-vv</code>)</td></tr><tr><td><code>-w {NUM}</code></td><td>Sets timeout to <code>{NUM}</code> seconds (1 in the example)</td></tr><tr><td><code>-z</code></td><td>Zero-I/O mode, which will send no data and is used for scanning.<br><br>Netcat sends <code>FIN-ACK</code> packet immediately after finishing the handshake. </td></tr></tbody></table>
 
 The port range is given at the end of the command (3388-3390 in the example).
 
@@ -63,13 +59,7 @@ kali@kali:~$ sudo iptables -I OUTPUT 1 -d $ip -j ACCEPT
 kali@kali:~$ sudo iptables -Z
 ```
 
-| Component          | Description                                                                                                                                                                                    |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-I {chain} {num}` | <p><em>Insert</em> a new rule into a given chain.<br><br>In this case includes both the <code>INPUT</code> (Inbound) and <code>OUTPUT</code> (Outbound) chains followed by the rule number</p> |
-| `-j ACCEPT`        | Used to tell tool to _accept_ the traffic                                                                                                                                                      |
-| `-Z`               | Zero the packet and byte counters in all chains                                                                                                                                                |
-| `-s {IP}`          | Specify a _source_ IP address                                                                                                                                                                  |
-| `-d {IP}`          | Specify a _desitnation_ IP address                                                                                                                                                             |
+<table><thead><tr><th width="213">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>-I {chain} {num}</code></td><td><em>Insert</em> a new rule into a given chain.<br><br>In this case includes both the <code>INPUT</code> (Inbound) and <code>OUTPUT</code> (Outbound) chains followed by the rule number</td></tr><tr><td><code>-j ACCEPT</code></td><td>Used to tell tool to <em>accept</em> the traffic</td></tr><tr><td><code>-Z</code></td><td>Zero the packet and byte counters in all chains</td></tr><tr><td><code>-s {IP}</code></td><td>Specify a <em>source</em> IP address</td></tr><tr><td><code>-d {IP}</code></td><td>Specify a <em>desitnation</em> IP address</td></tr></tbody></table>
 
 An nmap scan is then run against `$ip` (E.g. `nmap $ip`) and the output of `iptables` can be checked:
 
@@ -87,10 +77,7 @@ Chain OUTPUT (policy ACCEPT 1323 packets, 191K bytes)
  1314 78300 ACCEPT     all  --  *      *       0.0.0.0/0            10.11.1.220
 ```
 
-| Flag  | Component                                               |
-| ----- | ------------------------------------------------------- |
-| `-vn` | Add _verbosity_ (`-v`) and enable _numeric_ output (-n) |
-| `-L`  | _List_ all rules presnt in all chains                   |
+<table><thead><tr><th width="135">Flag</th><th>Component</th></tr></thead><tbody><tr><td><code>-vn</code></td><td>Add <em>verbosity</em> (<code>-v</code>) and enable <em>numeric</em> output (-n)</td></tr><tr><td><code>-L</code></td><td><em>List</em> all rules presnt in all chains</td></tr></tbody></table>
 
 As can be seen even a stock-standard Nmap scan generates quite a bit of traffic.
 

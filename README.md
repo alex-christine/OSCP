@@ -12,10 +12,7 @@ Students are given **23 hours and 45 minutes to complete** the exam. An addition
 
 ## Exam Network Structure
 
-| Points    | Section                              | Number of Machines                 |
-| --------- | ------------------------------------ | ---------------------------------- |
-| 60 Points | [Independent Targets](./#undefined)  | 3                                  |
-| 40 Points | [Active Directory Set](./#undefined) | 3 (2 clients, 1 domain controller) |
+<table><thead><tr><th width="136">Points</th><th>Section</th><th>Number of Machines</th></tr></thead><tbody><tr><td>60 Points</td><td><a href="./#undefined">Independent Targets</a></td><td>3</td></tr><tr><td>40 Points</td><td><a href="./#undefined">Active Directory Set</a></td><td>3 (2 clients, 1 domain controller)</td></tr></tbody></table>
 
 ### Independent Targets
 

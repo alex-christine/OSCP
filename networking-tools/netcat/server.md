@@ -14,12 +14,7 @@ nc -lvnp {PORT}
 
 Must be run as root for any port below and including 1024.
 
-| Flag | Description                           |
-| ---- | ------------------------------------- |
-| `-l` | Tells netcat to operate as a listener |
-| `-n` | Disables DNS. Numeric IPs only        |
-| `-p` | Specifies the port for listening      |
-| `-v` | Verbose                               |
+<table><thead><tr><th width="89">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-l</code></td><td>Tells netcat to operate as a listener</td></tr><tr><td><code>-n</code></td><td>Disables DNS. Numeric IPs only</td></tr><tr><td><code>-p</code></td><td>Specifies the port for listening</td></tr><tr><td><code>-v</code></td><td>Verbose</td></tr></tbody></table>
 
 * Basic Netcat shells are generally not particularly stable
   * Pressing `Ctrl + C` kills the whole thing
@@ -48,10 +43,7 @@ The attacker can then run the following on their machine and run
 stty raw -echo; fg
 ```
 
-| Command         | Description                                                         |
-| --------------- | ------------------------------------------------------------------- |
-| `stty raw echo` | Sets I/O to standard device, turns off attacker's own terminal echo |
-| `fg`            | Foregrounds the terminal on attacker's machine                      |
+<table><thead><tr><th width="183">Command</th><th>Description</th></tr></thead><tbody><tr><td><code>stty raw echo</code></td><td>Sets I/O to standard device, turns off attacker's own terminal echo</td></tr><tr><td><code>fg</code></td><td>Foregrounds the terminal on attacker's machine</td></tr></tbody></table>
 
 #### RLWrap
 

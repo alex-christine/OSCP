@@ -15,3 +15,5 @@ Generally speaking, there are three primary techniques for identifying flaws in 
 3. Fuzzing
 
 This example will use fuzzing. The goal of fuzzing is to **provide the target application with input that is not handled correctly, resulting in an application crash**. If a crash occurs as the result of processing malformed input data, it may indicate the presence of a potentially exploitable vulnerability, such as a buffer overflow.
+
+The following pages will walk through the steps of finding and then exploiting the buffer overflow.

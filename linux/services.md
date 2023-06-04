@@ -19,13 +19,7 @@ Command to list all services `sudo systemctl list-unit-files --type service --al
 
 #### Project States
 
-| Status      | Meaning                                                                                   |
-| ----------- | ----------------------------------------------------------------------------------------- |
-| `enabled`   | Currently running services                                                                |
-| `disabled`  | Services that are not currently running but can be activated at any time with no problems |
-| `masked`    | Masked services will not run unless the `masked` property is removed from them            |
-| `static`    | Service will only be used if another service or unit needs it                             |
-| `generated` | Services generated through a SysV or LSB initscript with systemd generator                |
+<table><thead><tr><th width="152">Status</th><th>Meaning</th></tr></thead><tbody><tr><td><code>enabled</code></td><td>Currently running services</td></tr><tr><td><code>disabled</code></td><td>Services that are not currently running but can be activated at any time with no problems</td></tr><tr><td><code>masked</code></td><td>Masked services will not run unless the <code>masked</code> property is removed from them</td></tr><tr><td><code>static</code></td><td>Service will only be used if another service or unit needs it</td></tr><tr><td><code>generated</code></td><td>Services generated through a SysV or LSB initscript with systemd generator</td></tr></tbody></table>
 
 In order to see all running processes use `sudo systemctl | grep running`
 
@@ -35,13 +29,7 @@ In order to see all running processes use `sudo systemctl | grep running`
 
 #### Verbs for `systemctl`
 
-| Verb      | Action                                          |
-| --------- | ----------------------------------------------- |
-| `start`   | Start a service                                 |
-| `stop`    | Stop a service                                  |
-| `status`  | Display the current status of service           |
-| `enable`  | Set a service to run at boot time               |
-| `disable` | Remove a service from those loaded at boot time |
+<table><thead><tr><th width="127">Verb</th><th>Action</th></tr></thead><tbody><tr><td><code>start</code></td><td>Start a service</td></tr><tr><td><code>stop</code></td><td>Stop a service</td></tr><tr><td><code>status</code></td><td>Display the current status of service</td></tr><tr><td><code>enable</code></td><td>Set a service to run at boot time</td></tr><tr><td><code>disable</code></td><td>Remove a service from those loaded at boot time</td></tr></tbody></table>
 
 ## SSH Service
 

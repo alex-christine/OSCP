@@ -2,11 +2,7 @@
 
 Every program run from the command line has three data streams connected to it that serve as communication channels with the external environment.
 
-| Stream   | ID | Description                                    |
-| -------- | -- | ---------------------------------------------- |
-| `STDIN`  | 0  | Data fed into the program                      |
-| `STDOUT` | 1  | Output from the program (defaults to terminal) |
-| `STDERR` | 2  | Error messages (defaults to terminal)          |
+<table><thead><tr><th width="147">Stream</th><th width="51">ID</th><th>Description</th></tr></thead><tbody><tr><td><code>STDIN</code></td><td>0</td><td>Data fed into the program</td></tr><tr><td><code>STDOUT</code></td><td>1</td><td>Output from the program (defaults to terminal)</td></tr><tr><td><code>STDERR</code></td><td>2</td><td>Error messages (defaults to terminal)</td></tr></tbody></table>
 
 Piping (using the `|` operator) and redirection (using the `>` and `<` operators) connects these streams between programs and files.
 

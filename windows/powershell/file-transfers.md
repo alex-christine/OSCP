@@ -19,9 +19,4 @@ GNU Wget 1.9.1
 ```
 {% endcode %}
 
-| Component                    | Description                                                                                           |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `-c`                         | Execute the supplied command (wrapped in double-quotes) as if it were typed at the PowerShell prompt. |
-| `New-Object`                 | Cmdlet to instantiate either a .Net Framework or a COM object.                                        |
-| `System.Net.WebClient`       | Object class used to access web resources via URI                                                     |
-| `DownloadFile({URL}, {LOC})` | Download file from `{URL}` and store it on the local machine at `{LOC}`                               |
+<table><thead><tr><th width="308">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>-c</code></td><td>Execute the supplied command (wrapped in double-quotes) as if it were typed at the PowerShell prompt.</td></tr><tr><td><code>New-Object</code></td><td>Cmdlet to instantiate either a .Net Framework or a COM object.</td></tr><tr><td><code>System.Net.WebClient</code></td><td>Object class used to access web resources via URI</td></tr><tr><td><code>DownloadFile({URL}, {LOC})</code></td><td>Download file from <code>{URL}</code> and store it on the local machine at <code>{LOC}</code></td></tr></tbody></table>

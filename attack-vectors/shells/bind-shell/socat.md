@@ -65,16 +65,7 @@ Common Name (e.g. server FQDN or YOUR name) []:
 Email Address []:
 ```
 
-| Argument   | Description                                                       |
-| ---------- | ----------------------------------------------------------------- |
-| `req`      | Initiate a new certificate signing request                        |
-| `-newkey`  | Generate a new private key                                        |
-| `rsa:2048` | Use RSA encryption with a 2,048-bit key length                    |
-| `-nodes`   | Store the private key without passphrase protection               |
-| `-keyout`  | Save the key to a file                                            |
-| `-x509`    | Output a self-signed certificate instead of a certificate request |
-| `-days`    | Set validity period in days                                       |
-| `-out`     | Save the certificate to a file                                    |
+<table><thead><tr><th width="176">Argument</th><th>Description</th></tr></thead><tbody><tr><td><code>req</code></td><td>Initiate a new certificate signing request</td></tr><tr><td><code>-newkey</code></td><td>Generate a new private key</td></tr><tr><td><code>rsa:2048</code></td><td>Use RSA encryption with a 2,048-bit key length</td></tr><tr><td><code>-nodes</code></td><td>Store the private key without passphrase protection</td></tr><tr><td><code>-keyout</code></td><td>Save the key to a file</td></tr><tr><td><code>-x509</code></td><td>Output a self-signed certificate instead of a certificate request</td></tr><tr><td><code>-days</code></td><td>Set validity period in days</td></tr><tr><td><code>-out</code></td><td>Save the certificate to a file</td></tr></tbody></table>
 
 #### Combine Key Files
 

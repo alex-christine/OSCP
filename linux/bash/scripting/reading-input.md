@@ -34,10 +34,7 @@ Your answer was Y
 
 ### Important Flags
 
-| Flag            | Description                                                                              |
-| --------------- | ---------------------------------------------------------------------------------------- |
-| `-p '{PROMPT}'` | Specify a prompt to be displayed while asking for input                                  |
-| `-s`            | <p>Make user input silent.<br><br>Particularly useful for capturing user credentials</p> |
+<table><thead><tr><th width="184">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-p '{PROMPT}'</code></td><td>Specify a prompt to be displayed while asking for input</td></tr><tr><td><code>-s</code></td><td>Make user input silent.<br><br>Particularly useful for capturing user credentials</td></tr></tbody></table>
 
 ```bash
 kali@kali:~$ cat ./input2.sh

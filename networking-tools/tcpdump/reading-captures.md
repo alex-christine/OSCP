@@ -28,14 +28,7 @@ As seen above, unfiltered captures can be a bit overwhelming. Fortunately using 
 
 ### Common Filters
 
-| Filter                 | Description                                                                                                                                                                                                                                  |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src host {IP}`        | Filters **source host** to `{IP}`                                                                                                                                                                                                            |
-| `dst host {IP}`        | Filters **destination host** to `{IP}`                                                                                                                                                                                                       |
-| `{protocol}`           | <p>Filters based on protocol used.<br><br>Example filters: <code>ip</code>, <code>tcp</code>, <code>udp</code>, <code>icmp</code>, <code>ip6</code>, <code>icmp6</code></p>                                                                  |
-| `proto`                | <p>Used in multi-layer protocol searches.<br><br>E.g. to filter to only TCP packets that were carried over IP the filter would be <code>ip proto tcp</code></p>                                                                              |
-| `port {PORT}`          | <p>Filters <strong>port</strong> (for both source and destination).<br><br>Can be used with <code>src</code> or <code>dst</code> to limit port filtering to source or destination respectively (e.g <code>dst port 81</code>)</p>            |
-| `portrange {LOW-HIGH}` | <p>Used to filter to a range of ports (for both source and destination)<br><br>Can be used with <code>src</code> or <code>dst</code> to limit filtering to source or destination respectively (e.g <code>src portrange 1000-1024</code>)</p> |
+<table><thead><tr><th width="255">Filter</th><th>Description</th></tr></thead><tbody><tr><td><code>src host {IP}</code></td><td>Filters <strong>source host</strong> to <code>{IP}</code></td></tr><tr><td><code>dst host {IP}</code></td><td>Filters <strong>destination host</strong> to <code>{IP}</code></td></tr><tr><td><code>{protocol}</code></td><td>Filters based on protocol used.<br><br>Example filters: <code>ip</code>, <code>tcp</code>, <code>udp</code>, <code>icmp</code>, <code>ip6</code>, <code>icmp6</code></td></tr><tr><td><code>proto</code></td><td>Used in multi-layer protocol searches.<br><br>E.g. to filter to only TCP packets that were carried over IP the filter would be <code>ip proto tcp</code></td></tr><tr><td><code>port {PORT}</code></td><td>Filters <strong>port</strong> (for both source and destination).<br><br>Can be used with <code>src</code> or <code>dst</code> to limit port filtering to source or destination respectively (e.g <code>dst port 81</code>)</td></tr><tr><td><code>portrange {LOW-HIGH}</code></td><td>Used to filter to a range of ports (for both source and destination)<br><br>Can be used with <code>src</code> or <code>dst</code> to limit filtering to source or destination respectively (e.g <code>src portrange 1000-1024</code>)</td></tr></tbody></table>
 
 These filters are used `tcpdump {filter name} {filter_value}`. Multiple filters may be applied using the `and` and `or` keywords.
 
@@ -76,12 +69,7 @@ reading from file password_cracking_filtered.pcap, link-type EN10MB (Ethernet), 
 ```
 {% endcode %}
 
-| Component           | Description                                                                                                                                     |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `tcpdump -r {FILE}` | Reads from `{FILE}`                                                                                                                             |
-| `awk '{print $5}'`  | <p>Prints the fifth field in the dump.<br><br>Per analysis of the unfiltered file this field is the <strong>destination IP address</strong></p> |
-| `sort`              | Sorts the output (by IP address in this case)                                                                                                   |
-| `uniq -c`           | Returns unique entries and counts of each in the data set                                                                                       |
+<table><thead><tr><th width="229">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>tcpdump -r {FILE}</code></td><td>Reads from <code>{FILE}</code></td></tr><tr><td><code>awk '{print $5}'</code></td><td>Prints the fifth field in the dump.<br><br>Per analysis of the unfiltered file this field is the <strong>destination IP address</strong></td></tr><tr><td><code>sort</code></td><td>Sorts the output (by IP address in this case)</td></tr><tr><td><code>uniq -c</code></td><td>Returns unique entries and counts of each in the data set</td></tr></tbody></table>
 
 Can see that `172.16.40.10` was the most common destination address followed by `208.68.234.99`. Given that `172.16.40.10` was contacted on a low destination port (81) and `208.68.234.99` was contacted on high destination ports, one can safely assume that the former is a server and the latter is a client.
 

@@ -40,10 +40,4 @@ Discovered open port 80/tcp on 10.11.1.234
 ...
 ```
 
-| Component          | Description                                                                                                                                            |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `-p{PORT}`         | <p>Specifies the <em>port</em> for scanning.<br><br>Can also be given as a range. E.g. <code>-p0-65535</code> would scan all ports.</p>                |
-| `10.11.1.0/24`     | <p><em>IP range</em> (CIDR notation) to scan.<br><br>The entire Internet is scanned with <code>0.0.0.0/0</code></p>                                    |
-| `--rate={num}`     | <p>Sets the scanning <em>rate</em> to <code>{num}</code> packets per second.<br><br>Maximum supported value is 10 million (<code>10000000</code>).</p> |
-| `-e {interface}`   | <p>Sets the outbound <em>network interface</em> to use for the scan.<br><br>E.g. <code>eth0</code>, <code>tun0</code>, etc.</p>                        |
-| `--router-ip {IP}` | Specify the IP address for the appropriate gateway                                                                                                     |
+<table><thead><tr><th width="213">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>-p{PORT}</code></td><td>Specifies the <em>port</em> for scanning.<br><br>Can also be given as a range. E.g. <code>-p0-65535</code> would scan all ports.</td></tr><tr><td><code>10.11.1.0/24</code></td><td><em>IP range</em> (CIDR notation) to scan.<br><br>The entire Internet is scanned with <code>0.0.0.0/0</code></td></tr><tr><td><code>--rate={num}</code></td><td>Sets the scanning <em>rate</em> to <code>{num}</code> packets per second.<br><br>Maximum supported value is 10 million (<code>10000000</code>).</td></tr><tr><td><code>-e {interface}</code></td><td>Sets the outbound <em>network interface</em> to use for the scan.<br><br>E.g. <code>eth0</code>, <code>tun0</code>, etc.</td></tr><tr><td><code>--router-ip {IP}</code></td><td>Specify the IP address for the appropriate gateway</td></tr></tbody></table>

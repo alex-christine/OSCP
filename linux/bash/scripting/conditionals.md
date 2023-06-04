@@ -19,25 +19,7 @@ fi
 
 ### Conditional Operators
 
-| Operator             | Description                               |
-| -------------------- | ----------------------------------------- |
-| `!EXPRESSION`        | `EXPRESSION` is false                     |
-| `-n STRING`          | `STRING` length is greater than 0         |
-| `-z STRING`          | `STRING` length is 0 (empty)              |
-| `STRING1 != STRING2` | `STRING1` is not equal to `STRING2`       |
-| `STRING1 = STRING2`  | `STRING1` is equal to `STRING2`           |
-| `INT1 -eq INT2`      | `INT1` is equal to `INT2`                 |
-| `INT1 -ne INT2`      | `INT1` is not equal to `INT2`             |
-| `INT1 -gt INT2`      | `INT1` is greater than `INT2`             |
-| `INT1 -lt INT2`      | `INT1` is less than `INT2`                |
-| `INT1 -ge INT2`      | `INT1` is greater than or equal to `INT2` |
-| `INT1 -le INT2`      | `INT1` is less than equal to `INT2`       |
-| `-d FILE`            | `FILE` exists and is a directory          |
-| `-e FILE`            | `FILE` exists                             |
-| `-r FILE`            | `FILE` exists and has read permission     |
-| `-s FILE`            | `FILE` exists and is not empty            |
-| `-w FILE`            | `FILE` exists and has write permission    |
-| `-x FILE`            | `FILE` exists and has execute permission  |
+<table><thead><tr><th width="231">Operator</th><th>Description</th></tr></thead><tbody><tr><td><code>!EXPRESSION</code></td><td><code>EXPRESSION</code> is false</td></tr><tr><td><code>-n STRING</code></td><td><code>STRING</code> length is greater than 0</td></tr><tr><td><code>-z STRING</code></td><td><code>STRING</code> length is 0 (empty)</td></tr><tr><td><code>STRING1 != STRING2</code></td><td><code>STRING1</code> is not equal to <code>STRING2</code></td></tr><tr><td><code>STRING1 = STRING2</code></td><td><code>STRING1</code> is equal to <code>STRING2</code></td></tr><tr><td><code>INT1 -eq INT2</code></td><td><code>INT1</code> is equal to <code>INT2</code></td></tr><tr><td><code>INT1 -ne INT2</code></td><td><code>INT1</code> is not equal to <code>INT2</code></td></tr><tr><td><code>INT1 -gt INT2</code></td><td><code>INT1</code> is greater than <code>INT2</code></td></tr><tr><td><code>INT1 -lt INT2</code></td><td><code>INT1</code> is less than <code>INT2</code></td></tr><tr><td><code>INT1 -ge INT2</code></td><td><code>INT1</code> is greater than or equal to <code>INT2</code></td></tr><tr><td><code>INT1 -le INT2</code></td><td><code>INT1</code> is less than equal to <code>INT2</code></td></tr><tr><td><code>-d FILE</code></td><td><code>FILE</code> exists and is a directory</td></tr><tr><td><code>-e FILE</code></td><td><code>FILE</code> exists</td></tr><tr><td><code>-r FILE</code></td><td><code>FILE</code> exists and has read permission</td></tr><tr><td><code>-s FILE</code></td><td><code>FILE</code> exists and is not empty</td></tr><tr><td><code>-w FILE</code></td><td><code>FILE</code> exists and has write permission</td></tr><tr><td><code>-x FILE</code></td><td><code>FILE</code> exists and has execute permission</td></tr></tbody></table>
 
 #### Example
 
