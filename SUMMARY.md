@@ -202,3 +202,4 @@
   * [Discovering The Vulnerability](buffer-overflows/windows-buffer-overflow/discovering-the-vulnerability.md)
   * [Prevention Mechanisms](buffer-overflows/windows-buffer-overflow/prevention-mechanisms.md)
   * [Controlling EIP](buffer-overflows/windows-buffer-overflow/controlling-eip.md)
+  * [Placing Shellcode](buffer-overflows/windows-buffer-overflow/placing-shellcode.md)
