@@ -9,6 +9,12 @@
   * [Labs](course-info/course-exercises/labs.md)
   * [Topic Exercises](course-info/course-exercises/topic-exercises.md)
   * [Reporting](course-info/course-exercises/reporting.md)
+* [Progress Tracker](course-info/progress-tracker/README.md)
+  * [12 Week Learning Plan](https://help.offsec.com/hc/en-us/articles/15541765522196-OffSec-PEN-200-Learning-Plan-12-Week-)
+
+## Security Overview
+
+* [Security Strategies](security-overview/security-strategies.md)
 
 ## Networking Tools
 
@@ -181,18 +187,6 @@
   * [Dot-Sourcing](windows/powershell/dot-sourcing.md)
   * [Shells](windows/powershell/shells.md)
 
-## Topic Exercises
-
-* [Command Line Fun](topic-exercises/command-line-fun.md)
-* [Practical Tools](topic-exercises/practical-tools.md)
-* [Bash Scripting](topic-exercises/bash-scripting.md)
-* [Active Information Gathering](topic-exercises/active-information-gathering/README.md)
-  * [DNS Enumeration](topic-exercises/active-information-gathering/dns-enumeration.md)
-  * [SMB Enumeration](topic-exercises/active-information-gathering/smb-enumeration.md)
-* [Web Application Attacks](topic-exercises/web-application-attacks/README.md)
-  * [LFI](topic-exercises/web-application-attacks/lfi.md)
-  * [RFI](topic-exercises/web-application-attacks/rfi.md)
-
 ## Buffer Overflows
 
 * [Introduction](buffer-overflows/introduction/README.md)
@@ -203,3 +197,5 @@
   * [Prevention Mechanisms](buffer-overflows/windows-buffer-overflow/prevention-mechanisms.md)
   * [Controlling EIP](buffer-overflows/windows-buffer-overflow/controlling-eip.md)
   * [Placing Shellcode](buffer-overflows/windows-buffer-overflow/placing-shellcode.md)
+* [Linux Buffer Overflow](buffer-overflows/linux-buffer-overflow/README.md)
+  * [Prevention Mechanisms](buffer-overflows/linux-buffer-overflow/prevention-mechanisms.md)
