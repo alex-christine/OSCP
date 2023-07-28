@@ -11,6 +11,7 @@
   * [Reporting](course-info/course-exercises/reporting.md)
 * [Progress Tracker](course-info/progress-tracker/README.md)
   * [12 Week Learning Plan](https://help.offsec.com/hc/en-us/articles/15541765522196-OffSec-PEN-200-Learning-Plan-12-Week-)
+* [Report Writing](course-info/report-writing.md)
 
 ## Security Overview
 
