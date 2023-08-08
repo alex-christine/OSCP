@@ -28,6 +28,7 @@
   * [Remote Administration](networking-tools/netcat/remote-administration.md)
 * [Nmap](networking-tools/nmap/README.md)
   * [Official Site](https://nmap.org/)
+  * [Targeting](networking-tools/nmap/targeting.md)
   * [Host Discovery Scans](networking-tools/nmap/host-discovery-scans.md)
   * [Open Port Scans](networking-tools/nmap/open-port-scans.md)
   * [Behavior Flags](networking-tools/nmap/behavior-flags.md)
@@ -80,6 +81,7 @@
 ## Active Recon
 
 * [DNS Enumeration](active-recon/dns-enumeration/README.md)
+  * [DNS Operation](https://app.gitbook.com/s/8YCiflNECSba97FgHQNB/application-layer/dns)
   * [Interacting with DNS Server](active-recon/dns-enumeration/interacting-with-dns-server.md)
   * [Automating Lookups](active-recon/dns-enumeration/automating-lookups.md)
   * [DNS Zone Transfer](active-recon/dns-enumeration/dns-zone-transfer.md)
@@ -87,18 +89,25 @@
 * [Port Scanning](active-recon/port-scanning.md)
   * [Masscan](active-recon/port-scanning/masscan/README.md)
     * [Official Page](https://github.com/robertdavidgraham/masscan)
+  * [nmap](https://app.gitbook.com/s/NFnmR6BLGrU3IitIEE2D/\~/changes/48/networking-tools/nmap/open-port-scans)
+  * [PowerShell](active-recon/port-scanning/powershell.md)
 * [SMB Enumeration](active-recon/smb-enumeration/README.md)
+  * [SMB Overview](https://app.gitbook.com/s/8YCiflNECSba97FgHQNB/session-layer/smb)
   * [Guide to SMB Enumeration](https://www.hackingarticles.in/a-little-guide-to-smb-enumeration/)
   * [enum4linux](active-recon/smb-enumeration/enum4linux/README.md)
     * [Official Page](https://labs.portcullis.co.uk/tools/enum4linux/)
     * [Enumerating SMB with enum4linux](https://null-byte.wonderhowto.com/how-to/enumerate-smb-with-enum4linux-smbclient-0198049/)
-* [NFS Enumeration](active-recon/nfs-enumeration.md)
-* [SMTP Enumeration](active-recon/smtp-enumeration.md)
+* [SMTP Enumeration](active-recon/smtp-enumeration/README.md)
+  * [SMTP Overview](https://app.gitbook.com/s/8YCiflNECSba97FgHQNB/application-layer/smtp)
+  * [Enumerating in Windows](active-recon/smtp-enumeration/enumerating-in-windows.md)
 * [SNMP Enumeration](active-recon/snmp-enumeration/README.md)
+  * [SNMP Overview](https://app.gitbook.com/s/8YCiflNECSba97FgHQNB/application-layer/snmp)
   * [onesixtyone](active-recon/snmp-enumeration/onesixtyone/README.md)
     * [Official Documentation](http://www.phreedom.org/software/onesixtyone/)
   * [snmpwalk](active-recon/snmp-enumeration/snmpwalk.md)
   * [snmpcheck](active-recon/snmp-enumeration/snmpcheck.md)
+* [NFS Enumeration](active-recon/nfs-enumeration/README.md)
+  * [NFS Overview](https://app.gitbook.com/s/8YCiflNECSba97FgHQNB/application-layer/nfs)
 
 ## Vulnerability Assessment
 
@@ -189,6 +198,8 @@
   * [File Transfers](windows/powershell/file-transfers.md)
   * [Dot-Sourcing](windows/powershell/dot-sourcing.md)
   * [Shells](windows/powershell/shells.md)
+* [Command Shell](windows/command-shell.md)
+* [DISM](windows/dism.md)
 
 ## Buffer Overflows
 

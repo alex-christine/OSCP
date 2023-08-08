@@ -4,7 +4,9 @@ description: Notes on the Windows PowerShell environment
 
 # PowerShell
 
-Windows PowerShell is a task-based command line shell and scripting language. It is installed by default on modern Windows platforms beginning with Windows Server 2008 R2 and Windows 7
+Windows PowerShell is a task-based command line shell and scripting language. PowerShell was designed to extend the capabilities of the Command shell to run PowerShell commands called cmdlets. Cmdlets are similar to Windows Commands but provide a more extensible scripting language.
+
+It is installed by default on modern Windows platforms beginning with Windows Server 2008 R2 and Windows 7
 
 <table><thead><tr><th width="198">Windows Version</th><th>PowerShell 5.0</th><th>PowerShell 4.0</th><th></th></tr></thead><tbody><tr><td>Server 2016</td><td>Installed by default</td><td>N/A</td><td>N/A</td></tr><tr><td>Server 2012 R2</td><td>Install Windows Management Framework 5.0 to run</td><td>Installed by default</td><td>N/A</td></tr><tr><td>Server 2012</td><td>Install Windows Management Framework 5.0 to run</td><td>Install Windows Management Framework 4.0 to run</td><td>Installed by default</td></tr><tr><td>2008 R2 with Service Pack 1</td><td>Install Windows Management Framework 5.0 to run</td><td>Install Windows Management Framework 4.0 to run</td><td>Install Windows Management Framework 3.0 to run</td></tr><tr><td>Windows 8.1</td><td>Install Windows Management Framework 5.0 to run</td><td>Installed by default</td><td>N/A</td></tr><tr><td>Windows 7 with Service Pack 1</td><td>Install Windows Management Framework 5.0 to run</td><td>Install Windows Management Framework 4.0 to run</td><td>Install Windows Management Framework 3.0 to run</td></tr></tbody></table>
 
@@ -30,4 +32,3 @@ Do you want to change the execution policy?
 PS C:\WINDOWS\system32> Get-ExecutionPolicy
 Unrestricted
 ```
-

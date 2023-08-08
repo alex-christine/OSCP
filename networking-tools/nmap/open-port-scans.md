@@ -26,7 +26,7 @@ Nmap considers 6 different port states in reporting.
 
 ## TCP SYN Scan
 
-Default method of operation for nmap. TCP three-way handshake is not completed prior to connection tear-down.
+Default method of operation for nmap. Sometimes referred to as a **stealth scan**. TCP three-way handshake is not completed prior to connection tear-down.&#x20;
 
 1. Nmap sends SYN packet
 2. Open port responds SYN/ACK

@@ -12,7 +12,7 @@ description: Flags for controlling Nmap operations
 
 Flags controlling scans run on hosts (after port detection)
 
-<table><thead><tr><th width="130">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-A</code></td><td>Enable OS detection, version detection, script scanning, and traceroute</td></tr><tr><td><code>-O</code></td><td>OS detection</td></tr></tbody></table>
+<table><thead><tr><th width="192">Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-A</code></td><td>Enable OS detection, version detection, script scanning, and traceroute</td></tr><tr><td><code>-O</code></td><td>OS detection</td></tr><tr><td><code>--osscan-guess</code></td><td>Force Nmap print the guessed result even if is not fully accurate (used in conjunction with <code>-O</code> or <code>-A</code> flags)</td></tr></tbody></table>
 
 ## Fragment Packets
 
@@ -26,7 +26,7 @@ IP data will be divided into 8 bytes or less. This can be useful in circumventin
 
 Can be specified as a single port, range of ports, or all ports
 
-<table><thead><tr><th width="133">Port Flag</th><th></th></tr></thead><tbody><tr><td><code>-p-</code></td><td>Scan all ports</td></tr><tr><td><code>-p21</code></td><td>Scan port 21 only</td></tr><tr><td><code>-p21-25</code></td><td>Scan ports 21-25 (inclusive)</td></tr><tr><td><code>-p21,25</code></td><td>Scan only ports 21 and 25</td></tr></tbody></table>
+<table><thead><tr><th width="192">Port Flag</th><th></th></tr></thead><tbody><tr><td><code>-p-</code></td><td>Scan all ports</td></tr><tr><td><code>-p21</code></td><td>Scan port 21 only</td></tr><tr><td><code>-p21-25</code></td><td>Scan ports 21-25 (inclusive)</td></tr><tr><td><code>-p21,25</code></td><td>Scan only ports 21 and 25</td></tr><tr><td><code>--top-ports=15</code></td><td>Scans the top 15 (any number can be used) ports as ranked by popularity in the <code>/usr/share/nmap/nmap-services</code> file</td></tr><tr><td><code>--open</code></td><td>Limits the output displayed to only open ports</td></tr></tbody></table>
 
 ## Scan Timing
 

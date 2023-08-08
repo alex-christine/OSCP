@@ -119,3 +119,26 @@ Displays a list of domains, computers, or resources that are being shared by the
 ### `rpcclient`
 
 rpcclient is a utility initially developed to test MS-RPC functionality in Samba itself. It has undergone several stages of development and stability. Many system administrators have now written scripts around it to manage Windows NT clients from their UNIX workstation.
+
+## Windows Tools
+
+### net view
+
+A helpful tool for enumerating SMB shares from a Windows client is `net view`. It lists domains, resources, and computers belonging to a given host.
+
+```
+C:\Users\student>net view \\dc01 /all
+Shared resources at \\dc01
+
+Share name  Type  Used as  Comment
+
+-------------------------------------------------------------------------------
+ADMIN$      Disk           Remote Admin
+C$          Disk           Default share
+IPC$        IPC            Remote IPC
+NETLOGON    Disk           Logon server share
+SYSVOL      Disk           Logon server share
+The command completed successfully.
+```
+
+The `/all` keyword lists the administrative shares ending with the dollar sign.

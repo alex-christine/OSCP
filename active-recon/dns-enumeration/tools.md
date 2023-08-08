@@ -141,3 +141,36 @@ ns16.zoneedit.com Bind Version: 8.4.X
 
 brute force file not specified, bay.
 ```
+
+## nslookup
+
+nslookup is a Windows tool that works in a similar fashion to the `host` command on Linux.
+
+Below is an example lookup of an A record for `mail.megacorptwo.com`:
+
+```
+C:\Users\student>nslookup mail.megacorptwo.com
+DNS request timed out.
+    timeout was 2 seconds.
+Server:  UnKnown
+Address:  192.168.50.151
+
+Name:    mail.megacorptwo.com
+Address:  192.168.50.154
+```
+
+From the response it can be gathered that the default name server (`192.168.50.151`) was queried and returned an address of `192.168.50.154` for `mail.megacorptwo.com`.
+
+nslookup can be used for more granular lookups as well, such as searching for all text records associated with `info.megacorptwo.com`:
+
+```
+C:\Users\student>nslookup -type=TXT info.megacorptwo.com 192.168.50.151
+Server:  UnKnown
+Address:  192.168.50.151
+
+info.megacorptwo.com    text =
+
+        "greetings from the TXT record body"
+```
+
+To search any record type for a domain use the `-type=any` flag.
