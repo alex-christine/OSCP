@@ -82,3 +82,7 @@ Full list compiled [here](https://nmap.org/nsedoc/scripts/)
 ### HTTP
 
 <table><thead><tr><th width="181">Script Name</th><th>Description</th></tr></thead><tbody><tr><td><code>http-headers</code></td><td>Attempts to connect to the HTTP service on a target system and determine the supported headers</td></tr></tbody></table>
+
+### Vulnerabilities
+
+<table><thead><tr><th width="183">Script Name</th><th>Description</th></tr></thead><tbody><tr><td><code>vulners</code></td><td>For each available CPE the script prints out known vulns (links to the correspondent info) and correspondent CVSS scores.</td></tr></tbody></table>

@@ -97,7 +97,7 @@
   * [enum4linux](active-recon/smb-enumeration/enum4linux/README.md)
     * [Official Page](https://labs.portcullis.co.uk/tools/enum4linux/)
     * [Enumerating SMB with enum4linux](https://null-byte.wonderhowto.com/how-to/enumerate-smb-with-enum4linux-smbclient-0198049/)
-* [SMTP Enumeration](active-recon/smtp-enumeration/README.md)
+* [SMTP Enumeration](active-recon/smtp-enumeration.md)
   * [SMTP Overview](https://app.gitbook.com/s/8YCiflNECSba97FgHQNB/application-layer/smtp)
   * [Enumerating in Windows](active-recon/smtp-enumeration/enumerating-in-windows.md)
 * [SNMP Enumeration](active-recon/snmp-enumeration/README.md)
@@ -106,15 +106,20 @@
     * [Official Documentation](http://www.phreedom.org/software/onesixtyone/)
   * [snmpwalk](active-recon/snmp-enumeration/snmpwalk.md)
   * [snmpcheck](active-recon/snmp-enumeration/snmpcheck.md)
-* [NFS Enumeration](active-recon/nfs-enumeration/README.md)
+* [NFS Enumeration](active-recon/nfs-enumeration.md)
   * [NFS Overview](https://app.gitbook.com/s/8YCiflNECSba97FgHQNB/application-layer/nfs)
 
 ## Vulnerability Assessment
 
-* [Overview and Considerations](vulnerability-assessment/overview-and-considerations.md)
+* [Overview and Considerations](vulnerability-assessment/overview-and-considerations/README.md)
+  * [CVE System](vulnerability-assessment/overview-and-considerations/cve-system.md)
 * [OpenVAS](vulnerability-assessment/openvas/README.md)
   * [Installation and Setup](https://www.geeksforgeeks.org/installing-openvas-on-kali-linux/)
   * [Official Documentation](https://www.greenbone.net/en/documents/)
+* [Nessus](vulnerability-assessment/nessus/README.md)
+  * [Scans](vulnerability-assessment/nessus/scans.md)
+  * [Installation and Setup](https://docs.tenable.com/nessus/Content/Install.htm)
+  * [Official Documentation](https://docs.tenable.com/Nessus.htm)
 
 ## Web Application Attacks
 
