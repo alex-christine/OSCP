@@ -35,6 +35,12 @@ It is important to understand the key web frameworks for this type of inspection
 
 HTTP response headers can be viewed both in the web inspector and via a proxy such as BurpSuite. They can provide valuable information about the structure of the underlying application.
 
+The `Server` header displayed above will often reveal at least the name of the web server software. In many default configurations, it also reveals the version number.
+
+Historically, headers that started with "`X-`" were called non-standard HTTP headers. However, RFC6648 now deprecates the use of "`X-`" in favor of a clearer naming convention.
+
+The names or values in the response header often reveal additional information about the technology stack used by the application. Some examples of non-standard headers include `X-Powered-By`, `x-amz-cf-id`, and `X-Aspnet-Version`. Further research into these names could reveal additional information, such as that the `x-amz-cf-id` header indicates the application uses Amazon CloudFront.
+
 ## Sitemaps
 
 The most common sitemap locations are `robots.txt` and `sitemap.xml`.

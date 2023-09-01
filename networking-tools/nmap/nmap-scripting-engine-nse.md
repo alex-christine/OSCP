@@ -81,7 +81,7 @@ Full list compiled [here](https://nmap.org/nsedoc/scripts/)
 
 ### HTTP
 
-<table><thead><tr><th width="181">Script Name</th><th>Description</th></tr></thead><tbody><tr><td><code>http-headers</code></td><td>Attempts to connect to the HTTP service on a target system and determine the supported headers</td></tr></tbody></table>
+<table><thead><tr><th width="181">Script Name</th><th>Description</th></tr></thead><tbody><tr><td><code>http-headers</code></td><td>Attempts to connect to the HTTP service on a target system and determine the supported headers</td></tr><tr><td><code>http-enum</code></td><td>Enumerates directories used by popular web applications and servers</td></tr></tbody></table>
 
 ### Vulnerabilities
 

