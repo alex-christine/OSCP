@@ -224,3 +224,7 @@
   * [Placing Shellcode](buffer-overflows/windows-buffer-overflow/placing-shellcode.md)
 * [Linux Buffer Overflow](buffer-overflows/linux-buffer-overflow/README.md)
   * [Prevention Mechanisms](buffer-overflows/linux-buffer-overflow/prevention-mechanisms.md)
+
+## Labs
+
+* [hetemit](labs/hetemit.md)
