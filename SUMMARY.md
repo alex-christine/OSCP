@@ -202,6 +202,9 @@
     * [Practical Examples](linux/bash/scripting/practical-examples/README.md)
       * [Bash One-Liners](https://www.bashoneliners.com/)
       * [Search Exploit-DB](linux/bash/scripting/practical-examples/search-exploit-db.md)
+* [Privilege Escalation](linux/privilege-escalation/README.md)
+  * [Privilege Basics](linux/privilege-escalation/privilege-basics.md)
+  * [Enumeration](linux/privilege-escalation/enumeration.md)
 
 ## Windows
 
