@@ -231,3 +231,4 @@
 ## Labs
 
 * [hetemit](labs/hetemit.md)
+* [PayDay](labs/payday.md)

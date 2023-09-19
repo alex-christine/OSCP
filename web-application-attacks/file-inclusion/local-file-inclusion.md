@@ -12,6 +12,8 @@ One way we can try to inject code onto the server is through log file poisoning.
 
 This can be leveraged to an attacker's advantage by submitting a request that includes PHP code. Once the request is logged, they can use the log file in their LFI payload.
 
+The two examples below will cover basic LFI exploits. Sometimes additional obfuscation is needed, in those instances [PHP Wrappers](expanding-file-inclusion-repertoire.md#php-wrappers) as well as other techniques can be helpful.
+
 ### Example (Windows)
 
 Consider a webpage with the following PHP code snippet included in its `menu.php` page:
