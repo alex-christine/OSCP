@@ -150,6 +150,7 @@
 * [File Upload Vulnerabilities](web-application-attacks/file-upload-vulnerabilities/README.md)
   * [Using Executable Files](web-application-attacks/file-upload-vulnerabilities/using-executable-files.md)
   * [Using Non-Executable Files](web-application-attacks/file-upload-vulnerabilities/using-non-executable-files.md)
+* [OS Command Injection](web-application-attacks/os-command-injection.md)
 * [SQL Injection](web-application-attacks/sql-injection/README.md)
   * [OWASP - SQLi](https://owasp.org/www-community/attacks/SQL\_Injection)
   * [Identifying SQLi Vulnerabilities](web-application-attacks/sql-injection/identifying-sqli-vulnerabilities.md)
