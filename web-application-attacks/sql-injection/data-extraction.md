@@ -4,7 +4,7 @@ description: Techniques for leaking data from a SQLi vulnerability
 
 # Data Extraction
 
-The examples on this page are all related to MariaDB, however these can be easily extrapolated to other databases as the injection logic remains the same only the database-specific commands change. This [SQLi Cheat Sheet](https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/) can help make some of those translations as it lists the same commands for various databases.
+The examples on this page are all related to MariaDB, however these can be easily extrapolated to other databases as the injection logic remains the same only the database-specific commands change. This [SQLi Cheat Sheet](https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/) (or [this one from PortSwigger](https://portswigger.net/web-security/sql-injection/cheat-sheet)) can help make some of those translations as it lists the same commands for various databases.
 
 The URLs will be based on those used in earlier examples in the [Database Enumeration](database-enumeration.md) section.
 

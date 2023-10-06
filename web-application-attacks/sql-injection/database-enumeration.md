@@ -24,7 +24,7 @@ The `id` parameter can have arbitrary SQL tacked on the end:
 http://10.11.0.22/debug.php?id=1 order by 1
 ```
 
-One can increment the order by until an error occurs. In this case, it errors at `order by 4` and thus the attacker knows there are 3 columns in the database.
+One can increment the order by until an error occurs. In this case, it errors at `order by 4` and thus the attacker knows there are **3 columns in the database**.
 
 ### Understanding the Output
 

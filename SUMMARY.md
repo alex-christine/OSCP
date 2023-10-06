@@ -160,6 +160,8 @@
   * [Code Execution](web-application-attacks/sql-injection/code-execution.md)
   * [Automating SQLi](web-application-attacks/sql-injection/automating-sqli.md)
   * [Preventing SQLi](web-application-attacks/sql-injection/preventing-sqli.md)
+  * [Database-Specific Instructions](web-application-attacks/sql-injection/database-specific-instructions.md)
+  * [Additional Examples](web-application-attacks/sql-injection/additional-examples.md)
   * [SQLi Cheat Sheet](https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/)
 
 ## Attack Vectors
