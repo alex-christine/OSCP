@@ -187,3 +187,51 @@ From here any interesting tables can be enumerated:
 <figure><img src="../../.gitbook/assets/SQLi-AE_UnionPasswordLeak.png" alt=""><figcaption><p>Output of the users table query above</p></figcaption></figure>
 
 Resulting in the hash of the all user passwords.
+
+## Blind SQLi
+
+The SQLi payloads above are all **in-band**, meaning attackers are able to retrieve the database content of their query inside the web application.
+
+Alternatively, **blind** SQL injections describe scenarios in which database responses are never returned and behavior is inferred using either boolean- or time-based logic.
+
+As an example, generic **boolean-based blind SQL injections** cause the application to return different and predictable values whenever the database query returns a `TRUE` or `FALSE` result, hence the "boolean" name. These values can be reviewed within the application context.
+
+**Time-based blind SQL injections** infer the query results by instructing the database to wait for a specified amount of time. Based on the response time, the attacker is able to conclude if the statement is TRUE or FALSE.
+
+The vulnerable application for this example can be found at `http://sqli.com/blindsqli.php`:
+
+This is an authenticated attack using the credentials `offsec:lab`. (or `admin:admin` if the hash discovered in earlier examples has been cracked). Once logged in the page looks like this:
+
+<figure><img src="../../.gitbook/assets/SQLi-AE_BlindExamplePage.png" alt=""><figcaption><p>Blind SQLi page</p></figcaption></figure>
+
+In this instance, the URL itself (specifically the `?user` parameter) is vulnerable to blind SQLi.
+
+### Boolean-Based SQLi
+
+To test for boolean-based SQLi, one could attempt appending the following to the URL:
+
+```
+http://sqli.com/blindsqli.php?user=admin' AND 1=1 -- //
+```
+
+Since `1=1` will always be `TRUE`, the application will return the values only if the user is present in the database.
+
+<figure><img src="../../.gitbook/assets/SQLi-AE_BlindBoolValidUser.png" alt=""><figcaption><p>Valid user with boolean payload</p></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>Non-existent user (username: "test") with boolean payload</p></figcaption></figure>
+
+Using this syntax, one could enumerate the entire database for other usernames or even extend the SQL query to verify data in other tables.
+
+### Time-Based SQLi
+
+The same result can be achieved using a time-based payload:
+
+```
+http://sqli.com/blindsqli.php?user=admin' AND IF (1=1, sleep(3),'false') -- //
+```
+
+In this instance, the attacker appended an `IF` condition that will always be true inside the statement itself, but will return false if the user is non-existent.
+
+This time the results are not visual in the application. Instead it is about whether the application hangs (as the `sleep(3)` command executes). If the URL above is used with a valid user (`admin`), the application will hang for about 3 seconds upon navigating to the page. However if the user is invalid (`test`), the page will load immediately.
+
+This timing difference can also be utillized to enumerate data present in the database (through trial and error). Because of the tediousness, this process is often not done manually but rather automated through tools (e.g. sqlmap).
