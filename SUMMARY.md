@@ -167,6 +167,9 @@
 
 * [Attacking Network Services Logins](password-attacks/attacking-network-services-logins/README.md)
   * [THC-Hydra](password-attacks/attacking-network-services-logins/thc-hydra.md)
+* [Password Cracking Fundamentals](password-attacks/password-cracking-fundamentals/README.md)
+  * [Introduction](password-attacks/password-cracking-fundamentals/introduction.md)
+  * [Mutating Wordlists](password-attacks/password-cracking-fundamentals/mutating-wordlists.md)
 
 ## Attack Vectors
 
