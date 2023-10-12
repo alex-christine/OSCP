@@ -6,9 +6,8 @@
 * [Penetration Testing](course-info/penetration-testing/README.md)
   * [Methodologies](course-info/penetration-testing/methodologies.md)
   * [Lifecycle](course-info/penetration-testing/lifecycle.md)
-* [Progress Tracker](course-info/progress-tracker/README.md)
-  * [24 Week Learning Plan](https://help.offsec.com/hc/en-us/articles/15545672357780-OffSec-PEN-200-Learning-Plan-24-Week)
 * [Report Writing](course-info/report-writing.md)
+* [Learning Plan](https://help.offsec.com/hc/en-us/articles/15545672357780-OffSec-PEN-200-Learning-Plan-24-Week)
 
 ## Security Overview
 
@@ -163,6 +162,11 @@
   * [Database-Specific Instructions](web-application-attacks/sql-injection/database-specific-instructions.md)
   * [Additional Examples](web-application-attacks/sql-injection/additional-examples.md)
   * [SQLi Cheat Sheet](https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/)
+
+## Password Attacks
+
+* [Attacking Network Services Logins](password-attacks/attacking-network-services-logins/README.md)
+  * [THC-Hydra](password-attacks/attacking-network-services-logins/thc-hydra.md)
 
 ## Attack Vectors
 

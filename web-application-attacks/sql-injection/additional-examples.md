@@ -240,7 +240,7 @@ Since `1=1` will always be `TRUE`, the application will return the values only i
 
 <figure><img src="../../.gitbook/assets/SQLi-AE_BlindBoolValidUser.png" alt=""><figcaption><p>Valid user with boolean payload</p></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/SQLi-AE_BlindBoolInvalidUser.png" alt=""><figcaption><p>Non-existent user (username: "test") with boolean payload</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>Non-existent user (username: "test") with boolean payload</p></figcaption></figure>
 
 Using this syntax, one could enumerate the entire database for other usernames or even extend the SQL query to verify data in other tables.
 
