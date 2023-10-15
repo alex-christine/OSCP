@@ -170,6 +170,7 @@
 * [Password Cracking Fundamentals](password-attacks/password-cracking-fundamentals/README.md)
   * [Introduction](password-attacks/password-cracking-fundamentals/introduction.md)
   * [Mutating Wordlists](password-attacks/password-cracking-fundamentals/mutating-wordlists.md)
+  * [Cracking Methodology](password-attacks/password-cracking-fundamentals/cracking-methodology.md)
 
 ## Attack Vectors
 
