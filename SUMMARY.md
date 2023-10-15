@@ -171,6 +171,8 @@
   * [Introduction](password-attacks/password-cracking-fundamentals/introduction.md)
   * [Mutating Wordlists](password-attacks/password-cracking-fundamentals/mutating-wordlists.md)
   * [Cracking Methodology](password-attacks/password-cracking-fundamentals/cracking-methodology.md)
+  * [Password Manager](password-attacks/password-cracking-fundamentals/password-manager.md)
+  * [SSH Private Key Passphrase](password-attacks/password-cracking-fundamentals/ssh-private-key-passphrase.md)
 
 ## Attack Vectors
 
