@@ -173,6 +173,8 @@
   * [Cracking Methodology](password-attacks/password-cracking-fundamentals/cracking-methodology.md)
   * [Password Manager](password-attacks/password-cracking-fundamentals/password-manager.md)
   * [SSH Private Key Passphrase](password-attacks/password-cracking-fundamentals/ssh-private-key-passphrase.md)
+  * [Working with NTLM Hashes](password-attacks/password-cracking-fundamentals/working-with-ntlm-hashes/README.md)
+    * [Cracking NTLM](password-attacks/password-cracking-fundamentals/working-with-ntlm-hashes/cracking-ntlm.md)
 
 ## Attack Vectors
 
@@ -230,6 +232,7 @@
   * [Shells](windows/powershell/shells.md)
 * [Command Shell](windows/command-shell.md)
 * [DISM](windows/dism.md)
+* [Privilege Escalation](windows/privilege-escalation.md)
 
 ## Buffer Overflows
 
