@@ -176,6 +176,7 @@
   * [Working with NTLM Hashes](password-attacks/password-cracking-fundamentals/working-with-ntlm-hashes/README.md)
     * [Cracking NTLM](password-attacks/password-cracking-fundamentals/working-with-ntlm-hashes/cracking-ntlm.md)
     * [Passing NTLM](password-attacks/password-cracking-fundamentals/working-with-ntlm-hashes/passing-ntlm.md)
+    * [Cracking Net-NTLMv2](password-attacks/password-cracking-fundamentals/working-with-ntlm-hashes/cracking-net-ntlmv2.md)
 
 ## Attack Vectors
 
