@@ -175,6 +175,7 @@
   * [SSH Private Key Passphrase](password-attacks/password-cracking-fundamentals/ssh-private-key-passphrase.md)
   * [Working with NTLM Hashes](password-attacks/password-cracking-fundamentals/working-with-ntlm-hashes/README.md)
     * [Cracking NTLM](password-attacks/password-cracking-fundamentals/working-with-ntlm-hashes/cracking-ntlm.md)
+    * [Passing NTLM](password-attacks/password-cracking-fundamentals/working-with-ntlm-hashes/passing-ntlm.md)
 
 ## Attack Vectors
 
