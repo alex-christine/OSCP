@@ -280,13 +280,13 @@ ii  apache2-utils                         2.4.38-3+deb10u7                      
 ...
 ```
 
-### Insecure File Permissions
+### Insecure Folder Permissions
 
 Files with insufficient access restrictions can create a vulnerability that may grant an attacker elevated privileges. This most often happens when an attacker can modify scripts or binary files that are executed under the context of a privileged account.
 
 Sensitive files that are readable by an unprivileged user may also contain important information such as hard-coded credentials for a database or a service account running with higher privileges.
 
-Since it is not feasible to manually check the permissions of each file and directory, this task needs to be automated as much as possible. As a start, it is possible to use `find` to identify files with insecure permissions:
+Since it is not feasible to manually check the permissions of each file and directory, this task needs to be automated as much as possible. As a start, it is possible to use `find` to identify directories with insecure permissions:
 
 ```shell-session
 joe@debian-privesc:~$ find / -writable -type d 2>/dev/null
@@ -380,7 +380,7 @@ joe@debian-privesc:~$ find / -perm -u=s -type f 2>/dev/null
 * \-type f limits results to files
 * `2>/dev/null` filters out errors (standard output `2`) by sending the output to `/dev/null`
 
-Exploitation of SUID binaries will vary based on several factors. For example, if `/bin/cp` (the _copy_ command) were SUID, one could copy and overwrite sensitive files such as **`/etc/passwd`** (or `/etc/shadow`).
+Exploitation of SUID binaries will vary based on several factors. For example, if `/bin/cp` (the _copy_ command) were SUID, one could copy and overwrite sensitive files such as `/etc/passwd` (or `/etc/shadow`).
 
 ### Mountable Drives
 

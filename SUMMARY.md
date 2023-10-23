@@ -227,6 +227,7 @@
   * [Privilege Basics](linux/privilege-escalation/privilege-basics.md)
   * [Enumeration](linux/privilege-escalation/enumeration/README.md)
     * [Manual Enumeration](linux/privilege-escalation/enumeration/manual-enumeration.md)
+    * [Automated Enumeration](linux/privilege-escalation/enumeration/automated-enumeration.md)
 
 ## Windows
 
