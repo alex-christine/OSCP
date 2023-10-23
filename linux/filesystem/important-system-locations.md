@@ -25,6 +25,10 @@ search example.com
   * E.g., if you try to ping `host` without specifying a domain, the system will automatically search for `host.example.com`
   * This line is optional and can be removed entirely if not needed
 
+### `/etc/iptables/*`
+
+the iptables-persistent package on Debian Linux saves firewall rules in specific files under `/etc/iptables` by default. These files are used by the system to restore `netfilter` rules at boot time. These files are often left with weak permissions, allowing them to be read by any local user on the target system.
+
 ## Security and Credentials
 
 ### `/etc/passwd`
@@ -117,5 +121,46 @@ Linux system file that creates a table-like structure where fields are separated
 * Cronjob each complete row can be thought of as an individual job
 * A system process called a Daemon (`crond` in this case) runs in the background of our Linux machine
 
-![](../../.gitbook/assets/Example\_etc-crontab.png)
+![Cron job definitions](../../.gitbook/assets/Example\_etc-crontab.png)
 
+### `/etc/fstab`
+
+This file lists all drives that will be mounted at boot time. Infromation contained herein is simliar to what is output by the `mount` command.
+
+### `/etc/issue`
+
+File that contains information about the particular distribution of Linux
+
+From the `man` page: issue is a text file which contains a message or system identification to be printed before the lo‐ gin prompt. It may contain various @char and \char sequences, if supported by the getty‐type program employed on the system.
+
+Below is the issue file from the machine I wrote these notes on:
+
+{% code title="/etc/issue" %}
+```
+Kali GNU/Linux Rolling \n \l
+```
+{% endcode %}
+
+### `/etc/*release`
+
+Some Linux distributions will have a file named `*release` (e.g. `os-release`). This is not universal to all Unix/Linux distributions but can be useful on the ones that do have them.
+
+Where no release file is present `uname` will usually suffice as a replacement.
+
+Below is the os-release file from this VM:
+
+{% code title="/etc/os-release" %}
+```
+PRETTY_NAME="Kali GNU/Linux Rolling"
+NAME="Kali GNU/Linux"
+VERSION_ID="2023.3"
+VERSION="2023.3"
+VERSION_CODENAME=kali-rolling
+ID=kali
+ID_LIKE=debian
+HOME_URL="https://www.kali.org/"
+SUPPORT_URL="https://forums.kali.org/"
+BUG_REPORT_URL="https://bugs.kali.org/"
+ANSI_COLOR="1;31"
+```
+{% endcode %}
