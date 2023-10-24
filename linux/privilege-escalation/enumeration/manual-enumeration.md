@@ -70,6 +70,38 @@ User joe may run the following commands on debian-privesc:
     (ALL) /usr/bin/crontab -l, /usr/sbin/tcpdump, /usr/bin/apt-get
 ```
 
+#### All Commands
+
+In _rare_, but highly convenient instances a user will be found who has permission to run all commands with `sudo`. In these cases, this effectively allows an attacker to elevate their privileges with the already compromised account and the `sudo -i` command.
+
+Consider the user with credentials `eve:Lab123` on the same machine. When logged in via SSH the attacker finds the following:
+
+```shell-session
+kali@kali:~$ ssh eve@192.168.210.214
+eve@192.168.210.214's password: 
+...
+
+eve@debian-privesc:~$ sudo -l
+[sudo] password for eve: 
+Matching Defaults entries for eve on debian-privesc:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User eve may run the following commands on debian-privesc:
+    (ALL : ALL) ALL
+```
+
+As evidenced by the output above (last line), `eve` is allowed to run all commands with `sudo`. Thus privileges can be effectively escalated via `sudo -i`:
+
+```shell-session
+eve@debian-privesc:~$ sudo -i
+[sudo] password for eve:
+
+root@debian-privesc:~# whoami
+root
+```
+
+While this is good to know, it is rare and should not be counted upon as a reliable "exploit" path.
+
 ## Machine Information
 
 ### Hostname

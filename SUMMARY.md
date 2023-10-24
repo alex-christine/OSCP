@@ -228,6 +228,8 @@
   * [Enumeration](linux/privilege-escalation/enumeration/README.md)
     * [Manual Enumeration](linux/privilege-escalation/enumeration/manual-enumeration.md)
     * [Automated Enumeration](linux/privilege-escalation/enumeration/automated-enumeration.md)
+  * [Exposed Confidential Information](linux/privilege-escalation/exposed-confidential-information/README.md)
+    * [User Trails](linux/privilege-escalation/exposed-confidential-information/user-trails.md)
 
 ## Windows
 
