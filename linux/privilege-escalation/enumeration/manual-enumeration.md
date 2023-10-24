@@ -149,7 +149,9 @@ The `issue` and `os-release` files located in the `/etc` directory contain the o
 
 ### Processes and Services
 
-It is important to determine which running processes and services may allow attackers to elevate their privileges. For this to occur, the process must run in the context of a privileged account and must either have insecure permissions or allow users to interact with it in unintended ways.
+It is important to determine which running processes and services may allow attackers to elevate their privileges. Unlike on Windows systems, on Linux users can list information about higher-privilege processes such as the ones running inside the `root` user context.
+
+In order for a process to be useful for privilege escalation, the process must run in the context of a privileged account and must either have insecure permissions or allow users to interact with it in unintended ways.
 
 One can list system processes (including those run by privileged users) with the `ps` command.
 
@@ -180,6 +182,20 @@ joe       1730  0.0  0.1  10600  3028 pts/0    R+   03:10   0:00 ps axu
 The output lists several processes running as root that are worth researching for possible vulnerabilities. Of particular interest is `1672` which appears to be SSH accessible by the current user.
 
 Note the `ps` command we ran is also listed in the output (last line), owned by the current user. One can also filter the specific user-owned process from the output with the appropriate username.
+
+#### Updating the Output
+
+It is possible to enumerate all the running processes with the `ps` command, but since it only takes a single snapshot of the active processes it is not exactly a live feed. Users can refresh it using the `watch` command. `watch` works by taking a command string in quotes as a parameter. That command is then rerun periodically, and its output is printed to the screen by the `watch` utility.
+
+```shell-session
+joe@debian-privesc:~$ watch -n 1 "ps -aux"
+```
+
+* `-n` indicates how often (in seconds) the command (`"ps -aux"`) is rerun
+
+Which results in the following screen:
+
+<figure><img src="../../../.gitbook/assets/PE-Lin_ActiveProc.png" alt=""><figcaption><p>All processes listed by ps via watch</p></figcaption></figure>
 
 ### Scheduled Tasks
 
