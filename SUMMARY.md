@@ -192,6 +192,7 @@
     * [Socat](attack-vectors/shells/reverse-shell/socat.md)
     * [PowerShell](attack-vectors/shells/reverse-shell/powershell.md)
     * [Powercat](attack-vectors/shells/reverse-shell/powercat.md)
+    * [Reverse Shell Generator](https://www.revshells.com/)
 
 ## Linux
 
@@ -231,6 +232,8 @@
   * [Exposed Confidential Information](linux/privilege-escalation/exposed-confidential-information/README.md)
     * [User Trails](linux/privilege-escalation/exposed-confidential-information/user-trails.md)
     * [Service Footprints](linux/privilege-escalation/exposed-confidential-information/service-footprints.md)
+  * [Insecure File Permissions](linux/privilege-escalation/insecure-file-permissions/README.md)
+    * [Abusing Cron Jobs](linux/privilege-escalation/insecure-file-permissions/abusing-cron-jobs.md)
 
 ## Windows
 

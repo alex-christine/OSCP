@@ -295,6 +295,27 @@ joe@debian-privesc:~$ sudo crontab -l
 
 Listing cron jobs using sudo reveals jobs run by the `root` user. In this example, it shows a backup script running as `root`. If this file has weak permissions, one may be able to leverage it to escalate privileges.
 
+#### Logs
+
+It is worth checking both the system log at `/var/log/syslog` and the Cron logs at `/var/log/cron.log` for jobs that may have insecure permissions. In the case of the example machine, there appears to be no `cron.log` file (empty output of first command) but there are some entries in the `syslog` file pertaining to `cron`:
+
+```shell-session
+joe@debian-privesc:~$ ls /var/log | grep -i cron
+
+joe@debian-privesc:~$ grep -i "cron" /var/log/syslog
+Oct 25 18:34:22 debian-privesc CRON[1177]: (root) CMD (/bin/bash /home/joe/.scripts/user_backups.sh)
+Oct 25 18:35:01 debian-privesc CRON[1212]: (root) CMD (/bin/bash /home/joe/.scripts/user_backups.sh)
+Oct 25 18:36:01 debian-privesc CRON[1336]: (root) CMD (/bin/bash /home/joe/.scripts/user_backups.sh)
+Oct 25 18:37:01 debian-privesc CRON[1456]: (root) CMD (/bin/bash /home/joe/.scripts/user_backups.sh)
+Oct 25 18:38:01 debian-privesc CRON[1557]: (root) CMD (/bin/bash /home/joe/.scripts/user_backups.sh)
+Oct 25 18:39:01 debian-privesc CRON[1682]: (root) CMD (/bin/bash /home/joe/.scripts/user_backups.sh)
+Oct 25 18:39:39 debian-privesc crontab[1793]: (root) LIST (root)
+Oct 25 18:40:01 debian-privesc CRON[1827]: (root) CMD (/bin/bash /home/joe/.scripts/user_backups.sh)
+Oct 25 18:41:01 debian-privesc CRON[1956]: (root) CMD (/bin/bash /home/joe/.scripts/user_backups.sh)
+```
+
+This validates some of the earlier output and shows a job running every minute as `root`. If the location of the script has [insecure permissions](manual-enumeration.md#insecure-folder-permissions), it could potentially be leveraged for escalation.
+
 ### Installed Applications
 
 The search for a working exploit begins with the enumeration of all installed applications, noting the version of each. This information can be used to search for a matching exploit.
@@ -335,6 +356,16 @@ Files with insufficient access restrictions can create a vulnerability that may 
 Sensitive files that are readable by an unprivileged user may also contain important information such as hard-coded credentials for a database or a service account running with higher privileges.
 
 Since it is not feasible to manually check the permissions of each file and directory, this task needs to be automated as much as possible. As a start, it is possible to use `find` to identify directories with insecure permissions:
+
+```bash
+find / -writable -type d 2>/dev/null
+```
+
+* `-writable` includes only files that are writable by the current user
+* `-type d` narrows the results to only directories
+* `2>/dev/null` filters out errors (standard output `2`) by sending the output to `/dev/null`
+
+On the example machine, this command results in the output:
 
 ```shell-session
 joe@debian-privesc:~$ find / -writable -type d 2>/dev/null
@@ -378,10 +409,6 @@ joe@debian-privesc:~$ find / -writable -type d 2>/dev/null
 ...
 ```
 
-* `-writable` includes only files that are writable by the current user
-* `-type d` narrows the results to only directories
-* `2>/dev/null` filters out errors (standard output `2`) by sending the output to `/dev/null`
-
 Of note in this example is the `/home/joe/.scripts` directory which holds the job found in the [scheduled tasks](manual-enumeration.md#scheduled-tasks) session with root permissions.
 
 ### Special Permission Executables
@@ -397,6 +424,16 @@ When a user or a system-automated script launches a SUID application, it inherit
 Any user who manages to subvert a setuid root program to call a command of their choice can effectively impersonate the root user and gains all rights on the system. Attackers regularly search for these types of files when they gain access to a system as a way of escalating their privileges.
 
 It is possible to use `find` to search for SUID-marked binaries:
+
+```bash
+find / -perm -u=s -type f 2>/dev/null
+```
+
+* `-perm -u=s` searches only for items with SUID bit set
+* `-type f` limits results to files
+* `2>/dev/null` filters out errors (standard output `2`) by sending the output to `/dev/null`
+
+On the example machine, this can be used to search for special-permission binaries
 
 {% code lineNumbers="true" %}
 ```shell-session
@@ -423,10 +460,6 @@ joe@debian-privesc:~$ find / -perm -u=s -type f 2>/dev/null
 /usr/sbin/pppd
 ```
 {% endcode %}
-
-* \-perm -u=s searches only for items with SUID bit set
-* \-type f limits results to files
-* `2>/dev/null` filters out errors (standard output `2`) by sending the output to `/dev/null`
 
 Exploitation of SUID binaries will vary based on several factors. For example, if `/bin/cp` (the _copy_ command) were SUID, one could copy and overwrite sensitive files such as `/etc/passwd` (or `/etc/shadow`).
 
