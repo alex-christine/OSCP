@@ -235,6 +235,12 @@
   * [Insecure File Permissions](linux/privilege-escalation/insecure-file-permissions/README.md)
     * [Abusing Cron Jobs](linux/privilege-escalation/insecure-file-permissions/abusing-cron-jobs.md)
     * [Abusing Password Authentication](linux/privilege-escalation/insecure-file-permissions/abusing-password-authentication.md)
+  * [Insecure System Components](linux/privilege-escalation/insecure-system-components/README.md)
+    * [Abusing SUID Binaries](linux/privilege-escalation/insecure-system-components/abusing-suid-binaries.md)
+    * [Abusing Sudo Binaries](linux/privilege-escalation/insecure-system-components/abusing-sudo-binaries.md)
+  * [GFTOBins](https://gtfobins.github.io/)
+  * [Defenses](linux/privilege-escalation/defenses/README.md)
+    * [AppArmor](linux/privilege-escalation/defenses/apparmor.md)
 
 ## Windows
 

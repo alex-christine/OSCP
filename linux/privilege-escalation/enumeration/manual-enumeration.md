@@ -70,6 +70,8 @@ User joe may run the following commands on debian-privesc:
     (ALL) /usr/bin/crontab -l, /usr/sbin/tcpdump, /usr/bin/apt-get
 ```
 
+See [GTFOBins](https://gtfobins.github.io/) for specific techniques on how to abuse any particular `sudo` binary.
+
 #### All Commands
 
 In _rare_, but highly convenient instances a user will be found who has permission to run all commands with `sudo`. In these cases, this effectively allows an attacker to elevate their privileges with the already compromised account and the `sudo -i` command.
@@ -153,6 +155,8 @@ It is important to determine which running processes and services may allow atta
 
 In order for a process to be useful for privilege escalation, the process must run in the context of a privileged account and must either have insecure permissions or allow users to interact with it in unintended ways.
 
+#### Examining All Processes
+
 One can list system processes (including those run by privileged users) with the `ps` command.
 
 ```shell-session
@@ -181,7 +185,89 @@ joe       1730  0.0  0.1  10600  3028 pts/0    R+   03:10   0:00 ps axu
 
 The output lists several processes running as root that are worth researching for possible vulnerabilities. Of particular interest is `1672` which appears to be SSH accessible by the current user.
 
-Note the `ps` command we ran is also listed in the output (last line), owned by the current user. One can also filter the specific user-owned process from the output with the appropriate username.
+Note the `ps` command ran in the example is also listed in the output (last line), owned by the current user. One can also filter the specific user-owned process from the output with the appropriate username.
+
+#### Examining Individual Processes
+
+It is possible to glean more information about a process via the [proc pseudo-filesystem](https://www.kernel.org/doc/html/latest/filesystems/proc.html).
+
+The directory `/proc` contains (among other things) one subdirectory for each process running on the system, which is named after the process ID (PID). The link `self` points to the process reading the file system. The full listing of entries available for each process is below:
+
+<table><thead><tr><th width="181">File</th><th>Content</th></tr></thead><tbody><tr><td><code>clear_refs</code></td><td>Clears page referenced bits shown in <code>smaps</code> output</td></tr><tr><td><code>cmdline</code></td><td>Command line arguments</td></tr><tr><td><code>cpu</code></td><td>Current and last CPU in which it was executed</td></tr><tr><td><code>cwd</code></td><td>Link to the current working directory</td></tr><tr><td><code>environ</code></td><td>Values of environment variables</td></tr><tr><td><code>exe</code></td><td>Link to the executable of this process</td></tr><tr><td><code>fd</code></td><td>Directory, which contains all file descriptors</td></tr><tr><td><code>maps</code></td><td>Memory maps to executables and library files</td></tr><tr><td><code>mem</code></td><td>Memory held by this process</td></tr><tr><td><code>root</code></td><td>Link to the root directory of this process</td></tr><tr><td><code>stat</code></td><td>Process status</td></tr><tr><td><code>statm</code></td><td>Process memory status information</td></tr><tr><td><code>status</code></td><td>Process status in human readable form</td></tr><tr><td><code>wchan</code></td><td><p>Present with <code>CONFIG_KALLSYMS=y</code></p><p></p><p>Shows the kernel function symbol the task is blocked in - or "0" if not blocked.</p></td></tr><tr><td><code>pagemap</code></td><td>Page table</td></tr><tr><td><code>stack</code></td><td>Report full stack trace, enable via <code>CONFIG_STACKTRACE</code></td></tr><tr><td><code>smaps</code></td><td>An extension based on <code>maps</code>, showing the memory consumption of each mapping and flags associated with it</td></tr><tr><td><code>smaps_rollup</code></td><td>Accumulated <code>smaps</code> stats for all mappings of the process. This can be derived from <code>smaps</code>, but is faster and more convenient</td></tr><tr><td><code>numa_maps</code></td><td>An extension based on <code>maps</code>, showing the memory locality and binding policy as well as <code>mem</code> usage (in pages) of each mapping.</td></tr></tbody></table>
+
+One of the more interesting files is the `/proc/PID/status` file which provides a great deal of information about the process in question.
+
+An example status file is below. In this case, the process used was the SSH session connecting the attacker to the example machine (PID 1232):
+
+{% code title="/proc/1232/status" %}
+```
+Name:   sshd
+Umask:  0022
+State:  S (sleeping)
+Tgid:   1232
+Ngid:   0
+Pid:    1232
+PPid:   1214
+TracerPid:      0
+Uid:    1000    1000    1000    1000
+Gid:    1000    1000    1000    1000
+FDSize: 64
+Groups: 24 25 29 30 44 46 109 112 116 117 1000 
+NStgid: 1232
+NSpid:  1232
+NSpgid: 1214
+NSsid:  1214
+VmPeak:    14940 kB
+VmSize:    14940 kB
+VmLck:         0 kB
+VmPin:         0 kB
+VmHWM:      4884 kB
+VmRSS:      4884 kB
+RssAnon:            1120 kB
+RssFile:            3764 kB
+RssShmem:              0 kB
+VmData:     1088 kB
+VmStk:       132 kB
+VmExe:       496 kB
+VmLib:      6672 kB
+VmPTE:        68 kB
+VmSwap:        0 kB
+HugetlbPages:          0 kB
+CoreDumping:    0
+Threads:        1
+SigQ:   0/7820
+SigPnd: 0000000000000000
+ShdPnd: 0000000000000000
+SigBlk: 0000000000000000
+SigIgn: 0000000000001000
+SigCgt: 0000000180010000
+CapInh: 0000000000000000
+CapPrm: 0000000000000000
+CapEff: 0000000000000000
+CapBnd: 0000003fffffffff
+CapAmb: 0000000000000000
+NoNewPrivs:     0
+Seccomp:        0
+Speculation_Store_Bypass:       thread vulnerable
+Cpus_allowed:   3
+Cpus_allowed_list:      0-1
+Mems_allowed:   00000000,00000001
+Mems_allowed_list:      0
+voluntary_ctxt_switches:        419
+nonvoluntary_ctxt_switches:     6
+```
+{% endcode %}
+
+This shows nearly the same information one would get if they viewed it with the `ps` command. In fact, `ps` uses the `proc` file system to obtain its information. But by reading the file `/proc/PID/status`, one gets a more detailed view of the process.
+
+For the purposes of privilege escalation some important fields will be `UID` and `GID`. Each of these entries has 4 numbers which appear in the following order (same for both `UID` and `GID` fields):
+
+1. Real `U/GID`
+2. Effective `U/GID`
+3. Saved set `U/GID`
+4. File system `U/GID`&#x20;
+
+This can provide good color around the user/group context of a running process.
 
 #### Updating the Output
 
@@ -421,6 +507,47 @@ When running an executable, it normally inherits the permissions of the user tha
 
 When a user or a system-automated script launches a SUID application, it inherits the UID/GID of its initiating script: this is known as **effective UID/GID** (eUID, eGID), which is the actual user that the OS verifies to grant permissions for a given action.
 
+#### Purpose of SUID
+
+Before getting into how to find and exploit SUID binaries it is worth understanding how they came to be with an example. Consider the /etc/shadow file. It is where (on modern Linux systems) all user password hashes are stored. The file has the following permissions:
+
+```shell-session
+kali@kali:~$ ls -l /etc/shadow
+-rw-r----- 1 root shadow 1421 Oct 14 19:03 /etc/shadow
+```
+
+It is writable only by its owner(`root`). How then is a non-privileged user able to update their own password given that doing so will require the new hash to be written to the `shadow` file?
+
+This issue is exactly what SUID binaries are created to circumvent. This can be demonstrated via the `/proc` file system (described [above](manual-enumeration.md#examining-individual-processes)).
+
+If one starts a password change via the `passwd` command, and leaves it running without updating the password, the /proc/PID/status file will show the following for that process. First start `passwd` in one shell:
+
+```shell-session
+joe@debian-privesc:~$ passwd
+Changing password for joe.
+Current password: 
+```
+
+Then in a different shell, locate the running `passwd` process and examine the UID field of its `/proc/PID/status` file:
+
+```shell-session
+joe@debian-privesc:~$ ps u -C passwd
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root      2688  0.0  0.1   9364  3156 pts/0    S+   17:30   0:00 passwd
+
+joe@debian-privesc:~$ grep -i uid /proc/2688/status
+Uid:    1000    0       0       0
+```
+
+While the process's UID is `1000` (`joe`), the eUID (second field) is `0` (`root`). This allows the process to write `joe`'s new password hash into the `shadow` file. This corresponds with the `s` bit set in the permissions for the `passwd` binary:
+
+```shell-session
+joe@debian-privesc:~$ ls -l /usr/bin/passwd
+-rwsr-xr-x 1 root root 63736 Jul 27  2018 /usr/bin/passwd
+```
+
+#### Enumeration of SUID Binaries
+
 Any user who manages to subvert a setuid root program to call a command of their choice can effectively impersonate the root user and gains all rights on the system. Attackers regularly search for these types of files when they gain access to a system as a way of escalating their privileges.
 
 It is possible to use `find` to search for SUID-marked binaries:
@@ -462,6 +589,59 @@ joe@debian-privesc:~$ find / -perm -u=s -type f 2>/dev/null
 {% endcode %}
 
 Exploitation of SUID binaries will vary based on several factors. For example, if `/bin/cp` (the _copy_ command) were SUID, one could copy and overwrite sensitive files such as `/etc/passwd` (or `/etc/shadow`).
+
+See [GTFOBins](https://gtfobins.github.io/) for specific techniques on how to abuse any particular setuid binary.
+
+### Linux Capabilities
+
+In Linux, [capabilities](https://earthly.dev/blog/intro-to-linux-capabilities/) are a way to assign specific privileges to a running process. They allow more fine-grained control over the privileges that processes have on a Linux system. Linux kernel capabilities are supported not only for processes, but for all threads in a process as well.
+
+In Unix, there are two main controls: superuser (`root`) and normal user (non-root). The UID is used to determine what a user can do within the system. The UID of the root user is set to `0`. A non-zero UID signifies that it’s a normal user who generally does not have permissions to install software, modify system files, and more.
+
+Capabilities are generally intended to reduce the attack surface by allowing only specific elevated permissions. E.g. `CAP_NET_RAW` grants a process/thread the right to access raw network sockets, but does not grant all other privileges, such as the ability to kill other processes, that granting the whole process elevated permissions would also entail. This means that a process can be given only the capabilities it needs, thus making it a less powerful tool if misused by attackers.
+
+A complete list of capabilities is provided by the [Linux manual page](https://man7.org/linux/man-pages/man7/capabilities.7.html).
+
+<figure><img src="../../../.gitbook/assets/PE-Lin_Capabilities.png" alt=""><figcaption><p>Linux capabilities kernel access illustration</p></figcaption></figure>
+
+* **A:** process has complete access to the system
+* **B:** process has access to the system, but the privileges are now divided into sections
+* **C:** process has restricted capabilities
+
+In the illustration, A and B are functionally equivalent, however, C is significantly more restricted than B, but still able to do all it needs.
+
+#### Enumeration
+
+It is possible to list all files (visible to the current user) with capabilities via the `getcap` command:
+
+```bash
+getcap -r / 2>/dev/null
+```
+
+* `-r` enables recursive search
+* `/` starts the recursive search at the root directory
+* `2>/dev/null` filters out error output (mostly from files/directories the current user cannot view)&#x20;
+
+On the example machine that results in the following output:
+
+```shell-session
+joe@debian-privesc:~$ /usr/sbin/getcap -r / 2>/dev/null
+/usr/bin/ping = cap_net_raw+ep
+/usr/bin/perl = cap_setuid+ep
+/usr/bin/perl5.28.1 = cap_setuid+ep
+/usr/bin/gnome-keyring-daemon = cap_ipc_lock+ep
+/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-ptp-helper = cap_net_bind_service,cap_net_admin+ep
+```
+
+Of most interest are the one with the `cap_setuid` which allows the process "Make arbitrary manipulations of process UIDs."
+
+The `+ep` flag indicates that the capabilities are **effective** and **permitted**.
+
+* **Permitted capabilities (**`CapPrm`**):** the capabilities that a process is allowed to have
+* **Effective capabilities (**`CapEff`**):** all the capabilities with which the current process is executing
+  * This may be the same as, or a subset of, `CapPrm`
+
+See [GTFOBins](https://gtfobins.github.io/) for specific techniques on how to abuse any particular capability-enabled binary.
 
 ### Mountable Drives
 
