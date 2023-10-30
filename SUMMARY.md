@@ -238,6 +238,7 @@
   * [Insecure System Components](linux/privilege-escalation/insecure-system-components/README.md)
     * [Abusing SUID Binaries](linux/privilege-escalation/insecure-system-components/abusing-suid-binaries.md)
     * [Abusing Sudo Binaries](linux/privilege-escalation/insecure-system-components/abusing-sudo-binaries.md)
+    * [Exploiting Kernel Vulnerabilities](linux/privilege-escalation/insecure-system-components/exploiting-kernel-vulnerabilities.md)
   * [GFTOBins](https://gtfobins.github.io/)
   * [Defenses](linux/privilege-escalation/defenses/README.md)
     * [AppArmor](linux/privilege-escalation/defenses/apparmor.md)
