@@ -12,5 +12,5 @@ layout:
     visible: true
 ---
 
-# Privilege Escalation
+# Enumeration
 

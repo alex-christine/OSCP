@@ -251,7 +251,9 @@
   * [Shells](windows/powershell/shells.md)
 * [Command Shell](windows/command-shell.md)
 * [DISM](windows/dism.md)
-* [Privilege Escalation](windows/privilege-escalation.md)
+* [Privilege Escalation](windows/privilege-escalation/README.md)
+  * [Privilege Basics](windows/privilege-escalation/privilege-basics.md)
+  * [Enumeration](windows/privilege-escalation/enumeration.md)
 
 ## Buffer Overflows
 
