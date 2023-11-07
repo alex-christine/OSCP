@@ -20,4 +20,3 @@ This section will broadly cover the following components:
 * Enumeration
 * Leveraging Windows Services
 * Abusing Windows Components
-

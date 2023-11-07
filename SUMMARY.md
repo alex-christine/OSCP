@@ -251,9 +251,12 @@
   * [Shells](windows/powershell/shells.md)
 * [Command Shell](windows/command-shell.md)
 * [DISM](windows/dism.md)
-* [Privilege Escalation](windows/privilege-escalation/README.md)
+* [Privilege Escalation](windows/privilege-escalation.md)
   * [Privilege Basics](windows/privilege-escalation/privilege-basics.md)
-  * [Enumeration](windows/privilege-escalation/enumeration.md)
+  * [Enumeration](windows/privilege-escalation/enumeration/README.md)
+    * [Manual Enumeration](windows/privilege-escalation/enumeration/manual-enumeration.md)
+    * [Hidden In Plain Sight](windows/privilege-escalation/enumeration/hidden-in-plain-sight.md)
+    * [Information Goldmine PowerShell](windows/privilege-escalation/enumeration/information-goldmine-powershell.md)
 
 ## Buffer Overflows
 
