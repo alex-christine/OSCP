@@ -257,6 +257,8 @@
     * [Manual Enumeration](windows/privilege-escalation/enumeration/manual-enumeration.md)
     * [Hidden In Plain Sight](windows/privilege-escalation/enumeration/hidden-in-plain-sight.md)
     * [Information Goldmine PowerShell](windows/privilege-escalation/enumeration/information-goldmine-powershell.md)
+    * [Automated Enumeration](windows/privilege-escalation/enumeration/automated-enumeration.md)
+  * [Leveraging Windows Components](windows/privilege-escalation/leveraging-windows-components.md)
 
 ## Buffer Overflows
 
