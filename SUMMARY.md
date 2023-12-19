@@ -251,6 +251,8 @@
   * [Shells](windows/powershell/shells.md)
 * [Command Shell](windows/command-shell.md)
 * [DISM](windows/dism.md)
+* [Common Information Model (CIM)](windows/common-information-model-cim.md)
+* [Windows Services](windows/windows-services.md)
 * [Privilege Escalation](windows/privilege-escalation.md)
   * [Privilege Basics](windows/privilege-escalation/privilege-basics.md)
   * [Enumeration](windows/privilege-escalation/enumeration/README.md)
@@ -258,7 +260,9 @@
     * [Hidden In Plain Sight](windows/privilege-escalation/enumeration/hidden-in-plain-sight.md)
     * [Information Goldmine PowerShell](windows/privilege-escalation/enumeration/information-goldmine-powershell.md)
     * [Automated Enumeration](windows/privilege-escalation/enumeration/automated-enumeration.md)
-  * [Leveraging Windows Components](windows/privilege-escalation/leveraging-windows-components.md)
+  * [Leveraging Windows Components](windows/privilege-escalation/leveraging-windows-components/README.md)
+    * [Leveraging Services](windows/privilege-escalation/leveraging-windows-components/leveraging-services/README.md)
+      * [Service Binary Hijacking](windows/privilege-escalation/leveraging-windows-components/leveraging-services/service-binary-hijacking.md)
 
 ## Buffer Overflows
 

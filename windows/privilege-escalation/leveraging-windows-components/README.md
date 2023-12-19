@@ -14,3 +14,4 @@ layout:
 
 # Leveraging Windows Components
 
+This section will cover techniques to leveraage various windows components into privilege escalation on the machine.
