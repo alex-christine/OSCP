@@ -22,7 +22,7 @@ This example will involve using a machine `CLIENTWK220` on which the attacker is
 
 ## Check Running Services
 
-After connecting to the machine, the attacker can leverage the PowerShell cmdlet [Get-CimInstance](https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/get-ciminstance?view=powershell-7.4) to query the running services. This cmdlet gets the [CIM](../../../common-information-model-cim.md) instances of a class from a CIM server. You can specify either the class name or a query for this cmdlet. This cmdlet returns one or more CIM instance objects representing a snapshot of the CIM instances present on the CIM server.
+After connecting to the machine, the attacker can leverage the PowerShell cmdlet [Get-CimInstance](https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/get-ciminstance?view=powershell-7.4) to query the running services. This cmdlet gets the [CIM](../../../core-concepts/common-information-model-cim.md) instances of a class from a CIM server. You can specify either the class name or a query for this cmdlet. This cmdlet returns one or more CIM instance objects representing a snapshot of the CIM instances present on the CIM server.
 
 The cmdlet can be used to search services by setting the `-ClassName` parameter to `win32_service`:
 
@@ -116,6 +116,89 @@ Successfully processed 1 files; Failed processing 0 files
 
 Based on the output, `dave` (as a member of the `Users` group) only has read-execute (`RX`) access to the Apache binary. However it would seem he has full (`F`) access to the MySQL binary.
 
+### Get-Acl
+
+The [Get-Acl](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-acl?view=powershell-7.4) cmdlet can be used to view the security descriptor for a resource (such as a service binary).
+
+The cmdlet is used `Get-Acl -Path PATH_TO_BINARY`as demonstrated in the example:
+
+```powershell
+PS C:\Users\milena> Get-Acl -Path C:\BackupMonitor\BackupMonitor.exe
+
+
+    Directory: C:\BackupMonitor
+
+
+Path              Owner              Access
+----              -----              ------
+BackupMonitor.exe CLIENTWK221\offsec BUILTIN\Administrators Allow  FullControl...
+```
+
+The output can be a bit limited. Fortunately, it can be cleaned up a bit for ease of use.&#x20;
+
+[This article](https://devblogs.microsoft.com/powershell-community/understanding-get-acl-and-ad-drive-output/) provides some techniques for easier understanding of the output. The techniques are primarily focused on AD environments but can be adapted for local uses. For example, the `.Access` property of the ACL can be queried to show a list of access levels by local group:
+
+```powershell
+(Get-Acl -Path PATH_TO_EXE).Access
+```
+
+The output from this command run on an example machine is shown below:
+
+```powershell
+PS C:\Users\milena> (Get-Acl -Path C:\BackupMonitor\BackupMonitor.exe).Access
+
+
+FileSystemRights  : FullControl
+AccessControlType : Allow
+IdentityReference : BUILTIN\Administrators
+IsInherited       : True
+InheritanceFlags  : None
+PropagationFlags  : None
+
+FileSystemRights  : FullControl
+AccessControlType : Allow
+IdentityReference : NT AUTHORITY\SYSTEM
+IsInherited       : True
+InheritanceFlags  : None
+PropagationFlags  : None
+
+FileSystemRights  : ReadAndExecute, Synchronize
+AccessControlType : Allow
+IdentityReference : BUILTIN\Users
+IsInherited       : True
+InheritanceFlags  : None
+PropagationFlags  : None
+
+FileSystemRights  : Modify, Synchronize
+AccessControlType : Allow
+IdentityReference : NT AUTHORITY\Authenticated Users
+IsInherited       : True
+InheritanceFlags  : None
+PropagationFlags  : None
+```
+
+In this particular case, the user `milena` is a member of the NT AUTHORITY\Authenticated Users group and therefore can modify the file `C:\BackupMonitor\BackupMonitor.exe`:
+
+```powershell
+PS C:\Users\milena> whoami /groups
+
+GROUP INFORMATION
+-----------------
+
+Group Name                             Type             SID          Attributes
+====================================== ================ ============ ==================================================
+Everyone                               Well-known group S-1-1-0      Mandatory group, Enabled by default, Enabled group
+BUILTIN\Remote Desktop Users           Alias            S-1-5-32-555 Mandatory group, Enabled by default, Enabled group
+BUILTIN\Users                          Alias            S-1-5-32-545 Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\REMOTE INTERACTIVE LOGON  Well-known group S-1-5-14     Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\INTERACTIVE               Well-known group S-1-5-4      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Authenticated Users       Well-known group S-1-5-11     Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\This Organization         Well-known group S-1-5-15     Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\Local account             Well-known group S-1-5-113    Mandatory group, Enabled by default, Enabled group
+LOCAL                                  Well-known group S-1-2-0      Mandatory group, Enabled by default, Enabled group
+NT AUTHORITY\NTLM Authentication       Well-known group S-1-5-64-10  Mandatory group, Enabled by default, Enabled group
+```
+
 ## Replacing the Binary
 
 Now that a vulnerable (`mysql`) binary has been located a new one can be compiled to drop in its place. In most instances, where an attacker wishes to remain undetected, it would be beneficial to replace the binary with one that still provides the MySQL services as well as the intended malicious implant. However, for this example, only the implant portion will be considered.
@@ -159,7 +242,7 @@ Access is denied.
 
 Unfortunately in this case, `dave` is denied the proper access to stop the service. Given this roadblock, perhaps it is possible to restart the service by restarting the whole machine. First the service's&#x20;
 
-[Startup Type](../../../windows-services.md#startup-type) must be checked. As mentioned in the Windows Services section this can be done via the `Get-CimInstance` cmdlet in PowerShell. In this case only the service's `Name` and `StartMode` are needed. Output is limited to just `mysql` via the `Where-Object` cmdlet:
+[Startup Type](../../../core-concepts/windows-services.md#startup-type) must be checked. As mentioned in the Windows Services section this can be done via the `Get-CimInstance` cmdlet in PowerShell. In this case only the service's `Name` and `StartMode` are needed. Output is limited to just `mysql` via the `Where-Object` cmdlet:
 
 {% code overflow="wrap" %}
 ```powershell

@@ -14,7 +14,7 @@ layout:
 
 # Leveraging Services
 
-[Windows Services](../../../windows-services.md) are one of the main areas to analyze when searching for privilege escalation vectors. This section will cover three abuse techniques:
+[Windows Services](../../../core-concepts/windows-services.md) are one of the main areas to analyze when searching for privilege escalation vectors. This section will cover three abuse techniques:
 
 1. Service Binary Hijacking
 2. Service DLL Hijacking
