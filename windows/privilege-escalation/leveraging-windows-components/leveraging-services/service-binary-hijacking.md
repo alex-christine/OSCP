@@ -20,27 +20,11 @@ This example will consider a scenario in which a software developer creates a pr
 
 This example will involve using a machine `CLIENTWK220` on which the attacker is assumed to have access to a compromised user account `dave` via RDP.
 
-## Check Running Services
+## Service Enumeration
 
-After connecting to the machine, the attacker can leverage the PowerShell cmdlet [Get-CimInstance](https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/get-ciminstance?view=powershell-7.4) to query the running services. This cmdlet gets the [CIM](../../../core-concepts/common-information-model-cim.md) instances of a class from a CIM server. You can specify either the class name or a query for this cmdlet. This cmdlet returns one or more CIM instance objects representing a snapshot of the CIM instances present on the CIM server.
+### Get-CimInstance
 
-The cmdlet can be used to search services by setting the `-ClassName` parameter to `win32_service`:
-
-{% code overflow="wrap" %}
-```powershell
-Get-CimInstance -ClassName win32_service
-```
-{% endcode %}
-
-From here the output can be refined with by piping the output to the [Select-Object](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/select-object?view=powershell-7.4) cmdlet (aliased as `Select`):
-
-{% code overflow="wrap" %}
-```powershell
-Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
-```
-{% endcode %}
-
-This will select the `Name`, `State`, and `PathName` properties from the `Get-CimInstance` output. The [Where-Object](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/where-object?view=powershell-7.4) cmdlet then filters it down to only services that are running.
+After connecting to the machine, the attacker can leverage the PowerShell cmdlet [`Get-CimInstance`](../../../windows-services.md#get-ciminstance) to enumerate the running services.
 
 When run on the target machine several interesting items appear:
 
@@ -68,10 +52,6 @@ nsi                           Running C:\Windows\system32\svchost.exe -k LocalSe
 ```
 
 The two XAMPP services `Apache2.4` and `mysql` stand out as the binaries are located in the `C:\xampp\` directory instead of `C:\Windows\System32`. This means **the service is user-installed and the software developer is in charge of the directory structure as well as permissions of the software**. These circumstances make it potentially prone to service binary hijacking.
-
-### Get Service Startup Type
-
-The same Get-CimInstance cmdlet can be leveraged to see the _Startup Type_ for the service. A Windows service&#x20;
 
 ## Service Permission Enumeration
 
@@ -242,7 +222,7 @@ Access is denied.
 
 Unfortunately in this case, `dave` is denied the proper access to stop the service. Given this roadblock, perhaps it is possible to restart the service by restarting the whole machine. First the service's&#x20;
 
-[Startup Type](../../../core-concepts/windows-services.md#startup-type) must be checked. As mentioned in the Windows Services section this can be done via the `Get-CimInstance` cmdlet in PowerShell. In this case only the service's `Name` and `StartMode` are needed. Output is limited to just `mysql` via the `Where-Object` cmdlet:
+[Startup Type](../../../windows-services.md#startup-type) must be checked. As mentioned in the Windows Services section this can be done via the `Get-CimInstance` cmdlet in PowerShell. In this case only the service's `Name` and `StartMode` are needed. Output is limited to just `mysql` via the `Where-Object` cmdlet:
 
 {% code overflow="wrap" %}
 ```powershell

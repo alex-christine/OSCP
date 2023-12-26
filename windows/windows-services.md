@@ -40,7 +40,33 @@ The service type can be retrieved by querying the [ServiceType](https://learn.mi
 * Services must be created in a **Windows Service** application project or another .NET Framework–enabled project that creates an .exe file when built and inherits from the [ServiceBase](https://learn.microsoft.com/en-us/dotnet/api/system.serviceprocess.servicebase) class.
 * Projects containing Windows services must have installation components for the project and its services. This can be easily accomplished from the **Properties** window
 
-## Startup Type
+## Service Enumeration
+
+### Get-CimInstance
+
+#### Running Services
+
+The PowerShell cmdlet [`Get-CimInstance`](https://learn.microsoft.com/en-us/powershell/module/cimcmdlets/get-ciminstance?view=powershell-7.4) can be used to query the running services. This cmdlet gets the [CIM](common-information-model-cim.md) instances of a class from a CIM server. The caller can specify either the class name or a query for this cmdlet. It returns one or more CIM instance objects representing a snapshot of the CIM instances present on the CIM server.
+
+The cmdlet can be used to search services by setting the `-ClassName` parameter to `win32_service`:
+
+{% code overflow="wrap" %}
+```powershell
+Get-CimInstance -ClassName win32_service
+```
+{% endcode %}
+
+From here the output can be refined with by piping the output to the [Select-Object](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/select-object?view=powershell-7.4) cmdlet (aliased as `Select`):
+
+{% code overflow="wrap" %}
+```powershell
+Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
+```
+{% endcode %}
+
+This will select the `Name`, `State`, and `PathName` properties from the `Get-CimInstance` output. The [Where-Object](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/where-object?view=powershell-7.4) cmdlet then filters it down to only services that are running if desired.
+
+#### Startup Type
 
 A service can have one of 4 S_tartup Types_. These describe how/when the service is started on the machine. The startup types are:
 
@@ -67,6 +93,16 @@ The output can be further refined to only running services with the `Where-Objec
 
 {% code overflow="wrap" %}
 ```powershell
-Get-CimInstance -ClassName win32_service | Select Name, StartMode | Where-Object {$_.State -like 'Running'}
+Get-CimInstance -ClassName win32_service | Select Name, StartMode | Where-Object {$_.Name -like 'SERVICE_NAME'}
 ```
 {% endcode %}
+
+### WMIC
+
+The [WMIC](https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmic), or Windows Management Instrumentation Command-line utility, provides a command-line interface for [Windows Management Instrumentation](https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page) (WMI). WMIC is compatible with existing shells and utility commands. See [here](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc779482\(v=ws.10\)) for detailed instructions on using WMIC.
+
+For the purposes of service enumeration it can be called with the word `service` and the `get` verb with the `name` and `pathname` arguments:
+
+```powershell
+wmic service get name,pathname
+```

@@ -32,4 +32,4 @@ VRFY root
 252 2.0.0 root
 ```
 
-If Telnet is not available but the tester is running as an administrator on the Windows machine, it is possible to install Telnet using [DISM](../../windows/core-concepts/dism.md).
+If Telnet is not available but the tester is running as an administrator on the Windows machine, it is possible to install Telnet using [DISM](../../windows/dism.md).

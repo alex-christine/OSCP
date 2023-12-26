@@ -186,14 +186,18 @@ This will then be complied (on the attacker's machine) into a DLL via [MinGW-64]
 x86_64-w64-mingw32-gcc myDll.cpp --shared -o myDLL.dll
 ```
 
-From here the attacker needs to transfer it to the victim machine's `C:\Users\steve\Documents` directory (the service binary's directory). This can be done via HTTP or RDP as the attacker sees fit. Once the malicious DLL has been placed in the approrpiate directory the service must be restarted in order to force it to reload its DLLs and import the malicious one:
+From here the attacker needs to transfer it to the victim machine's `C:\Users\steve\Documents` directory (the service binary's directory). This can be done via HTTP or RDP as the attacker sees fit.&#x20;
+
+### Executing the DLL
+
+Once the malicious DLL has been placed in the appropriate directory the service must be restarted in order to force it to reload its DLLs and import the malicious one:
 
 ```powershell
 PS C:\Users\steve> Restart-Service BetaService
 WARNING: Waiting for service 'BetaService (BetaService)' to start...
 ```
 
-Process Monitor shows that upon restart the service successfully accessed C:\Users\steve\Documents\myDll.dll (highlighted in green):
+Process Monitor shows that upon restart the service successfully accessed `C:\Users\steve\Documents\myDll.dll` (highlighted in green):
 
 <figure><img src="../../../../.gitbook/assets/WPE-ServiceDLL_ProcMon_BetaServ-CreateSuccess.png" alt=""><figcaption><p>Process Monitor shows BetaServ.exe successfully loaded the malicious DLL</p></figcaption></figure>
 
@@ -226,7 +230,9 @@ offsec
 The command completed successfully.
 ```
 
-From here it is possible to launch an elevated PowerShell session as dave2 (even without signing in as that user). First the [Runas tool](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771525\(v=ws.11\)) can be used from `steve`'s session to launch a new PowerShell session as `dave2`:
+## Launching Elevated Shell
+
+From here it is possible to launch an elevated PowerShell session as `dave2` (even without signing in as that user). First the [Runas tool](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771525\(v=ws.11\)) can be used from `steve`'s session to launch a new PowerShell session as `dave2`:
 
 ```powershell
 PS C:\Users\steve> runas /user:dave2 powershell

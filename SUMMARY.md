@@ -251,9 +251,9 @@
   * [Shells](windows/powershell/shells.md)
 * [Command Shell](windows/command-shell.md)
 * [Core Concepts](windows/core-concepts/README.md)
-  * [Common Information Model (CIM)](windows/core-concepts/common-information-model-cim.md)
-  * [DISM](windows/core-concepts/dism.md)
-  * [Windows Services](windows/core-concepts/windows-services.md)
+  * [Common Information Model (CIM)](windows/common-information-model-cim.md)
+  * [DISM](windows/dism.md)
+  * [Windows Services](windows/windows-services.md)
   * [Dynamic Link Libraries](windows/core-concepts/dynamic-link-libraries.md)
 * [Privilege Escalation](windows/privilege-escalation.md)
   * [Privilege Basics](windows/privilege-escalation/privilege-basics.md)
@@ -266,6 +266,7 @@
     * [Leveraging Services](windows/privilege-escalation/leveraging-windows-components/leveraging-services/README.md)
       * [Service Binary Hijacking](windows/privilege-escalation/leveraging-windows-components/leveraging-services/service-binary-hijacking.md)
       * [Service DLL Hijacking](windows/privilege-escalation/leveraging-windows-components/leveraging-services/service-dll-hijacking.md)
+      * [Unquoted Service Paths](windows/privilege-escalation/leveraging-windows-components/leveraging-services/unquoted-service-paths.md)
 
 ## Buffer Overflows
 
