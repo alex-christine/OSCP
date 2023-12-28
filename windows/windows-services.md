@@ -97,6 +97,18 @@ Get-CimInstance -ClassName win32_service | Select Name, StartMode | Where-Object
 ```
 {% endcode %}
 
+#### Properties
+
+Important properties (that can be used with Select-Object) of the Get-CimInstance output:
+
+<table><thead><tr><th width="150">Property</th><th>Description</th></tr></thead><tbody><tr><td><code>Name</code></td><td>Name of the service</td></tr><tr><td><code>PathName</code></td><td>Path to service executable</td></tr><tr><td><code>StartMode</code></td><td><a href="windows-services.md#startup-type">Startup Type</a> for service</td></tr><tr><td><code>StartName</code></td><td>Username service is run as</td></tr><tr><td><code>State</code></td><td>Current process state</td></tr></tbody></table>
+
+All properties can be queried by piping the output of a `Get-CimInstance` to a `Select-Object *` statement:
+
+```powershell
+Get-CimInstance | Select-Object *
+```
+
 ### WMIC
 
 The [WMIC](https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmic), or Windows Management Instrumentation Command-line utility, provides a command-line interface for [Windows Management Instrumentation](https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page) (WMI). WMIC is compatible with existing shells and utility commands. See [here](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc779482\(v=ws.10\)) for detailed instructions on using WMIC.

@@ -253,6 +253,7 @@
 * [Core Concepts](windows/core-concepts/README.md)
   * [Common Information Model (CIM)](windows/common-information-model-cim.md)
   * [DISM](windows/dism.md)
+  * [Task Scheduler](windows/core-concepts/task-scheduler.md)
   * [Windows Services](windows/windows-services.md)
   * [Dynamic Link Libraries](windows/core-concepts/dynamic-link-libraries.md)
 * [Privilege Escalation](windows/privilege-escalation.md)
@@ -267,6 +268,7 @@
       * [Service Binary Hijacking](windows/privilege-escalation/leveraging-windows-components/leveraging-services/service-binary-hijacking.md)
       * [Service DLL Hijacking](windows/privilege-escalation/leveraging-windows-components/leveraging-services/service-dll-hijacking.md)
       * [Unquoted Service Paths](windows/privilege-escalation/leveraging-windows-components/leveraging-services/unquoted-service-paths.md)
+    * [Leveraging Scheduled Tasks](windows/privilege-escalation/leveraging-windows-components/leveraging-scheduled-tasks.md)
 
 ## Buffer Overflows
 

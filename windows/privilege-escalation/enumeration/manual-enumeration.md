@@ -549,6 +549,98 @@ Mode                 LastWriteTime         Length Name
 
 These are simplistic examples but it shows how `Get-ChildItem` can be used to search for files and directories on a target.
 
+### Folder Access
+
+Often techniques will depend on whether a particular user has access to a particular folder. In order to check, the [`Get-Acl`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-acl?view=powershell-7.4) cmdlet can be used with the `-Path` flag (techincally the flag is optional and just calling `Get-Acl` with a path will accomplish the same thing):
+
+```powershell
+PS C:\Users\steve> Get-Acl "C:\Users\steve"
+
+
+    Directory: C:\Users
+
+
+Path  Owner                  Access
+----  -----                  ------
+steve BUILTIN\Administrators NT AUTHORITY\SYSTEM Allow  FullControl...
+```
+
+This output is not especially helpful. A slightly more helpful move is to use the cmdlet and request the `.Access` property:
+
+```powershell
+(Get-Acl $Folder).Access
+```
+
+* `$Folder` shoud be a string that contains the path to the folder in question (it can also just be replaced with a string in quotations)
+
+```powershell
+PS C:\Users\steve> $Folder = "C:\Users\steve"
+PS C:\Users\steve> (Get-Acl $Folder).Access
+
+
+FileSystemRights  : FullControl
+AccessControlType : Allow
+IdentityReference : NT AUTHORITY\SYSTEM
+IsInherited       : False
+InheritanceFlags  : ContainerInherit, ObjectInherit
+PropagationFlags  : None
+
+FileSystemRights  : FullControl
+AccessControlType : Allow
+IdentityReference : BUILTIN\Administrators
+IsInherited       : False
+InheritanceFlags  : ContainerInherit, ObjectInherit
+PropagationFlags  : None
+
+FileSystemRights  : FullControl
+AccessControlType : Allow
+IdentityReference : CLIENTWK220\offsec
+IsInherited       : False
+InheritanceFlags  : ContainerInherit, ObjectInherit
+PropagationFlags  : None
+
+FileSystemRights  : FullControl
+AccessControlType : Allow
+IdentityReference : CLIENTWK220\steve
+IsInherited       : False
+InheritanceFlags  : ContainerInherit, ObjectInherit
+PropagationFlags  : None
+```
+
+* This also could have been called `(Get-Acl "C:\Users\steve").Access` with no variable used
+
+The output above shows each group on the machine and what type of access they have to the folder in question. This can be cross-referenced with `whoami /groups` or `net localgroup <groupname>` outputs.
+
+#### Checking a Specific User and Folder
+
+While the above output is helpful, it can be tedious to cross-reference outputs of multiple commands. Instead the following little script ([source](https://community.spiceworks.com/topic/1982988-powershell-command-to-check-if-user-has-permissions-to-a-folder)) can be used to check a specific `$Folder` and `$User` combination:
+
+{% code overflow="wrap" %}
+```powershell
+(Get-Acl $Folder).Access | ?{$_.IdentityReference -match $User} | Select IdentityReference,FileSystemRights
+```
+{% endcode %}
+
+Running this on an example machine:
+
+```powershell
+PS C:\Users\steve> $Folder = "C:\Users\steve"
+PS C:\Users\steve> $User = "steve"
+PS C:\Users\steve> (Get-Acl $Folder).Access | ?{$_.IdentityReference -match $User} | Select IdentityReference,FileSystemRights
+
+IdentityReference FileSystemRights
+----------------- ----------------
+CLIENTWK220\steve      FullControl
+```
+
+If the $User in question does not have access to the folder, nothing is returned:
+
+```powershell
+PS C:\Users\steve> $User = "dave"
+PS C:\Users\steve> (Get-Acl $Folder).Access | ?{$_.IdentityReference -match $User} | Select IdentityReference,FileSystemRights
+PS C:\Users\steve>
+```
+
 ## Network Information
 
 ### Interfaces
