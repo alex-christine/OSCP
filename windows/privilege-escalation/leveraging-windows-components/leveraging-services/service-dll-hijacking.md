@@ -230,12 +230,20 @@ offsec
 The command completed successfully.
 ```
 
-## Launching Elevated Shell
+## Launching an Elevated Shell
 
-From here it is possible to launch an elevated PowerShell session as `dave2` (even without signing in as that user). First the [Runas tool](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771525\(v=ws.11\)) can be used from `steve`'s session to launch a new PowerShell session as `dave2`:
+From here it is possible to launch an elevated PowerShell session as `dave2` (even without signing in as that user). First the [Runas tool](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771525\(v=ws.11\)) can be used from `steve`'s session to launch a new PowerShell session as `dave2`. The general structure of the command is
 
 ```powershell
-PS C:\Users\steve> runas /user:dave2 powershell
+runas /user:USERNAME PowerShell
+```
+
+In this case it will be run on the target as:
+
+```powershell
+PS C:\Users\steve> runas /user:dave2 PowerShell
+Enter the password for dave2:
+Attempting to start PowerShell as user "CLIENTWK220\dave2" ...
 ```
 
 This launches a new PowerShell session but unfortunately this is still not an administrative session (though it may appear as one at first):
@@ -256,6 +264,12 @@ At line:1 char:1
 Based on being in the `system32` folder it may seem the session is Administrator-level, however, upon attempting to list files in another user's home directory (which should be possible) a permission denied error appears.&#x20;
 
 [Start-Process](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-process?view=powershell-7.4) can be used to start a new session with Administrator privileges by using the `-Verb Runas` flag as shown in [this example](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-process?view=powershell-7.4#example-5-start-powershell-as-an-administrator). This flag causes another PowerShell window to open with an administrative session:
+
+```powershell
+Start-Process PowerShell -Verb RunAs
+```
+
+As run on the machine:
 
 ```powershell
 PS C:\Windows\system32> Start-Process PowerShell -Verb RunAs

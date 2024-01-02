@@ -32,6 +32,8 @@ The third question pertains to how the task will be exploited. These techniques 
 
 This example will pertain to a machine (`CLIENTWK220`) to which the attacker is assumed to have access via a compromised user account (`steve`). The attacker can use RDP to connect to the machine and run commands in PowerShell. The attacker is also assumed to have some mechanism for transporting files between the machines (either via HTTP/S or an RDP client).
 
+### Finding an Exploitable Task
+
 Once connected to the machine the first step is to enumerate the scheduled tasks. This will be done with [schtasks query](../../core-concepts/task-scheduler.md#schtasks-query):
 
 ```powershell
@@ -104,7 +106,21 @@ Repeat: Stop If Still Running:        Disabled
 
 Consider the 3 questions above when looking for "interesting" tasks. The most important fields to consider will be `Author`, `TaskName`, `Task To Run`, `Run As User`, and `Next Run Time`.
 
-With that in mind, the second task in the output copied above looks interesting. It runs every minute as daveadmin, and best of all, the executable is in a folder steve probably has access to. The following PowerShell (discussed in the [Manual Enumeration](../enumeration/manual-enumeration.md#folder-access) section) can be used to check the folder permissions:
+With that in mind, the second task in the output copied above looks interesting. It runs every minute as `daveadmin`, and best of all, the executable is in a folder steve probably has access to.&#x20;
+
+#### Refining schtasks Search
+
+As noted [here](../../core-concepts/task-scheduler.md#refining-schtasks-search), the output from `schtasks /query /v` can be quite overwhelming. It can be refined with the following PowerShell snippet:
+
+{% code overflow="wrap" %}
+```powershell
+schtasks /query /fo CSV /v | ConvertFrom-Csv | Where-Object "Run As User" -EQ "Administrator"
+```
+{% endcode %}
+
+### Exploiting the Task
+
+It seems likely the `BackendCacheCleanup.exe` binary could be replaced. The following PowerShell (discussed in the [Manual Enumeration](../enumeration/manual-enumeration.md#folder-access) section) can be used to check the folder permissions:
 
 ```powershell
 PS C:\Users\steve> $Folder = "C:\Users\steve\Pictures"

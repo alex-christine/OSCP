@@ -81,7 +81,7 @@
   * [Automating Lookups](active-recon/dns-enumeration/automating-lookups.md)
   * [DNS Zone Transfer](active-recon/dns-enumeration/dns-zone-transfer.md)
   * [Tools](active-recon/dns-enumeration/tools.md)
-* [Port Scanning](active-recon/port-scanning.md)
+* [Port Scanning](active-recon/port-scanning/README.md)
   * [Masscan](active-recon/port-scanning/masscan/README.md)
     * [Official Page](https://github.com/robertdavidgraham/masscan)
   * [nmap](https://app.gitbook.com/s/NFnmR6BLGrU3IitIEE2D/\~/changes/48/networking-tools/nmap/open-port-scans)
@@ -92,7 +92,7 @@
   * [enum4linux](active-recon/smb-enumeration/enum4linux/README.md)
     * [Official Page](https://labs.portcullis.co.uk/tools/enum4linux/)
     * [Enumerating SMB with enum4linux](https://null-byte.wonderhowto.com/how-to/enumerate-smb-with-enum4linux-smbclient-0198049/)
-* [SMTP Enumeration](active-recon/smtp-enumeration.md)
+* [SMTP Enumeration](active-recon/smtp-enumeration/README.md)
   * [SMTP Overview](https://app.gitbook.com/s/8YCiflNECSba97FgHQNB/application-layer/smtp)
   * [Enumerating in Windows](active-recon/smtp-enumeration/enumerating-in-windows.md)
 * [SNMP Enumeration](active-recon/snmp-enumeration/README.md)
@@ -101,7 +101,7 @@
     * [Official Documentation](http://www.phreedom.org/software/onesixtyone/)
   * [snmpwalk](active-recon/snmp-enumeration/snmpwalk.md)
   * [snmpcheck](active-recon/snmp-enumeration/snmpcheck.md)
-* [NFS Enumeration](active-recon/nfs-enumeration.md)
+* [NFS Enumeration](active-recon/nfs-enumeration/README.md)
   * [NFS Overview](https://app.gitbook.com/s/8YCiflNECSba97FgHQNB/application-layer/nfs)
 
 ## Vulnerability Assessment
@@ -251,12 +251,12 @@
   * [Shells](windows/powershell/shells.md)
 * [Command Shell](windows/command-shell.md)
 * [Core Concepts](windows/core-concepts/README.md)
-  * [Common Information Model (CIM)](windows/common-information-model-cim.md)
-  * [DISM](windows/dism.md)
+  * [Common Information Model (CIM)](windows/core-concepts/common-information-model-cim.md)
+  * [DISM](windows/core-concepts/dism.md)
   * [Task Scheduler](windows/core-concepts/task-scheduler.md)
-  * [Windows Services](windows/windows-services.md)
+  * [Windows Services](windows/core-concepts/windows-services.md)
   * [Dynamic Link Libraries](windows/core-concepts/dynamic-link-libraries.md)
-* [Privilege Escalation](windows/privilege-escalation.md)
+* [Privilege Escalation](windows/privilege-escalation/README.md)
   * [Privilege Basics](windows/privilege-escalation/privilege-basics.md)
   * [Enumeration](windows/privilege-escalation/enumeration/README.md)
     * [Manual Enumeration](windows/privilege-escalation/enumeration/manual-enumeration.md)
@@ -269,6 +269,8 @@
       * [Service DLL Hijacking](windows/privilege-escalation/leveraging-windows-components/leveraging-services/service-dll-hijacking.md)
       * [Unquoted Service Paths](windows/privilege-escalation/leveraging-windows-components/leveraging-services/unquoted-service-paths.md)
     * [Leveraging Scheduled Tasks](windows/privilege-escalation/leveraging-windows-components/leveraging-scheduled-tasks.md)
+  * [Using Exploits](windows/privilege-escalation/using-exploits/README.md)
+    * [Privilege Exploit](windows/privilege-escalation/using-exploits/privilege-exploit.md)
 
 ## Buffer Overflows
 

@@ -68,7 +68,7 @@ If `steve` has write access to any of the directories that will be searched, the
 
 As noted in an&#x20;
 
-[another section](../../../windows-services.md#wmic), WMIC can be used to enumerate services:
+[another section](../../../core-concepts/windows-services.md#wmic), WMIC can be used to enumerate services:
 
 ```powershell
 wmic service get name,pathname

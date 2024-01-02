@@ -141,3 +141,21 @@ Repeat: Stop If Still Running:        Disabled
 ```
 
 The most "interesting" fields from an attacker's standpoint are the `Author`, `TaskName`, `Task To Run`, `Run As User`, and `Next Run Time` fields.
+
+#### Refining schtasks Search
+
+The output from `schtasks /query /v` can be quite overwhelming. It is often helpful to run it through PowerShell allowing the output to be searched easier (the following was inspired by the answers in [this forum post](https://community.spiceworks.com/topic/256331-get-user-info-that-scheduled-task-runs-as)):
+
+```powershell
+schtasks /query /fo CSV /v | ConvertFrom-Csv
+```
+
+* The `schtasks` output is formatted as CSV and then converted to a PowerShell object via the [`ConvertFrom-Csv`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/convertfrom-csv?view=powershell-7.4) cmdlet
+
+From here the output can be passed to [`Where-Object`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/where-object?view=powershell-7.4) which can be used to select on various properties. E.g. to find all jobs that have the "Run As User" field set to "Administrator" the command would look like:
+
+{% code overflow="wrap" %}
+```powershell
+schtasks /query /fo CSV /v | ConvertFrom-Csv | Where-Object "Run As User" -EQ "Administrator"
+```
+{% endcode %}

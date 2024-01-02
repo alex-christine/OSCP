@@ -156,6 +156,52 @@ Global Group memberships     *None
 The command completed successfully.
 ```
 
+### Privileges
+
+Windows [privileges](https://learn.microsoft.com/en-us/windows/win32/secauthz/privileges) are the rights of an account to perform various system-related operations on the local computer, such as shutting down the system, loading device drivers, or changing the system time. Privileges differ from access rights in two ways:
+
+1. Privileges control access to system resources and system-related tasks, whereas access rights control access to [securable objects](https://learn.microsoft.com/en-us/windows/win32/secauthz/securable-objects).
+2. A system administrator assigns privileges to user and group accounts, whereas the system grants or denies access to a securable object based on the access rights granted in the ACEs in the object's DACL.
+
+Each system has an account database that stores the privileges held by user and group accounts. When a user logs on, the system produces an [access token](https://learn.microsoft.com/en-us/windows/win32/secauthz/access-tokens) that contains a list of the user's privileges, including those granted to the user or to groups to which the user belongs.
+
+In order to enumerate the current user's privileges run whoami with the /priv flag:
+
+```
+whoami /priv
+```
+
+Output from this command looks like:
+
+```powershell
+PS C:\Users\dave> whoami /priv
+
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                               State   
+============================= ========================================= ========
+SeSecurityPrivilege           Manage auditing and security log          Disabled
+SeShutdownPrivilege           Shut down the system                      Disabled
+SeChangeNotifyPrivilege       Bypass traverse checking                  Enabled 
+SeUndockPrivilege             Remove computer from docking station      Disabled
+SeImpersonatePrivilege        Impersonate a client after authentication Enabled 
+SeIncreaseWorkingSetPrivilege Increase a process working set            Disabled
+SeTimeZonePrivilege           Change the time zone                      Disabled
+```
+
+The `State` column in the output can be easily misinterpreted. For example, at a glance it appears the current user does not have permission to shutdown the system (`SeShutdownPrivilege`) due to the state being `Disabled`. However, the `Disabled` state only indicates if the privilege is currently enabled for the running process. In this case, it means that `whoami` has not requested and is not currently using the `SeShutdownPrivilege` privilege. A privilege's presence in the list indicates it is available to the current user regardless of `State`.
+
+#### Important Privileges
+
+Non-privileged users with assigned privileges can potentially abuse those privileges to perform privilege escalation attacks. Privileges that may lead to escalation include:
+
+* [`SeImpersonatePrivilege`](https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege)
+* [`SeBackupPrivilege`](https://learn.microsoft.com/en-us/windows-hardware/drivers/ifs/privileges)
+* [`SeAssignPrimaryToken`](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/privilege-escalation-abusing-tokens)
+* [`SeLoadDriver`](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/privilege-escalation-abusing-tokens/abuse-seloaddriverprivilege)
+* [`SeDebug`](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/sedebug-+-seimpersonate-copy-token)
+
 ### Local Users
 
 If on the DOS command prompt (`cmd.exe`) it is possible to enumerate all users with the `net user` command:
@@ -498,6 +544,14 @@ SI      : 0
 Name    : xampp-control
 ```
 
+### Services
+
+Enumeration of services is covered in the [Windows Services section](../../core-concepts/windows-services.md#service-enumeration).
+
+### Scheduled Tasks
+
+Enumeration of scheduled tasks is covered in the [Task Scheduler section](../../core-concepts/task-scheduler.md#enumerating-scheduled-tasks).
+
 ### Sensitive Files
 
 The [Get-ChildItem](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.3) cmdlet has been mentioned before, but it can also be used to search for sensitive files that are not adequately protected.
@@ -633,13 +687,42 @@ IdentityReference FileSystemRights
 CLIENTWK220\steve      FullControl
 ```
 
-If the $User in question does not have access to the folder, nothing is returned:
+If the `$User` in question does not have access to the folder, nothing is returned:
 
 ```powershell
 PS C:\Users\steve> $User = "dave"
 PS C:\Users\steve> (Get-Acl $Folder).Access | ?{$_.IdentityReference -match $User} | Select IdentityReference,FileSystemRights
 PS C:\Users\steve>
 ```
+
+### icacls
+
+[icacls](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/icacls) displays or modifies discretionary access control lists (DACLs) on specified files, and applies stored DACLs to files in specified directories. It is usable in both PowerShell and Windows Command Line.
+
+It displays permissions masks for a file or directory. The most common permissions masks are listed below. A more complete list can be found in the Windows documentation linked above. A refresher on file/folder permissions can be found [here](https://www.2brightsparks.com/resources/articles/a-basic-introduction-to-ntfs-permissions.html).
+
+<table><thead><tr><th width="114">Mask</th><th>Name</th></tr></thead><tbody><tr><td><code>F</code></td><td>Full access</td></tr><tr><td><code>M</code></td><td>Modify access</td></tr><tr><td><code>RX</code></td><td>Read and execute access</td></tr><tr><td><code>R</code></td><td>Read-only access</td></tr><tr><td><code>W</code></td><td>Write-only access</td></tr></tbody></table>
+
+`icacls` is called with the following command structure:
+
+```powershell
+icacls $Item
+```
+
+* `$Item` is a path (string) to the file or directory in question
+
+The output from the command looks something like this
+
+```powershell
+PS C:\Users\alex> icacls "C:\Services\"
+C:\Services\ BUILTIN\Administrators:(I)(OI)(CI)(F)
+             NT AUTHORITY\SYSTEM:(I)(OI)(CI)(F)
+             BUILTIN\Users:(I)(OI)(CI)(RX)
+             NT AUTHORITY\Authenticated Users:(I)(M)
+             NT AUTHORITY\Authenticated Users:(I)(OI)(CI)(IO)(M)
+```
+
+This utility can come in handy for checking permissions on service binaries, DLLs, or just folders.
 
 ## Network Information
 

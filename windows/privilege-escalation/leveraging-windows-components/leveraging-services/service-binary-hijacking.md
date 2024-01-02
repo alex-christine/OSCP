@@ -24,7 +24,7 @@ This example will involve using a machine `CLIENTWK220` on which the attacker is
 
 ### Get-CimInstance
 
-After connecting to the machine, the attacker can leverage the PowerShell cmdlet [`Get-CimInstance`](../../../windows-services.md#get-ciminstance) to enumerate the running services.
+After connecting to the machine, the attacker can leverage the PowerShell cmdlet [`Get-CimInstance`](../../../core-concepts/windows-services.md#get-ciminstance) to enumerate the running services.
 
 When run on the target machine several interesting items appear:
 
@@ -60,9 +60,9 @@ In order to enumerate the permissions of the running services there are 2 option
 1. `icals` Windows Utility
 2. `Get-ACL` PowerShell cmdlet
 
-### icals
+### icacls
 
-[icals](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/icacls) displays or modifies discretionary access control lists (DACLs) on specified files, and applies stored DACLs to files in specified directories. It is usable in both PowerShell and Windows Command Line.
+[icacls](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/icacls) displays or modifies discretionary access control lists (DACLs) on specified files, and applies stored DACLs to files in specified directories. It is usable in both PowerShell and Windows Command Line.
 
 #### Permission Masks
 
@@ -222,7 +222,7 @@ Access is denied.
 
 Unfortunately in this case, `dave` is denied the proper access to stop the service. Given this roadblock, perhaps it is possible to restart the service by restarting the whole machine. First the service's&#x20;
 
-[Startup Type](../../../windows-services.md#startup-type) must be checked. As mentioned in the Windows Services section this can be done via the `Get-CimInstance` cmdlet in PowerShell. In this case only the service's `Name` and `StartMode` are needed. Output is limited to just `mysql` via the `Where-Object` cmdlet:
+[Startup Type](../../../core-concepts/windows-services.md#startup-type) must be checked. As mentioned in the Windows Services section this can be done via the `Get-CimInstance` cmdlet in PowerShell. In this case only the service's `Name` and `StartMode` are needed. Output is limited to just `mysql` via the `Where-Object` cmdlet:
 
 {% code overflow="wrap" %}
 ```powershell
@@ -240,7 +240,7 @@ Name  StartMode
 mysql Auto
 ```
 
-This means the service is automatically started when the machine boots up. If `dave` can restart the machine that will cause the malicious executable to be run and a new Local Administrator user (`dave2`) to be added to the machine. To check whether shutting down the system is permitted for `dave`, run the `whoami` command with the `/priv` flag:&#x20;
+This means the service is automatically started when the machine boots up. If `dave` can restart the machine that will cause the malicious executable to be run and a new Local Administrator user (`dave2`) to be added to the machine. Recall from the [Manual Enumeration section](../../enumeration/manual-enumeration.md#privileges) that whoami can be used with the `/priv` flag to check the current user's privileges:&#x20;
 
 ```powershell
 PS C:\Users\dave> whoami /priv
