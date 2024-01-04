@@ -15,7 +15,11 @@ In systems like Unix or Linux, the services are also known as **daemons**.&#x20;
 
 ### Listing Services
 
-Command to list all services `sudo systemctl list-unit-files --type service --all`
+Command to list all services:&#x20;
+
+```bash
+sudo systemctl list-unit-files --type service --all
+```
 
 #### Project States
 

