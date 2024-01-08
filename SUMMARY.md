@@ -193,6 +193,11 @@
     * [PowerShell](attack-vectors/shells/reverse-shell/powershell.md)
     * [Powercat](attack-vectors/shells/reverse-shell/powercat.md)
     * [Reverse Shell Generator](https://www.revshells.com/)
+* [Exploits](attack-vectors/exploits/README.md)
+  * [Finding Public Exploits](attack-vectors/exploits/finding-public-exploits.md)
+  * [Modifying Public Exploits](attack-vectors/exploits/modifying-public-exploits/README.md)
+    * [Memory Corruption Exploits](attack-vectors/exploits/modifying-public-exploits/memory-corruption-exploits.md)
+  * [Metasploit](attack-vectors/exploits/metasploit.md)
 
 ## Linux
 
@@ -276,7 +281,7 @@
 
 * [Introduction](buffer-overflows/introduction/README.md)
   * [x86 Architecture](buffer-overflows/introduction/x86-architecture.md)
-  * [Buffer Overflow Basics](buffer-overflows/introduction/buffer-overflow-basics.md)
+  * [Basic Buffer Overflow](buffer-overflows/introduction/basic-buffer-overflow.md)
 * [Windows Buffer Overflow](buffer-overflows/windows-buffer-overflow/README.md)
   * [Discovering The Vulnerability](buffer-overflows/windows-buffer-overflow/discovering-the-vulnerability.md)
   * [Prevention Mechanisms](buffer-overflows/windows-buffer-overflow/prevention-mechanisms.md)

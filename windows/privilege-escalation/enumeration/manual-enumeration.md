@@ -80,6 +80,22 @@ Network Card(s):           1 NIC(s) Installed.
 Hyper-V Requirements:      A hypervisor has been detected. Features required for Hyper-V will not be displayed.
 ```
 
+### Architecture Information
+
+To determine the architecture of a system, 32 vs. 64-bit, the [WMIC](https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmic) command-line utility can be used (via either `cmd.exe` or PowerShell):
+
+```powershell
+wmic OS get OSArchitecture
+```
+
+When run on a system the output will be either `32-bit` or `64-bit`:
+
+```powershell
+PS C:\Users\student> wmic OS get OSArchitecture
+OSArchitecture
+32-bit
+```
+
 ### Registry
 
 The [Windows registry](https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/windows-registry-advanced-users) is a central hierarchical database used to store information that is necessary to configure the system for one or more users, applications, and hardware devices.
