@@ -197,6 +197,8 @@
   * [Finding Public Exploits](attack-vectors/exploits/finding-public-exploits.md)
   * [Modifying Public Exploits](attack-vectors/exploits/modifying-public-exploits/README.md)
     * [Memory Corruption Exploits](attack-vectors/exploits/modifying-public-exploits/memory-corruption-exploits.md)
+    * [Web Exploits](attack-vectors/exploits/modifying-public-exploits/web-exploits/README.md)
+      * [Example Scenario](attack-vectors/exploits/modifying-public-exploits/web-exploits/example-scenario.md)
   * [Metasploit](attack-vectors/exploits/metasploit.md)
 
 ## Linux
