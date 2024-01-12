@@ -200,6 +200,8 @@
     * [Web Exploits](attack-vectors/exploits/modifying-public-exploits/web-exploits/README.md)
       * [Example Scenario](attack-vectors/exploits/modifying-public-exploits/web-exploits/example-scenario.md)
   * [Metasploit](attack-vectors/exploits/metasploit.md)
+* [Client-Side Attacks](attack-vectors/client-side-attacks/README.md)
+  * [Target Reconnaissance](attack-vectors/client-side-attacks/target-reconnaissance.md)
 
 ## Linux
 
