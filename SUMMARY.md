@@ -202,6 +202,7 @@
   * [Metasploit](attack-vectors/exploits/metasploit.md)
 * [Client-Side Attacks](attack-vectors/client-side-attacks/README.md)
   * [Target Reconnaissance](attack-vectors/client-side-attacks/target-reconnaissance.md)
+  * [Exploiting Microsoft Office](attack-vectors/client-side-attacks/exploiting-microsoft-office.md)
 
 ## Linux
 
