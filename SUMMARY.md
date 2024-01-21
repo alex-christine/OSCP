@@ -207,6 +207,7 @@
   * [Code Execution via Windows Library Files](attack-vectors/client-side-attacks/code-execution-via-windows-library-files.md)
 * [Antivirus Evasion](attack-vectors/antivirus-evasion/README.md)
   * [Antivirus Software Components](attack-vectors/antivirus-evasion/antivirus-software-components.md)
+  * [Bypassing Detection](attack-vectors/antivirus-evasion/bypassing-detection.md)
 
 ## Linux
 
