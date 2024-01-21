@@ -43,6 +43,7 @@
   * [Advanced Filtering with Examples](https://blog.wains.be/2007/2007-10-01-tcpdump-advanced-filters/)
 * [Wireshark](networking-tools/wireshark/README.md)
   * [Filters Documentation](https://www.wireshark.org/docs/man-pages/wireshark-filter.html)
+* [Miscellaneous](networking-tools/miscellaneous.md)
 
 ## Passive Recon
 
@@ -203,6 +204,9 @@
 * [Client-Side Attacks](attack-vectors/client-side-attacks/README.md)
   * [Target Reconnaissance](attack-vectors/client-side-attacks/target-reconnaissance.md)
   * [Exploiting Microsoft Office](attack-vectors/client-side-attacks/exploiting-microsoft-office.md)
+  * [Code Execution via Windows Library Files](attack-vectors/client-side-attacks/code-execution-via-windows-library-files.md)
+* [Antivirus Evasion](attack-vectors/antivirus-evasion/README.md)
+  * [Antivirus Software Components](attack-vectors/antivirus-evasion/antivirus-software-components.md)
 
 ## Linux
 
