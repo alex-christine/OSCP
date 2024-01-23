@@ -208,6 +208,8 @@
 * [Antivirus Evasion](attack-vectors/antivirus-evasion/README.md)
   * [Antivirus Software Components](attack-vectors/antivirus-evasion/antivirus-software-components.md)
   * [Bypassing Detection](attack-vectors/antivirus-evasion/bypassing-detection.md)
+  * [In Practice](attack-vectors/antivirus-evasion/in-practice/README.md)
+    * [Evasion Via Thread Injection](attack-vectors/antivirus-evasion/in-practice/evasion-via-thread-injection.md)
 
 ## Linux
 

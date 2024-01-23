@@ -48,7 +48,13 @@ PS C:\Users\dave> Get-ExecutionPolicy
 Restricted
 ```
 
-The execution policy can be set to the following levels:
+To check only the current user:
+
+```powershell
+Get-ExecutionPolicy -Scope CurrentUser
+```
+
+The execution policy can be set to the following levels.
 
 #### AllSigned <a href="#allsigned" id="allsigned"></a>
 
@@ -123,3 +129,11 @@ PS C:\Users\dave>
 Based on the output, the script from above (`.\winPEAS.ps1`) was able to run after overwriting the execution policy.
 
 This is one of the simplest ways to bypass Execution Policy, though more can be found [here](https://www.netspi.com/blog/technical/network-penetration-testing/15-ways-to-bypass-the-powershell-execution-policy/).
+
+### Changing Execution Policy
+
+The command to change the Execution Policy globally (as opposed to per-instance as with `-ExecutionPolicy Bypass`) is:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+```
