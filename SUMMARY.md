@@ -211,6 +211,7 @@
   * [In Practice](attack-vectors/antivirus-evasion/in-practice/README.md)
     * [Evasion Via Thread Injection](attack-vectors/antivirus-evasion/in-practice/evasion-via-thread-injection.md)
     * [Automating Evasion Techniques](attack-vectors/antivirus-evasion/in-practice/automating-evasion-techniques.md)
+    * [Veil](attack-vectors/antivirus-evasion/in-practice/veil.md)
 
 ## Linux
 
