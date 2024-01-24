@@ -124,6 +124,8 @@ $winFunc::CreateThread(0,0,$x,0,0,0);for (;;) { Start-sleep 60 };
 ```
 {% endcode %}
 
+## Obscuring The Script
+
 While it was mentioned earlier that this should not be done, for illustration purposes this script will be run through VirusTotal. (AntiScan.Me was not an option as it does not accept `.ps1` files):
 
 <figure><img src="../../../.gitbook/assets/AVE-VirusTotalFirstPs1.png" alt=""><figcaption><p>Inject-Memory.ps1 in VirusTotal</p></figcaption></figure>

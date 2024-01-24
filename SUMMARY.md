@@ -200,7 +200,7 @@
     * [Memory Corruption Exploits](attack-vectors/exploits/modifying-public-exploits/memory-corruption-exploits.md)
     * [Web Exploits](attack-vectors/exploits/modifying-public-exploits/web-exploits/README.md)
       * [Example Scenario](attack-vectors/exploits/modifying-public-exploits/web-exploits/example-scenario.md)
-  * [Metasploit](attack-vectors/exploits/metasploit.md)
+* [Metasploit](attack-vectors/metasploit.md)
 * [Client-Side Attacks](attack-vectors/client-side-attacks/README.md)
   * [Target Reconnaissance](attack-vectors/client-side-attacks/target-reconnaissance.md)
   * [Exploiting Microsoft Office](attack-vectors/client-side-attacks/exploiting-microsoft-office.md)
@@ -210,6 +210,7 @@
   * [Bypassing Detection](attack-vectors/antivirus-evasion/bypassing-detection.md)
   * [In Practice](attack-vectors/antivirus-evasion/in-practice/README.md)
     * [Evasion Via Thread Injection](attack-vectors/antivirus-evasion/in-practice/evasion-via-thread-injection.md)
+    * [Automating Evasion Techniques](attack-vectors/antivirus-evasion/in-practice/automating-evasion-techniques.md)
 
 ## Linux
 
