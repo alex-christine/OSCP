@@ -97,9 +97,52 @@ In a DPF connection setup and ongoing data communication, three entities are inv
 
 To enable inbound connections, each private (firewalled) network must have a DPF inagent installed on the firewall/NAT. Server applications that want to accept connections from outside their private (firewalled) network must use DPF socket calls. This can be done by rewriting/relinking the applications or by using an interposition mechanism so that applications' regular socket calls are translated into DPF calls. On the other hand, client applications need not be changed at all.
 
+### Tools for Port Forwarding
+
+#### Linux Tools
+
+* [Socat](../../networking-tools/socat/port-forwarding.md) can be used for port forwarding
+* [`rinetd`](https://github.com/samhocevar/rinetd) is an option that runs as a daemon which makes it a better option for _long-term_ port forwarding (but slightly unwieldy for short-term operations)
+  * It will need to be installed on the system (can be done with `apt install rinetd` with admin permissions)
+  * Once installed, [these instructions](https://www.howtoforge.com/port-forwarding-with-rinetd-on-debian-etch) can be followed to set up port forwarding
+* One can combine Netcat and a [`fifo`](https://man7.org/linux/man-pages/man7/fifo.7.html) pipe to create a port forward
+* If an attacker has root privileges, they could use `iptables` to create port forwards
+  * The specific iptables port forwarding setup for a given host will likely depend on the configuration already in place.
+  * To be able to forward packets in Linux also requires enabling forwarding on the desired interface by writing "`1`" to `/proc/sys/net/ipv4/conf/[interface]/forwarding` (if it's not already configured to allow it).
+
+A `.sh` script for doing the Netcat and `fifo` pipe method is shown here ([Source](https://gist.github.com/holly/6d52dd9addd3e58b2fd5)):
+
+{% code title=" nc-tcp-forward.sh " %}
+```bash
+#!/usr/bin/env bash
+
+set -e
+
+if [ $# != 3 ]; then
+
+        echo 'Usage: nc-tcp-forward.sh $FRONTPORT $BACKHOST $BACKPORT' >&2
+        exit 1
+fi
+
+FRONTPORT=$1
+BACKHOST=$2
+BACKPORT=$3
+
+FIFO=/tmp/backpipe
+
+trap 'echo "trapped."; pkill nc; rm -f $FIFO; exit 1' 1 2 3 15
+
+mkfifo $FIFO
+while true; do
+        nc -l $FRONTPORT <$FIFO | nc $BACKHOST $BACKPORT >$FIFO
+done
+rm -f $FIFO
+```
+{% endcode %}
+
 ## Tunneling
 
-[Tunneling](https://en.wikipedia.org/wiki/Tunneling\_protocol) is a communication protocol which allows for the movement of data from one network to another. Tunneling means encapsulating one type of data stream within another. The tunneling protocol works by using the _data portion of a packet to carry the packets that actually provide the service_. The tunnel is a virtual construct as the actual packets will still traverse the same physical route but because of the encapsulation used the data will effectively be in a "tunnel."
+[Tunneling](https://en.wikipedia.org/wiki/Tunneling\_protocol) is a communication protocol which allows for the movement of data from one network to another. Tunneling means encapsulating one type of data stream within another. The [tunneling protocol](https://en.wikipedia.org/wiki/Tunneling\_protocol) works by using the _data portion of a packet to carry the packets that actually provide the service_. The tunnel is a virtual construct as the actual packets will still traverse the same physical route but because of the encapsulation used the data will effectively be in a "tunnel."
 
 <figure><img src="../../.gitbook/assets/PFT-TunnelingDiagram.png" alt=""><figcaption><p>Network tunneling illustration</p></figcaption></figure>
 
