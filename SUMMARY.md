@@ -13,6 +13,11 @@
 
 * [Security Strategies](security-overview/security-strategies.md)
 
+## Software
+
+* [SQL Databases](software/sql-databases/README.md)
+  * [PostgreSQL](software/sql-databases/postgresql.md)
+
 ## Networking Tools
 
 * [Netcat](networking-tools/netcat/README.md)
@@ -38,6 +43,7 @@
   * [Official Documentation](http://www.dest-unreach.org/socat/doc/socat.html)
   * [File Transfer](networking-tools/socat/file-transfer.md)
   * [Shells](networking-tools/socat/shells.md)
+  * [Port Forwarding](networking-tools/socat/port-forwarding.md)
 * [Tcpdump](networking-tools/tcpdump/README.md)
   * [Reading Captures](networking-tools/tcpdump/reading-captures.md)
   * [Advanced Filtering with Examples](https://blog.wains.be/2007/2007-10-01-tcpdump-advanced-filters/)
@@ -212,6 +218,8 @@
     * [Evasion Via Thread Injection](attack-vectors/antivirus-evasion/in-practice/evasion-via-thread-injection.md)
     * [Automating Evasion Techniques](attack-vectors/antivirus-evasion/in-practice/automating-evasion-techniques.md)
     * [Veil](attack-vectors/antivirus-evasion/in-practice/veil.md)
+* [Port Forwarding and Tunneling](attack-vectors/port-forwarding-and-tunneling/README.md)
+  * [Simple Port Forwarding Scenario](attack-vectors/port-forwarding-and-tunneling/simple-port-forwarding-scenario.md)
 
 ## Linux
 

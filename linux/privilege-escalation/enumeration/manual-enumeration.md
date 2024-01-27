@@ -108,7 +108,7 @@ While this is good to know, it is rare and should not be counted upon as a relia
 
 ### Hostname
 
-A machine's **hostname** can often provide clues about its functional roles. More often than not, the hostnames will include identifiable abbreviations such as `web` for a web server, `db` for a database server, `dc` for a domain controller, etc.
+A machine's **hostname** can often provide clues about its functional roles. More often than not, the hostname will include identifiable abbreviations such as `web` for a web server, `db` for a database server, `dc` for a domain controller, etc.
 
 The `hostname` command will display the machine's name:
 
@@ -120,6 +120,36 @@ debian-privesc
 Enterprises often enforce a naming convention scheme for hostnames, so they can be categorized by location, description, operating system, and service level. In this case, the hostname is comprised of only two parts: the OS type and the description.
 
 Identifying the role of a machine can help us focus our information gathering efforts by increasing the context surrounding the host.
+
+### Architecture
+
+To find the machine architectecture the [`uname`](https://man7.org/linux/man-pages/man1/uname.1.html) command can be used:
+
+```bash
+uname -a
+```
+
+* `-a` displays all available information
+
+This shows all available system information for example:
+
+{% code overflow="wrap" %}
+```bash
+kali@kali:~$ uname -a
+Linux confluence01 5.4.0-139-generic #156-Ubuntu SMP Fri Jan 20 17:27:18 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
+```
+{% endcode %}
+
+If only the machine hardware name is desired the `-m` flag can be used:
+
+```bash
+uname -m
+```
+
+```bash
+kali@kali:~$ uname -m
+x86_64
+```
 
 ### Operating System
 
@@ -760,7 +790,7 @@ One can also investigate port bindings to see if a running service is only avail
 
 ### Network Interfaces
 
-Depending on the version of Linux, the TCP/IP configuration of every network adapter can be listed via the `ifconfig` or `ip` command. While the former command displays interface statistics, the latter provides a compact version of the same information. Both commands accept the `a` flag to display all information available.
+Depending on the version of Linux, the TCP/IP configuration of every network adapter can be listed via the `ifconfig` or `ip` command. While the former command displays interface statistics, the latter provides a compact version of the same information. Both commands accept the `a` (or `addr`) flag to display all information available.
 
 The example machine is Debian so it utilizes the `ip` command:
 
@@ -781,6 +811,25 @@ joe@debian-privesc:~$ ip a
 ```
 
 Based on the output above, the Linux client is also connected to more than one network.
+
+### Accessible Routes
+
+The ip command can also be used to check accessible routes via:
+
+```bash
+ip route
+```
+
+The output from this command looks like:
+
+```bash
+kali@kali:~$ ip route
+default via 192.168.205.254 dev ens192 proto static 
+10.4.205.0/24 dev ens224 proto kernel scope link src 10.4.205.63 
+192.168.205.0/24 dev ens192 proto kernel scope link src 192.168.205.63
+```
+
+This shows that the target should have access to hosts in the `10.4.205.0/24` and `192.168.205.0/24` subnets via the `ens224` and `ens192` interfaces respectively.
 
 ### Routing Tables
 
