@@ -26,6 +26,7 @@
   * [Server](networking-tools/netcat/server.md)
   * [File Transfer](networking-tools/netcat/file-transfer.md)
   * [Remote Administration](networking-tools/netcat/remote-administration.md)
+  * [Other Uses](networking-tools/netcat/other-uses.md)
 * [Nmap](networking-tools/nmap/README.md)
   * [Official Site](https://nmap.org/)
   * [Targeting](networking-tools/nmap/targeting.md)
@@ -220,7 +221,8 @@
     * [Veil](attack-vectors/antivirus-evasion/in-practice/veil.md)
 * [Port Forwarding and Tunneling](attack-vectors/port-forwarding-and-tunneling/README.md)
   * [Simple Port Forwarding Scenario](attack-vectors/port-forwarding-and-tunneling/simple-port-forwarding-scenario.md)
-  * [SSH Tunneling](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling.md)
+  * [SSH Tunneling](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/README.md)
+    * [SSH Local Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-local-port-forwarding.md)
 
 ## Linux
 

