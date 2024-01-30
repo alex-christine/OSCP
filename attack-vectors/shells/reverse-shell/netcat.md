@@ -91,7 +91,28 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 $
 ```
 
-Once this is achieved, the shell session is backgrounded with `Ctrl + Z` (inside the caught Netcat session). That will look like this:
+#### Enhanced Shell Spawning
+
+The `pty.spawn()` call can be enhanced a bit as shown below:
+
+```python
+import pty
+pty.spawn(["env","TERM=xterm-256color","/bin/bash","--rcfile", "/etc/bash.bashrc","-i"])
+```
+
+This calls `spawn()` with a set of arguments that calls `env`, sets the variable `$TERM`, and launches `/bin/bash` in interactive mode (`-i`) and specifying `/etc/bash.bashrc` as the configuration file (`--rcfile`).
+
+This can also be condensed into a command line call:
+
+{% code overflow="wrap" %}
+```bash
+python3 -c 'import pty; pty.spawn(["env","TERM=xterm-256color","/bin/bash","--rcfile", "/etc/bash.bashrc","-i"])'
+```
+{% endcode %}
+
+#### Backgrounding the Shell
+
+Once the pty shell has been launched, the shell session is backgrounded with `Ctrl + Z` (inside the caught Netcat session). That will look like this:
 
 ```
 ...
@@ -197,11 +218,29 @@ python3 -c "import pty;pty.spawn('/bin/bash')"
 
 * `/bin/bash` can be replaced with whatever shells are available on the machine (listed in `/etc/shells`)
 
-At this point the session is backgrounded with `Ctrl + Z`. If needed, the shell specifications (`rows`, `columns`, and `$TERM`) can be researched here. Once those values are known the whole thing can be run as a single one-liner:
+Preferably the enhanced call can be used:
 
 {% code overflow="wrap" %}
 ```bash
-stty raw -echo; fg; export SHELL=/bin/bash; export TERM=xterm-256color; stty rows 54 columns 237; reset;
+python3 -c 'import pty; pty.spawn(["env","TERM=xterm-256color","/bin/bash","--rcfile", "/etc/bash.bashrc","-i"])'
+```
+{% endcode %}
+
+* Variables such as `TERM`, shell used (`/bin/bash`), configuration file location (`--rcfile`), and interactive mode(`-i`) can be configured on a per-use basis
+
+At this point the session is backgrounded with `Ctrl + Z`. If needed, the shell specifications (`rows`, `columns`, and `$TERM`) can be researched here. Once those values are known the whole thing can be run quickly. First the I/O is set and the shell brought to the fore:
+
+```bash
+stty raw -echo && fg
+```
+
+Then the shell can be optionally reset if desired.
+
+The shell variables are set and then the final reset occurs next. This can be done in a one-liner:
+
+{% code overflow="wrap" %}
+```bash
+export SHELL=/bin/bash; export TERM=xterm-256color; stty rows 54 columns 237; reset;
 ```
 {% endcode %}
 

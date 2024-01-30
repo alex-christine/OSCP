@@ -223,6 +223,8 @@
   * [Simple Port Forwarding Scenario](attack-vectors/port-forwarding-and-tunneling/simple-port-forwarding-scenario.md)
   * [SSH Tunneling](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/README.md)
     * [SSH Local Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-local-port-forwarding.md)
+    * [SSH Dynamic Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-dynamic-port-forwarding.md)
+    * [SSH Remote Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-remote-port-forwarding.md)
 
 ## Linux
 

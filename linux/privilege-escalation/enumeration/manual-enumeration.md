@@ -893,6 +893,34 @@ v_str  ESTAB      0       0                                      3097281766:1023
 * `-n` disables hostname resolution (which may stall the command's execution)
 * `-p` lists the process name each connection belongs to
 
+### Listening Ports
+
+It is possible to check which ports are listening for connections with the [`ss`](https://man7.org/linux/man-pages/man8/ss.8.html) utility and the -l flag:
+
+```bash
+ss -ntplu
+```
+
+* `-n` disables host resolution
+* `-t` lists TCP ports
+* `-u` lists UDP ports
+* `-p` lists the processes using the sockets
+* `-l` specifies _listening_ interfaces
+
+The output from this command looks like this:
+
+```bash
+kali@kali:~$ ss -ntplu           
+Netid  State   Recv-Q   Send-Q     Local Address:Port      Peer Address:Port  Process                                   
+udp    UNCONN  0        0                0.0.0.0:59205          0.0.0.0:*      users:(("firefox-esr",pid=2166,fd=112))  
+udp    UNCONN  0        0                0.0.0.0:47871          0.0.0.0:*                                               
+udp    UNCONN  0        0                0.0.0.0:36699          0.0.0.0:*      users:(("firefox-esr",pid=2166,fd=121))  
+tcp    LISTEN  0        128              0.0.0.0:22             0.0.0.0:*                                               
+tcp    LISTEN  0        128                 [::]:22                [::]:*
+```
+
+* In the sample output there is an SSH server listening on all interfaces at port 22 (both IPv4 and IPv6)
+
 ### Firewall Rules
 
 In general, attackers are primarily interested in a firewall's state, profile, and rules during the _remote exploitation_ phase of an assessment (which has already occurred in the example here given that an SSH connection is being used to access the machine).
