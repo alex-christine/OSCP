@@ -225,6 +225,7 @@
     * [SSH Local Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-local-port-forwarding.md)
     * [SSH Dynamic Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-dynamic-port-forwarding.md)
     * [SSH Remote Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-remote-port-forwarding.md)
+    * [SSH Dynamic Remote Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-dynamic-remote-port-forwarding.md)
 
 ## Linux
 
