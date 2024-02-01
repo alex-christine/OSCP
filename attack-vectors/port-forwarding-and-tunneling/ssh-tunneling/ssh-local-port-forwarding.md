@@ -185,7 +185,6 @@ Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 Failed to add the host to the list of known hosts (/home/confluence/.ssh/known_hosts).
 database_admin@10.4.205.215's password: 
 
-
 ```
 
 While nothing in this session shows that the SSH listener is created, it is possible to create another reverse shell to CONFLUENCE01 and check that the listener exists via the command:
