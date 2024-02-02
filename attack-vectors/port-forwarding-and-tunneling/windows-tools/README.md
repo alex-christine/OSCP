@@ -20,6 +20,6 @@ The main tools on Windows are:
 
 * `ssh.exe`
 * Plink
-* Netsh
+* [Netsh](../../../windows/built-in-tools/netsh.md#port-forwarding)
 
-Each of these will be explained further in their own page.
+`ssh.exe` and Plink will be demonstrated in the following pages and Netsh is demonstrated on the linked page.

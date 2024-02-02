@@ -287,6 +287,8 @@
   * [Dot-Sourcing](windows/powershell/dot-sourcing.md)
   * [Shells](windows/powershell/shells.md)
 * [Command Shell](windows/command-shell.md)
+* [Built-In Tools](windows/built-in-tools/README.md)
+  * [Netsh](windows/built-in-tools/netsh.md)
 * [Core Concepts](windows/core-concepts/README.md)
   * [Common Information Model (CIM)](windows/core-concepts/common-information-model-cim.md)
   * [DISM](windows/core-concepts/dism.md)
