@@ -314,6 +314,7 @@ The attacker now has the usernames and hashed passwords for the Confluence accou
 
 Confluence stores the passwords with the hash type Atlassian (PBKDF2-HMAC-SHA1) which is type 12001 according to the [list](https://hashcat.net/wiki/doku.php?id=example\_hashes) of hash types for Hashcat. The hashes should be arranged in a hash file one per line:
 
+{% code title="hashes.txt" %}
 ```
 {PKCS5S2}3vfgC35A7Gnrxlzbvp32yM8zXvdE8U8bxS9bkP+3aS3rnSJxz4bJ6wqtE8d95ejA
 {PKCS5S2}tnbti4h38VDOh0xPrBHr7JBYjev7wws+ETHL1YyjSpIWVUz+66zXwDvbBJkJz342
@@ -322,6 +323,7 @@ Confluence stores the passwords with the hash type Atlassian (PBKDF2-HMAC-SHA1) 
 {PKCS5S2}ueMu+nTGBtfeGXGBlXXFcJLdSF4uVHkZxMQ1Bst8wm3uhZcDs56a2ProZiSOk2hv
 {PKCS5S2}vCcYx3LxTYB2KH2Sq4wLNLdAcS+4lX/yTQrvBJngifUEXcnIUHEwW0YnOe86W8tP
 ```
+{% endcode %}
 
 This can then be run through Hashcat:
 

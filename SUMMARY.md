@@ -227,6 +227,9 @@
     * [SSH Remote Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-remote-port-forwarding.md)
     * [SSH Dynamic Remote Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-dynamic-remote-port-forwarding.md)
     * [sshuttle](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/sshuttle.md)
+  * [Windows Tools](attack-vectors/port-forwarding-and-tunneling/windows-tools/README.md)
+    * [ssh.exe](attack-vectors/port-forwarding-and-tunneling/windows-tools/ssh.exe.md)
+    * [Plink](attack-vectors/port-forwarding-and-tunneling/windows-tools/plink.md)
 
 ## Linux
 
