@@ -20,11 +20,11 @@ ssh.exe works exactly like ssh on Linux including command structure and flags.
 
 ## Example
 
-To demonstrate the similarity, this example will show constructing a SSH remote dynamic port forward as seen [here](../ssh-tunneling/ssh-dynamic-remote-port-forwarding.md) for Linux.
+To demonstrate the similarity, this example will show constructing a SSH remote dynamic port forward as seen [here](../ssh-dynamic-remote-port-forwarding.md) for Linux.
 
-Consider a network that is similar to the Linux examples with one minor difference. Instead of the perimeter router being a Linux machine running Confluence web server (`CONFLUENCE01`), the machine on the perimeter (behind a firewall) is a Windows machine called `MULTISERVER01`. Additionally, instead of using a remote exploit to compromise the machine, it is assumed the attacker was able to gain credentialed access via a compromised account (`rdp_admin:P@ssw0rd!`). The credentials were compromised in [this example](../simple-port-forwarding-scenario.md#cracking-the-hash). The network layout for this example is shown in this diagram:
+Consider a network that is similar to the Linux examples with one minor difference. Instead of the perimeter router being a Linux machine running Confluence web server (`CONFLUENCE01`), the machine on the perimeter (behind a firewall) is a Windows machine called `MULTISERVER01`. Additionally, instead of using a remote exploit to compromise the machine, it is assumed the attacker was able to gain credentialed access via a compromised account (`rdp_admin:P@ssw0rd!`). The credentials were compromised in [this example](../../simple-port-forwarding-scenario.md#cracking-the-hash). The network layout for this example is shown in this diagram:
 
-<figure><img src="../../../.gitbook/assets/PFT-SshExeExample.png" alt=""><figcaption><p>Network layout for example</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/PFT-SshExeExample.png" alt=""><figcaption><p>Network layout for example</p></figcaption></figure>
 
 ### Setting Up the Tunnel
 
@@ -70,7 +70,7 @@ Given that the version is greater than 7.6 this OpenSSH client can be used for d
 
 #### Creating the Reverse Forward
 
-As [with Linux](../ssh-tunneling/ssh-dynamic-remote-port-forwarding.md#command-structure), the `-R` flag is used to set up a dynamic remote port forward:
+As [with Linux](../ssh-dynamic-remote-port-forwarding.md#command-structure), the `-R` flag is used to set up a dynamic remote port forward:
 
 ```
 ssh -N -R 127.0.0.1:9998 remote-ssh@192.168.45.159
@@ -105,7 +105,7 @@ LISTEN       0            128                          [::]:22                  
 
 ### Using the Tunnel
 
-Using the tunnel is exactly the same as demonstrated [with Linux](../ssh-tunneling/ssh-dynamic-remote-port-forwarding.md#using-the-tunnel).
+Using the tunnel is exactly the same as demonstrated [with Linux](../ssh-dynamic-remote-port-forwarding.md#using-the-tunnel).
 
 #### Configuring Proxychains
 
@@ -130,7 +130,7 @@ Once configured, proxychains can be prepended to other commands to force traffic
 proxychains psql -h 10.4.235.215 -U postgres
 ```
 
-* The credentials (`postgres:D@t4basePassw0rd!`) were compromised in [this example](../simple-port-forwarding-scenario.md#enumerating-the-pivot-machine)
+* The credentials (`postgres:D@t4basePassw0rd!`) were compromised in [this example](../../simple-port-forwarding-scenario.md#enumerating-the-pivot-machine)
 
 Once logged in the attacker can interact with the database as if it were on their own network:
 

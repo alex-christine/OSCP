@@ -36,7 +36,7 @@ find / -name plink.exe 2>/dev/null
 
 This example will continue to leverage a network structure like the one seen [earlier](ssh.exe.md#example). The perimeter machine is a Windows box called `MULTISERVER03`. The difference in this example is that the machine is hosting a web server and is behind a firewall that only allows inbound access to port 80. All outbound traffic is permitted:
 
-<figure><img src="../../../.gitbook/assets/PFT-PlinkExampleNetwork.png" alt=""><figcaption><p>New network configuration</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/PFT-PlinkExampleNetwork.png" alt=""><figcaption><p>New network configuration</p></figcaption></figure>
 
 For this example the machine has been breached by the attacker and a web shell was dropped at `http://MULTISERVER03/umbraco/forms.aspx`. This shell allows the attacker to run commands as the `iis apppool\defaultapppool` user.
 
@@ -106,7 +106,7 @@ Using username "remote-ssh".
 
 Rather than forwarding to a remote address as is usually expected, the command above actually creates listeners on the loopback interfaces of the remote and local machines. This creates an SSH tunnel between them that looks like this:
 
-<figure><img src="../../../.gitbook/assets/PFT-PlinkDualLoopbacks.png" alt=""><figcaption><p>Loopbacks create tunnel through firewall</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/PFT-PlinkDualLoopbacks.png" alt=""><figcaption><p>Loopbacks create tunnel through firewall</p></figcaption></figure>
 
 It is possible to confirm the listener on the attacker's machine with the `ss` command:
 
@@ -118,9 +118,9 @@ LISTEN       0            128                     127.0.0.1:9833                
 LISTEN       0            128                          [::]:22                         [::]:*
 ```
 
-At this point, `MULTISERVER03` can be accessed by sending traffic through the tunnel listening on the attacker's machine at `127.0.0.1:9833`. For example RDP access could be configured using the `rdp_admin:P@ssw0rd!` credentials compromised in [this example](../simple-port-forwarding-scenario.md#cracking-the-hash). To use this tunnel with Remmina RDP client, configure the access as shown here:
+At this point, `MULTISERVER03` can be accessed by sending traffic through the tunnel listening on the attacker's machine at `127.0.0.1:9833`. For example RDP access could be configured using the `rdp_admin:P@ssw0rd!` credentials compromised in [this example](../../simple-port-forwarding-scenario.md#cracking-the-hash). To use this tunnel with Remmina RDP client, configure the access as shown here:
 
-<figure><img src="../../../.gitbook/assets/PFT-PlinkRemminaConfig.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/PFT-PlinkRemminaConfig.png" alt=""><figcaption></figcaption></figure>
 
 Alternatively, [`xfreerdp`](https://www.freerdp.com/) could be used with the command:
 

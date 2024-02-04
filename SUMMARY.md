@@ -27,6 +27,9 @@
   * [File Transfer](networking-tools/netcat/file-transfer.md)
   * [Remote Administration](networking-tools/netcat/remote-administration.md)
   * [Other Uses](networking-tools/netcat/other-uses.md)
+* [Ncat](networking-tools/ncat/README.md)
+  * [Official Documentation](https://nmap.org/book/ncat-man.html)
+  * [SOCKS Proxy](networking-tools/ncat/socks-proxy.md)
 * [Nmap](networking-tools/nmap/README.md)
   * [Official Site](https://nmap.org/)
   * [Targeting](networking-tools/nmap/targeting.md)
@@ -227,9 +230,12 @@
     * [SSH Remote Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-remote-port-forwarding.md)
     * [SSH Dynamic Remote Port Forwarding](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-dynamic-remote-port-forwarding.md)
     * [sshuttle](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/sshuttle.md)
-  * [Windows Tools](attack-vectors/port-forwarding-and-tunneling/windows-tools/README.md)
-    * [ssh.exe](attack-vectors/port-forwarding-and-tunneling/windows-tools/ssh.exe.md)
-    * [Plink](attack-vectors/port-forwarding-and-tunneling/windows-tools/plink.md)
+    * [Windows Tools](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/windows-tools/README.md)
+      * [ssh.exe](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/windows-tools/ssh.exe.md)
+      * [Plink](attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/windows-tools/plink.md)
+  * [Tunneling Through DPI](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/README.md)
+    * [HTTP Tunneling](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/http-tunneling/README.md)
+      * [Chisel](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/http-tunneling/chisel.md)
 
 ## Linux
 
