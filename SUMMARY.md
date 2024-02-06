@@ -236,7 +236,8 @@
   * [Tunneling Through DPI](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/README.md)
     * [HTTP Tunneling](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/http-tunneling/README.md)
       * [Chisel](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/http-tunneling/chisel.md)
-    * [DNS Tunneling](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/dns-tunneling.md)
+    * [DNS Tunneling](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/dns-tunneling/README.md)
+      * [dnscat2](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/dns-tunneling/dnscat2.md)
 
 ## Linux
 

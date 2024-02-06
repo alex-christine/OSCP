@@ -15,7 +15,7 @@ layout:
 
 # DNS Tunneling
 
-DNS Tunneling is similar conceptually to [HTTP Tunneling](http-tunneling/), except instead of encapsulating data in HTTP traffic it is instead encapsulated in DNS traffic.
+DNS Tunneling is similar conceptually to [HTTP Tunneling](../http-tunneling/), except instead of encapsulating data in HTTP traffic it is instead encapsulated in DNS traffic.
 
 DNS tunneling can be used for both data _infiltration_ (placement into target network) and _exfiltration_ (removal from target network).&#x20;
 
@@ -25,11 +25,11 @@ The remainder of this page will illustrate the concepts of DNS tunneling with ex
 
 ## Illustration Background
 
-The examples here will continue to leverage a similar network structure to what has been seen in [previous](../simple-port-forwarding-scenario.md) [examples](../ssh-tunneling/ssh-dynamic-remote-port-forwarding.md) with some minor modifications. There are 2 machines that sit on the perimeter between the external and target networks (`MULTIVERVER03` and `CONFLUENCE01`). These 2 machines sit across a DMZ from a machine running a PostgreSQL database (`PGDATABASE01`) which straddles the DMZ and the internal network. On the internal network is a machine running SMB called `HRSHARES`.
+The examples here will continue to leverage a similar network structure to what has been seen in [previous](../../simple-port-forwarding-scenario.md) [examples](../../ssh-tunneling/ssh-dynamic-remote-port-forwarding.md) with some minor modifications. There are 2 machines that sit on the perimeter between the external and target networks (`MULTIVERVER03` and `CONFLUENCE01`). These 2 machines sit across a DMZ from a machine running a PostgreSQL database (`PGDATABASE01`) which straddles the DMZ and the internal network. On the internal network is a machine running SMB called `HRSHARES`.
 
 The main addition to this example set is a server on the WAN-side that serves as an authoritative DNS server for a particular domain (`feline.corp`). The server is called `FELINEAUTHORITY`. The entire layout is shown in this diagram:
 
-<figure><img src="../../../.gitbook/assets/PFT-DNSFundamentalsLayout.png" alt=""><figcaption><p>Layout of the target network</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/PFT-DNSFundamentalsLayout.png" alt=""><figcaption><p>Layout of the target network</p></figcaption></figure>
 
 As noted above it is assumed, for simplicity's sake, that the attacker has compromised `FELINEAUTHORITY` and has elevated access via a compromised account (`kali:7he_C4t_c0ntro11er`).&#x20;
 
@@ -95,9 +95,9 @@ Now that a DNS server is running on `FELINEAUTHORITY` focus can be shifted to th
 
 The victim machine in this case will be `PGDATABASE01`. The attacker can reach this machine by setting up a pivot through `CONFLUENCE01` with the following steps
 
-1. &#x20;Compromise  with CVE-2022-26134 and start a [reverse shell](../simple-port-forwarding-scenario.md#reverse-shell)
-2. Set up an SSH dynamic remote port forward through `CONFLUENCE01` to `PGDATABASE01` as seen in [this example](../ssh-tunneling/ssh-dynamic-remote-port-forwarding.md#setting-up-the-remote-forward)
-3. Use SSH with ProxyCommand and Ncat as seen [here](../ssh-tunneling/ssh-dynamic-remote-port-forwarding.md#ssh-session) to create an SSH session with `PGDATABASE01` through the tunnel
+1. &#x20;Compromise  with CVE-2022-26134 and start a [reverse shell](../../simple-port-forwarding-scenario.md#reverse-shell)
+2. Set up an SSH dynamic remote port forward through `CONFLUENCE01` to `PGDATABASE01` as seen in [this example](../../ssh-tunneling/ssh-dynamic-remote-port-forwarding.md#setting-up-the-remote-forward)
+3. Use SSH with ProxyCommand and Ncat as seen [here](../../ssh-tunneling/ssh-dynamic-remote-port-forwarding.md#ssh-session) to create an SSH session with `PGDATABASE01` through the tunnel
 
 At this point commands can be run on `PGDATABASE01` from the attacker's machine.
 
@@ -160,7 +160,7 @@ Address:	127.0.0.53#53
 ** server can't find exfiltrated-data.feline.corp: NXDOMAIN
 ```
 
-This makes sense because the attacker configured no records for Dnsmasq to serve on `FELINEAUTHORITY`. However, the point is not to create a valid connection so the response is unimportant. What matters is that the request hits the DNS server on `FELINEAUTHORITY` which can be seen via the `tcpdump` session started [above](dns-tunneling.md#monitor-incoming-traffic):
+This makes sense because the attacker configured no records for Dnsmasq to serve on `FELINEAUTHORITY`. However, the point is not to create a valid connection so the response is unimportant. What matters is that the request hits the DNS server on `FELINEAUTHORITY` which can be seen via the `tcpdump` session started [above](./#monitor-incoming-traffic):
 
 {% code lineNumbers="true" %}
 ```bash
@@ -182,7 +182,7 @@ Line 6 of the output contains the query for the `exfiltrated-data` subdomain (`A
 
 When issued via `nslookup` the request took the following path through the network:
 
-<figure><img src="../../../.gitbook/assets/PFT-DNSExfiltration.png" alt=""><figcaption><p>Journey of the exfiltrated data</p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/PFT-DNSExfiltration.png" alt=""><figcaption><p>Journey of the exfiltrated data</p></figcaption></figure>
 
 The steps where `MULTISERVER03` sent queries to the root name servers and TLD name server have been omitted here for simplicity. But in a normal network situation, these steps would precede the request made to `FELINEAUTHORITY`.
 
@@ -223,19 +223,19 @@ txt-record=www.feline.corp,here's something else less useful.
 ```
 {% endcode %}
 
-It is mostly the same as the one seen [above](dns-tunneling.md#dnsmasq) except it has some `TXT` records configured.  These will be the vehicle for passing data into the network.
+It is mostly the same as the one seen [above](./#dnsmasq) except it has some `TXT` records configured.  These will be the vehicle for passing data into the network.
 
 ### Victim Machine
 
 The steps for gaining SSH access to PGDATABASE01 will be the same as
 
-[above](dns-tunneling.md#machine-access). Once the shell is obtained nslookup will again be used to illustrate the example. This time, all `TXT` records associated with `www.feline.corp` are requested:
+[above](./#machine-access). Once the shell is obtained nslookup will again be used to illustrate the example. This time, all `TXT` records associated with `www.feline.corp` are requested:
 
 ```bash
 nslookup -type=txt www.feline.corp
 ```
 
-When run, the request returns the `TXT` records configured [above](dns-tunneling.md#dnsmasq-configuration):
+When run, the request returns the `TXT` records configured [above](./#dnsmasq-configuration):
 
 ```bash
 database_admin@pgdatabase01:~$ nslookup -type=txt www.feline.corp
