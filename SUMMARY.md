@@ -218,6 +218,8 @@
       * [Exploits](attack-vectors/exploit-frameworks/metasploit/modules/exploits.md)
     * [Payloads](attack-vectors/exploit-frameworks/metasploit/payloads/README.md)
       * [Meterpreter](attack-vectors/exploit-frameworks/metasploit/payloads/meterpreter.md)
+      * [msfvenom](attack-vectors/exploit-frameworks/metasploit/payloads/msfvenom.md)
+    * [Post-Exploitation](attack-vectors/exploit-frameworks/metasploit/post-exploitation.md)
 * [Client-Side Attacks](attack-vectors/client-side-attacks/README.md)
   * [Target Reconnaissance](attack-vectors/client-side-attacks/target-reconnaissance.md)
   * [Exploiting Microsoft Office](attack-vectors/client-side-attacks/exploiting-microsoft-office.md)
