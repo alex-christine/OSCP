@@ -32,7 +32,7 @@ sudo apt update; sudo apt install metasploit-framework -y
 
 From here the console can be launched and will appear like this:
 
-<figure><img src="../../../.gitbook/assets/Metasploit-msfconsole.png" alt=""><figcaption><p>Metasploit Console launch </p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Metasploit-msfconsole.png" alt=""><figcaption><p>Metasploit Console launch </p></figcaption></figure>
 
 ### Searching Modules
 
@@ -46,7 +46,7 @@ show payloads
 
 This results in a long list of all installed payloads:
 
-<figure><img src="../../../.gitbook/assets/Metasploit-ShowPayloads.png" alt=""><figcaption><p>Displaying all payloads</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Metasploit-ShowPayloads.png" alt=""><figcaption><p>Displaying all payloads</p></figcaption></figure>
 
 This command can also be run with the parameter `auxiliary`, `encoder`, `evasion`, `exploits`, `nops`, or `post` in place of `payloads`.
 
@@ -60,7 +60,7 @@ search "EternalBlue"
 
 This results in the output:
 
-<figure><img src="../../../.gitbook/assets/Metasploit-SearchingModules.png" alt=""><figcaption><p>Searching payloads</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Metasploit-SearchingModules.png" alt=""><figcaption><p>Searching payloads</p></figcaption></figure>
 
 It is also possible to search by protocol, e.g. `search SMB`.
 
@@ -92,7 +92,7 @@ show options
 
 The options to be set are `LHOST` and `LPORT` which are the IP address and port Metasploit will listen for connections on:
 
-<figure><img src="../../../.gitbook/assets/Metasploit-MeterpreterRevOptions.png" alt=""><figcaption><p>Options for the exploit</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Metasploit-MeterpreterRevOptions.png" alt=""><figcaption><p>Options for the exploit</p></figcaption></figure>
 
 The options can be set with the command:
 
@@ -108,11 +108,11 @@ set LHOST 192.168.45.159
 
 After the options are set the `exploit` command is used to launch the listener (`run` can also be used):
 
-<figure><img src="../../../.gitbook/assets/Metasploit-MeterpreterWaiting.png" alt=""><figcaption><p>Meterpreter waiting for a connection</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Metasploit-MeterpreterWaiting.png" alt=""><figcaption><p>Meterpreter waiting for a connection</p></figcaption></figure>
 
 The listener will remain open as long as the user does not end the `msfconsole` session. Once a victim machine has been induced to reach out to to the following will appear:
 
-<figure><img src="../../../.gitbook/assets/Metasploit-MeterpreterConnection.png" alt=""><figcaption><p>Connection to the reverse shell</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Metasploit-MeterpreterConnection.png" alt=""><figcaption><p>Connection to the reverse shell</p></figcaption></figure>
 
 * Note the line about delivering the stage which is consistent with the staged payload selected above&#x20;
 
@@ -126,7 +126,7 @@ msfconsole -x "use exploit/multi/handler;set payload windows/meterpreter/reverse
 
 * `$rev_ip` and `$rev_port` are the IP address and port respectively. They can be set as session variables or written in the command. E.g. `set LHOST 192.168.45.159;`
 
-<figure><img src="../../../.gitbook/assets/Metasploit-MeterpreterOneLiner.png" alt=""><figcaption><p>Launching a listener with the one-liner</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Metasploit-MeterpreterOneLiner.png" alt=""><figcaption><p>Launching a listener with the one-liner</p></figcaption></figure>
 
 ## Msfvenom
 

@@ -56,7 +56,7 @@ At this point the program finishes its execution and the functioning of the exec
 
 <figure><img src="../../../.gitbook/assets/AVE-ShellterVerification.png" alt=""><figcaption><p>PE Verification by Shellter</p></figcaption></figure>
 
-The exploit can then be transferred to the target machine and executed. Prior to execution a Meterpreter listener should be launched. As documented in the [Metasploit section](../../exploit-frameworks/metasploit/#reverse-shell), this can be achieved with the following one-liner:
+The exploit can then be transferred to the target machine and executed. Prior to execution a Meterpreter listener should be launched. As documented in the [Metasploit section](../../metasploit.md#reverse-shell), this can be achieved with the following one-liner:
 
 {% code overflow="wrap" %}
 ```bash
