@@ -357,6 +357,53 @@ User        CLIENTWK220\offsec        Local
 
 In this example, the members of the `adminteam` group (found [above](manual-enumeration.md#local-groups)) are determined to only be the `daveadmin` user. The `Administrators` group contains several members including `daveadmin`.
 
+### UAC Token Integrity Level
+
+[User Account Control](../privilege-basics.md#user-access-control-uac) (UAC) limits code's ability to run with elevated privileges. The current UAC integrity level can be determined several ways. The simplest is that it is contained in the output of the command `whoami /groups` command. The `Mandatory Label` line contains the current UAC level.
+
+The output from that command's example [above](manual-enumeration.md#group-membership) is copied below with only the relevant line remaining:
+
+```
+C:\Users\dave> whoami /groups
+
+GROUP INFORMATION
+-----------------
+
+Group Name                           Type             SID                                            Attributes                                        
+==================================== ================ ============================================== ==================================================
+...
+Mandatory Label\High Mandatory Level Label            S-1-16-12288                                                       
+```
+
+* In this case the level is `High`
+
+#### PowerShell
+
+If the [`NtObjectManager`](https://www.powershellgallery.com/packages/NtObjectManager/1.1.32) is installed on a machine the level can be determined with the [`Get-NetTokenIntegrityLevel`](https://github.com/googleprojectzero/sandbox-attacksurface-analysis-tools/blob/main/NtObjectManager/NtTokenFunctions.ps1) cmdlet. The module must first be imported with the commend:
+
+```powershell
+Import-Module NtObjectManager
+```
+
+Then the command:
+
+```powershell
+Get-NtTokenIntegrityLevel
+```
+
+When run this looks like:
+
+```powershell
+PS C:\Users\steve> Import-Module NtObjectManager
+
+PS C:\Users\steve> Get-NtTokenIntegrityLevel
+Medium
+```
+
+#### Process Explorer
+
+[Process Explorer](https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer) can be used to see UAC token level of a process as shown [here](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/integrity-levels).
+
 ### Installed Applications
 
 Two [registry](manual-enumeration.md#registry) keys can be queried via PowerShell to list installed applications. The keys to query are the [uninstall registry keys](https://learn.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key?redirectedfrom=MSDN):

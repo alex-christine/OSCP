@@ -145,4 +145,12 @@ For this, an administrative user obtains _two access tokens_ after a successful 
 
 <figure><img src="../../.gitbook/assets/WPE-Basics_UAC-SignIn.png" alt=""><figcaption><p>Admin vs. standard user sign in with UAC enabled</p></figcaption></figure>
 
-With UAC, each application that requires the _administrator access token_ must prompt the end user for consent. The only exception is the relationship that exists between parent and child processes. Child processes inherit the user's access token from the parent process. Both the parent and child processes, however, must have the same _integrity level_.
+With UAC, each application that requires the _administrator access token_ must prompt the end user for consent. The only exception is the relationship that exists between parent and child processes. Child processes inherit the user's access token from the parent process. Both the parent and child processes, however, must have the same _integrity level_.&#x20;
+
+This [blog post](https://www.cynet.com/attack-techniques-hands-on/user-account-control-overview-and-exploitation/) explains the mechanisms well.
+
+### Integrity Levels
+
+UAC follows mechanism known as Mandatory Integrity Control (MIC) where every user, processes and resources is provided with Integrity Level (IL) more like an access card with different level of access. Users having higher IL can access resources with same level of IL or lower.
+
+<table><thead><tr><th width="170">Level</th><th>Usage</th></tr></thead><tbody><tr><td>Untrusted</td><td>Processes with anonymous logins</td></tr><tr><td>Low</td><td><p>Mainly for internet interactions, especially in Internet Explorer's Protected Mode, affecting associated files and processes, and certain folders like the <em>Temporary Internet Folder</em>.</p><p></p><p>Low integrity processes face significant restrictions, including no registry write access and limited user profile write access.</p></td></tr><tr><td>Medium</td><td><p>The default level for most activities, assigned to standard users and objects without specific integrity levels.</p><p></p><p>Even members of the Administrators group operate at this level by default.</p></td></tr><tr><td>High</td><td>Reserved for administrators, allowing them to modify objects at lower integrity levels, including those at the high level itself.</td></tr><tr><td>System</td><td>The highest operational level for the Windows kernel and core services, out of reach even for administrators, ensuring protection of vital system functions.</td></tr><tr><td>Installer</td><td>A unique level that stands above all others, enabling objects at this level to uninstall any other object.</td></tr></tbody></table>
