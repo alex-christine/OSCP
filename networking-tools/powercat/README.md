@@ -12,7 +12,7 @@ As this is not a native tool it will (usually) be up to the attacker to arrange 
 
 #### Local Copy
 
-To load a local copy (previously-downloaded) of powercat via [dot-sourcing](../../windows/powershell/dot-sourcing.md):
+To load a local copy (previously-downloaded) of powercat via [dot-sourcing](../../windows/built-in-tools/powershell/dot-sourcing.md):
 
 ```powershell
 PS C:\Users\Offsec> . .\powercat.ps1

@@ -242,7 +242,7 @@ PS C:\Users\steve> . .\PowerUp.ps1
 ```
 
 * `192.168.45.155` is the IP address of the attacker's machine where an HTTP server with tools is being hosted at port `8888`
-* `powershell -ep bypass` is used to bypass the [execution policy](../../../powershell/#powershell-execution-policy) on this machine
+* `powershell -ep bypass` is used to bypass the [execution policy](../../../built-in-tools/powershell/#powershell-execution-policy) on this machine
 
 From here the attacker can used the `Get-UnquotedService` cmdlet that is imported by PowerUp:
 

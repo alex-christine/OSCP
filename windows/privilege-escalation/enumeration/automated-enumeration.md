@@ -171,7 +171,7 @@ At line:1 char:3
 
 Unfortunately in this example the&#x20;
 
-[Execution Policy](../../powershell/#powershell-execution-policy) is preventing script execution. PowerShell must be started with the `-ExecutionPolicy Bypass` flag set in order to circumvent the policy:
+[Execution Policy](../../built-in-tools/powershell/#powershell-execution-policy) is preventing script execution. PowerShell must be started with the `-ExecutionPolicy Bypass` flag set in order to circumvent the policy:
 
 ```powershell
 PS C:\Users\dave> PowerShell -ExecutionPolicy Bypass
