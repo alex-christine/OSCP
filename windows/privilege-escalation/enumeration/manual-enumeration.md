@@ -258,6 +258,8 @@ In this instance it is interesting to note that the normal built-in `Administrat
 
 Similarly to Local Users there is both a cmd.exe and PowerShell command to get a list of groups on the local machine.
 
+#### Net Command
+
 For cmd use the `net localgroup` command:
 
 ```
@@ -290,6 +292,8 @@ Aliases for \\CLIENTWK220
 *Users
 The command completed successfully.
 ```
+
+#### PowerShell
 
 For PowerShell, use the [Get-LocalGroup](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/get-localgroup?view=powershell-5.1) cmdlet:
 
