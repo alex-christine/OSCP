@@ -951,7 +951,7 @@ This will output all User ACEs that contain `GenericAll`, though the output may 
 
 {% code overflow="wrap" %}
 ```powershell
- Get-ADUser | ForEach-Object { $_ | Get-ObjectACL } | Where-Object { $_.ActiveDirectoryRights -contains "GenericAll" } | Select-Object ObjectName,ObjectSID,SecurityIdentifier,ActiveDirectoryRights
+ Get-ADUser | ForEach-Object { $_ | Get-ObjectACL -ConvertSID } | Where-Object { $_.ActiveDirectoryRights -contains "GenericAll" } | Select-Object ObjectName,ObjectSID,SecurityIdentifier,SecurityIdentifierName,ActiveDirectoryRights
 ```
 {% endcode %}
 

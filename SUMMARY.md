@@ -305,6 +305,7 @@
 * [Active Directory](windows/active-directory/README.md)
   * [Enumeration](windows/active-directory/enumeration/README.md)
     * [Manual](windows/active-directory/enumeration/manual.md)
+    * [Automated](windows/active-directory/enumeration/automated.md)
 * [Core Concepts](windows/core-concepts/README.md)
   * [Common Information Model (CIM)](windows/core-concepts/common-information-model-cim.md)
   * [DISM](windows/core-concepts/dism.md)
