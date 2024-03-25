@@ -17,6 +17,7 @@
 
 * [SQL Databases](software/sql-databases/README.md)
   * [PostgreSQL](software/sql-databases/postgresql.md)
+* [Mimikatz](software/mimikatz.md)
 
 ## Networking Tools
 
@@ -306,7 +307,9 @@
   * [Enumeration](windows/active-directory/enumeration/README.md)
     * [Manual](windows/active-directory/enumeration/manual.md)
     * [Automated](windows/active-directory/enumeration/automated.md)
-  * [Authentication](windows/active-directory/authentication.md)
+  * [Authentication](windows/active-directory/authentication/README.md)
+    * [Cached AD Credentials](windows/active-directory/authentication/cached-ad-credentials.md)
+    * [Attacking AD Authentication](windows/active-directory/authentication/attacking-ad-authentication.md)
 * [Core Concepts](windows/core-concepts/README.md)
   * [Common Information Model (CIM)](windows/core-concepts/common-information-model-cim.md)
   * [DISM](windows/core-concepts/dism.md)

@@ -35,7 +35,7 @@ The following steps present an outline of NTLM non-interactive authentication. T
 6. The domain controller uses the user name to retrieve the hash of the user's password from the Security Account Manager database. It uses this password hash to encrypt the challenge.
 7. The domain controller compares the encrypted challenge it computed (in step 6) to the response computed by the client (in step 4). If they are identical, authentication is successful.
 
-<figure><img src="../../.gitbook/assets/AD-NTLMDiagram.png" alt=""><figcaption><p>NTLMv2 Authentication in AD environment</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/AD-NTLMDiagram.png" alt=""><figcaption><p>NTLMv2 Authentication in AD environment</p></figcaption></figure>
 
 ### Versions
 
@@ -125,7 +125,7 @@ When the client needs to communicate with a service on another node (a "principa
 
 ### Operation Details
 
-The protocol is detailed below. There is also a [diagram](authentication.md#diagram) illustrating the concepts below.
+The protocol is detailed below. There is also a [diagram](./#diagram) illustrating the concepts below.
 
 #### Client Authentication to AS
 
@@ -142,7 +142,7 @@ When a client attempts to authenticate to the AS, the following steps are used:
      * **Direction:** KDC (AS) to client
      * **Encrypted With:** TGS's secret key
        * The TGT is not decrypted by the client, it is just stored and presented whenever it is needed in later interactions
-       * The key is the (NTLM hash of the [`KRBTGT`](authentication.md#krbtgt) account)
+       * The key is the (NTLM hash of the [`KRBTGT`](./#krbtgt) account)
      * **Consists Of:** Client ID, client [network address](https://en.wikipedia.org/wiki/Network\_address), ticket validity period, and the Client/TGS Session Key. This is all then encrypted with the TGS's secret key
 3. Once the client receives messages A and B, it attempts to decrypt message A with the secret key generated from the password entered by the user
    * If the user entered password does not match the password in the AS database, the client's secret key will be different and thus unable to decrypt message A
@@ -205,7 +205,7 @@ At this point the client has enough information to authenticate with the service
 
 The steps described above are visualized in the diagram below:
 
-<figure><img src="../../.gitbook/assets/AD-KerberosDiagram.png" alt=""><figcaption><p>Client authenticating to a KDC then an SS</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/AD-KerberosDiagram.png" alt=""><figcaption><p>Client authenticating to a KDC then an SS</p></figcaption></figure>
 
 ### Concepts
 
@@ -228,3 +228,24 @@ Windows Server Kerberos authentication is achieved by the use of a special Kerbe
 * Each network service that requires a different host name will need its own set of Kerberos keys. This complicates virtual hosting and clusters.
 * Kerberos requires user accounts and services to have a trusted relationship to the Kerberos token server.
 * The required client trust makes creating staged environments (e.g., separate domains for test environment, pre-production environment and production environment) difficult: Either domain trust relationships need to be created that prevent a strict separation of environment domains, or additional user clients need to be provided for each environment.
+
+## PKI in AD
+
+[**Public key infrastructure**](https://en.wikipedia.org/wiki/Public\_key\_infrastructure) (**PKI**) is a set of roles, policies, hardware, software and procedures needed to create, manage, distribute, use, store and revoke digital certificates and manage public-key encryption. The purpose of a PKI is to facilitate the secure electronic transfer of information for a range of network activities such as e-commerce, internet banking and confidential email.
+
+### AD CS
+
+Microsoft provides the AD role [`Active Directory Certificate Services`](https://learn.microsoft.com/en-us/training/modules/implement-manage-active-directory-certificate-services/)  (`AD CS`) to implement a PKI, which exchanges digital certificates between authenticated users and trusted resources. AD CS provides all PKI-related components as role services. Each role service is responsible for a specific portion of the certificate infrastructure while working together to form a complete solution.
+
+The AD CS role includes the following role services:
+
+* **Certification Authority:** The main purposes of CAs are to issue certificates, to revoke certificates, and to publish authority information access (AIA) and revocation information.
+* **Certification Authority Web Enrollment:** This component provides a method to issue and renew certificates in scenarios where users use devices that are not joined to the domain or are running operating systems other than Windows.
+* **Online Responder:** This component can be used to configure and manage Online Certificate Status Protocol (OCSP) validation and revocation checking.
+* **Network Device Enrollment Service (NDES):** With this component, routers, switches, and other network devices can obtain certificates from AD CS.
+* **Certificate Enrollment Web Service** **(CES):** This component works as a proxy client between a computer running Windows and the CA. CES enables users, computers, or applications to connect to a CA by using web services
+* **Certificate Enrollment Policy Web Service:** This component enables users to obtain certificate enrollment policy information. Combined with CES, it enables policy-based certificate enrollment in scenarios where user devices are not joined to the domain or can't connect to a domain controller
+
+#### Deployment Types
+
+When using AD CS, one can deploy two types of CAs: **standalone** and **enterprise**. These types of CAs are not about hierarchy, but instead, about functionality and integration with AD DS. A standalone CA doesn't depend on AD DS. An enterprise CA requires AD DS, to provide additional functionality, such as autoenrollment. Autoenrollment allows domain users and domain-joined devices to enroll automatically for certificates after you enable automatic certificate enrollment through Group Policy.
