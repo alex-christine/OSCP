@@ -1216,6 +1216,34 @@ kali@kali:~$ gpp-decrypt "+bsY0V3d4/KgX3VJdO/vyepPfAN1zMFTiQDApgR92JE"
 P@$$w0rd
 ```
 
+## Account Policies
+
+### Current Account
+
+#### Net Commands
+
+The `accounts` subcommand can be used to check the current user's accout policies:
+
+```sh
+net accounts
+```
+
+The output reveals things such as password lockouts and reset policies:
+
+```shell-session
+PS C:\Users\jeff> net accounts
+Force user logoff how long after time expires?:       Never
+Minimum password age (days):                          1
+Maximum password age (days):                          42
+Minimum password length:                              7
+Length of password history maintained:                24
+Lockout threshold:                                    5
+Lockout duration (minutes):                           30
+Lockout observation window (minutes):                 30
+Computer role:                                        WORKSTATION
+The command completed successfully.
+```
+
 ## General Enumeration Steps
 
 The tools above should be used to follow a rough framework when enumerating an AD environment. The assumption is made that the attacker has access to a domain-connected account/machine to use as a base from which to do their enumeration.
