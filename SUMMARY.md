@@ -311,6 +311,7 @@
     * [Cached AD Credentials](windows/active-directory/authentication/cached-ad-credentials.md)
     * [Attacking AD Authentication](windows/active-directory/authentication/attacking-ad-authentication/README.md)
       * [Password Attacks](windows/active-directory/authentication/attacking-ad-authentication/password-attacks.md)
+      * [AS-REP Roasting](windows/active-directory/authentication/attacking-ad-authentication/as-rep-roasting.md)
 * [Core Concepts](windows/core-concepts/README.md)
   * [Common Information Model (CIM)](windows/core-concepts/common-information-model-cim.md)
   * [DISM](windows/core-concepts/dism.md)
