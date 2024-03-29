@@ -343,7 +343,7 @@ Microsoft provides a [broad variety](https://learn.microsoft.com/en-us/dotnet/ap
 * `Self`: The right to perform an operation that is controlled by a validated write access right
   * Could allow an attacker to add themselves to a group for example
 
-Of these, the `GenericAll` is the most permissive.
+Of these, the `GenericAll` is the most permissive. A more complete list of rights can also be found [here](https://adsecurity.org/?p=3658).
 
 ## Group Policy
 

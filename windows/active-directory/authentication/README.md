@@ -125,7 +125,7 @@ When the client needs to communicate with a service on another node (a "principa
 
 ### Operation Details
 
-The protocol is detailed below. There is also a [diagram](./#diagram) illustrating the concepts below.
+The protocol is detailed below. There is also a [diagram](./#diagram) illustrating the concepts below. Keep in mind in an AD environment the KDC (made up of the AS and TGS) is the domain controller.
 
 #### Client Authentication to AS
 
@@ -157,6 +157,8 @@ When a client wants to use a service on the network it must request authorizatio
    * **Message C:** Service request
      * **Direction:** Client to KDC (TGS)
      * **Composed Of:** TGT and ID of requested service
+       * ID of requested service is a Service Principal Name (SPN) of the form `spn/host`
+         * E.g. `MSSqlSvc/SQL.domain.com`. requests the MSSQL service via its SPN (`MSsqlSvc`) on the host machine `SQL.domain.com`.
      * **Encrypted With:** Message C as a whole is not encrypted, but recall the TGT is encrypted with the TGS's secret key and is basically just an encrypted blob to the client
    * **Message D:** Authenticator
      * **Direction:** Client to KDC (TGS)
