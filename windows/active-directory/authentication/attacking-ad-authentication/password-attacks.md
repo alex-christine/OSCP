@@ -29,9 +29,18 @@ net accounts
 When run this will reveal information about the lockout threshold, duration, and observation window:
 
 ```shell-session
+C:\Users\jeff>net accounts
+Force user logoff how long after time expires?:       Never
+Minimum password age (days):                          1
+Maximum password age (days):                          42
+Minimum password length:                              7
+Length of password history maintained:                24
+Lockout threshold:                                    5
+Lockout duration (minutes):                           30
+Lockout observation window (minutes):                 30
+Computer role:                                        WORKSTATION
+The command completed successfully.
 ```
-
-
 
 Once this information has been obtained the attacker can determine which password attack methodology best suits their needs.
 
@@ -165,9 +174,9 @@ While using `kinit` could be automated in a bash script or something, there is a
 ```
 {% endcode %}
 
-* \-d specifies the domain
-* .\usernames.txt is a file containing a list of usernames (one-per-line)
-* "Nexus123!" is the password to spray
+* `-d` specifies the domain
+* `.\usernames.txt` is a file containing a list of usernames (one-per-line)
+* `"Nexus123!"` is the password to spray
 
 When run the output looks like this:
 

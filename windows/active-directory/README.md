@@ -294,6 +294,36 @@ When an object in one domain is referenced by another object in another domain, 
 
 The infrastructure FSMO role holder is the DC responsible for updating an object's SID and distinguished name in a cross-domain object reference.
 
+## AD Replication Model
+
+In production environments, domains typically rely on more than one domain controller to provide redundancy. [Active Directory replication](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc737314\(v=ws.10\)) is the means by which changes to directory data are transferred between domain controllers in an Active Directory forest. The Active Directory replication model defines the mechanisms that allow directory updates to be transferred automatically between domain controllers to provide a seamless replication solution for the Active Directory distributed directory service.
+
+### AD Replication Model Architecture <a href="#active-directory-replication-model-architecture" id="active-directory-replication-model-architecture"></a>
+
+Active Directory replication operates within the directory service component of the security subsystem. The directory service component, `Ntdsa.dll`, is accessed through the LDAP network protocol and LDAP C API for directory service updates, as implemented in `Wldap32.dll`. The updates are transported over IP as packaged by the replication RPC protocol. SMTP can also be used to prepare non-domain updates for TCP transport over IP.
+
+The **Directory Replication System** (**DRS**) client and server components interact to transfer and apply Active Directory updates between domain controllers.
+
+The following diagram shows the client-server architecture for replication clients and LDAP clients:
+
+<figure><img src="../../.gitbook/assets/AD-DRS_Model.png" alt=""><figcaption><p>Client-server architecture for replication and LDAP clients</p></figcaption></figure>
+
+### DRS Remote Protocol
+
+The Directory Replication Service (DRS) Remote Protocol is an RPC protocol for replication and management of data in Active Directory.
+
+The protocol consists of two RPC interfaces named `drsuapi` and `dsaop`. The name of each `drsuapi` method begins with "`IDL_DRS`", while the name of each `dsaop` method begins with "`IDL_DSA`".
+
+A domain controller may request an update for a specific object, like an account, using the [`IDL_DRSGetNCChanges`](https://learn.microsoft.com/en-us/openspecs/windows\_protocols/ms-drsr/b63730ac-614c-431c-9501-28d6aca91894) API.
+
+To launch such a replication, a user needs to have the [following rights](https://www.secureideas.com/blog/the-other-replicating-directory-changes):
+
+* `Replicating Directory Changes`
+* `Replicating Directory Changes All`
+* `Replicating Directory Changes in Filtered Set`
+
+By default, members of the `Domain Admins`, `Enterprise Admins`, and `Administrators` groups have these rights assigned.
+
 ## Access Control Lists
 
 An object in AD may have a set of permissions applied to it with multiple [access control entries](https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-entries) (ACE). These ACEs make up the [access control list](https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-lists) (ACL). Each ACE defines whether access to the specific object is allowed or denied.

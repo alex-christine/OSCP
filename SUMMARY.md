@@ -313,6 +313,8 @@
       * [Password Attacks](windows/active-directory/authentication/attacking-ad-authentication/password-attacks.md)
       * [AS-REP Roasting](windows/active-directory/authentication/attacking-ad-authentication/as-rep-roasting.md)
       * [Kerberoasting](windows/active-directory/authentication/attacking-ad-authentication/kerberoasting.md)
+      * [Silver Tickets](windows/active-directory/authentication/attacking-ad-authentication/silver-tickets.md)
+      * [DC Sync](windows/active-directory/authentication/attacking-ad-authentication/dc-sync.md)
 * [Core Concepts](windows/core-concepts/README.md)
   * [Common Information Model (CIM)](windows/core-concepts/common-information-model-cim.md)
   * [DISM](windows/core-concepts/dism.md)

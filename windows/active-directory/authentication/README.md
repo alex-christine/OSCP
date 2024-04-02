@@ -125,7 +125,7 @@ When the client needs to communicate with a service on another node (a "principa
 
 ### Operation Details
 
-The protocol is detailed below. There is also a [diagram](./#diagram) illustrating the concepts below. Keep in mind in an AD environment the KDC (made up of the AS and TGS) is the domain controller.
+The protocol is detailed below. There is also a [diagram](./#diagram) illustrating the concepts below. Keep in mind in an AD environment the KDC (made up of the AS and TGS) is the domain controller. The information below is also described (and illustrated) [here](https://en.hackndo.com/kerberos/#how-it-works).
 
 #### Client Authentication to AS
 
@@ -186,7 +186,7 @@ When a client wants to use a service on the network it must request authorizatio
 
 At this point the client has enough information to authenticate with the service server (SS), also known as the application server (AS). To do so:
 
-1. Client sends the SS two messages. This is known as the _AS Request_ (`AS-REQ`)
+1. Client sends the SS two messages. This is known as the _Application Request_ (`AP-REQ`)
    * **Message E:** Exact copy of message from previous step. The message is effectively just forwarded from the TGS to the SS via the client
    * **Message G:** Service Authenticator
      * **Direction:** Client to SS
@@ -197,11 +197,12 @@ At this point the client has enough information to authenticate with the service
       * This gives the SS a copy of the Client/Service session key as well as the client's ID
    2. Decrypts Message G using the Client/Service session key (extracted from Message E)
       * This gives the SS another copy of the client ID
-   3. Compares the client IDs from Messages E and G, if they match the server sends the following message to confirm its identity. This message is known as the _AS Response_ (`AS-REP`):
+   3. Compares the client IDs from Messages E and G, if they match the server sends the following message to confirm its identity. This message is known as the _Application Response_ (`AP-REP`):
       * **Message H:** Timestamp found in Message G&#x20;
         * **Encrypted With:** Client/Service Session Key (from decrypted Message E)
    4. Client decrypts Message H and validates the timestamp matches what was in its service authenticator message (Message G). If the timestamps match the client is authenticated and can trust the server
-   5. Authentication is complete and client can begin using service
+   5. If enabled, [PAC validation](./#pac-validation) is performed here
+   6. Authentication is complete and client can begin using service
 
 #### Diagram
 
@@ -230,6 +231,102 @@ Windows Server Kerberos authentication is achieved by the use of a special Kerbe
 * Each network service that requires a different host name will need its own set of Kerberos keys. This complicates virtual hosting and clusters.
 * Kerberos requires user accounts and services to have a trusted relationship to the Kerberos token server.
 * The required client trust makes creating staged environments (e.g., separate domains for test environment, pre-production environment and production environment) difficult: Either domain trust relationships need to be created that prevent a strict separation of environment domains, or additional user clients need to be provided for each environment.
+
+### Privilege Attribute Certificate
+
+The base _Kerberos protocol does not provide authorization_. "Kerberized" applications are expected to manage their own authorization, typically through names. Specifically, the Kerberos protocol does not define any explicit group membership or logon policy information to be carried in the Kerberos tickets. It leaves that for Kerberos extensions to provide a mechanism to convey authorization information by encapsulating this information within an `AuthorizationData` structure.
+
+The [**Privilege Attribute Certificate**](https://learn.microsoft.com/en-us/openspecs/windows\_protocols/ms-pac/54d570b1-fc54-4c54-8218-f770440ec334) (**PAC**)  was created to provide this authorization data for Kerberos Protocol Extensions [`[MS-KILE]`](https://learn.microsoft.com/en-us/openspecs/windows\_protocols/ms-kile/2a32282e-dd48-4ad9-a542-609804b02cc9). Into the PAC structure `[MS-KILE]` encodes authorization information, which consists of group memberships, additional credential information, profile and policy information, and supporting security metadata.
+
+Examples of information that can be provided by a DC include:
+
+* Authorization data such as [security identifiers (SIDs)](https://learn.microsoft.com/en-us/openspecs/windows\_protocols/ms-pac/f2ef15b6-1e9b-48b5-bf0b-019f061d41c8#gt\_83f2020d-0804-4840-a5ac-e06439d50f8d) and [relative identifiers (RIDs)](https://learn.microsoft.com/en-us/openspecs/windows\_protocols/ms-pac/f2ef15b6-1e9b-48b5-bf0b-019f061d41c8#gt\_df3d0b61-56cd-4dac-9402-982f1fedc41c).
+* User profile information such as a home directory or logon script.
+* Password credentials, used during smart card authentication, for password based authentication protocols to use at a later time.
+* [Service for User (S4U)](https://learn.microsoft.com/en-us/openspecs/windows\_protocols/ms-pac/f2ef15b6-1e9b-48b5-bf0b-019f061d41c8#gt\_083a5403-f654-4db6-b17e-9c10dc5cd420) protocol [\[MS-SFU\]](https://learn.microsoft.com/en-us/openspecs/windows\_protocols/ms-sfu/3bff5864-8135-400e-bdd9-33b552051d94) data.
+
+A PAC is shown below, it has been simplified and some comments added for readability ([source](https://en.hackndo.com/kerberos-silver-golden-tickets/)):
+
+{% code fullWidth="true" %}
+```
+AuthorizationData item
+    ad-type: AD-Win2k-PAC (128)
+        Type: Logon Info (1)
+            PAC_LOGON_INFO: 01100800cccccccce001000000000000000002006a5c0818...
+                Logon Time: Aug 17, 2018 16:25:05.992202600 Romance Daylight Time
+                Logoff Time: Infinity (absolute time)
+                PWD Last Set: Aug 16, 2018 14:13:10.300710200 Romance Daylight Time
+                PWD Can Change: Aug 17, 2018 14:13:10.300710200 Romance Daylight Time
+                PWD Must Change: Infinity (absolute time)
+                Acct Name: pixis
+                Full Name: pixis
+                Logon Count: 7
+                Bad PW Count: 2
+                User RID: 1102
+                Group RID: 513
+                GROUP_MEMBERSHIP_ARRAY
+                    Referent ID: 0x0002001c
+                    Max Count: 2
+                    GROUP_MEMBERSHIP:
+                        Group RID: 1108
+                        Attributes: 0x00000007
+                            .... .... .... .... .... .... .... .1.. = Enabled: The enabled bit is SET
+                            .... .... .... .... .... .... .... ..1. = Enabled By Default: The ENABLED_BY_DEFAULT bit is SET
+                            .... .... .... .... .... .... .... ...1 = Mandatory: The MANDATORY bit is SET
+                    GROUP_MEMBERSHIP:
+                        Group RID: 513
+                        Attributes: 0x00000007
+                            .... .... .... .... .... .... .... .1.. = Enabled: The enabled bit is SET
+                            .... .... .... .... .... .... .... ..1. = Enabled By Default: The ENABLED_BY_DEFAULT bit is SET
+                            .... .... .... .... .... .... .... ...1 = Mandatory: The MANDATORY bit is SET
+                User Flags: 0x00000020
+                User Session Key: 00000000000000000000000000000000
+                Server: DC2016
+                Domain: HACKNDO
+                SID pointer:
+                    Domain SID: S-1-5-21-3643611871-2386784019-710848469  (Domain SID)
+                User Account Control: 0x00000210
+                    .... .... .... ...0 .... .... .... .... = Don't Require PreAuth: This account REQUIRES preauthentication
+                    .... .... .... .... 0... .... .... .... = Use DES Key Only: This account does NOT have to use_des_key_only
+                    .... .... .... .... .0.. .... .... .... = Not Delegated: This might have been delegated
+                    .... .... .... .... ..0. .... .... .... = Trusted For Delegation: This account is NOT trusted_for_delegation
+                    .... .... .... .... ...0 .... .... .... = SmartCard Required: This account does NOT require_smartcard to authenticate
+                    .... .... .... .... .... 0... .... .... = Encrypted Text Password Allowed: This account does NOT allow encrypted_text_password
+                    .... .... .... .... .... .0.. .... .... = Account Auto Locked: This account is NOT auto_locked
+                    .... .... .... .... .... ..1. .... .... = Don't Expire Password: This account DOESN'T_EXPIRE_PASSWORDs
+                    .... .... .... .... .... ...0 .... .... = Server Trust Account: This account is NOT a server_trust_account
+                    .... .... .... .... .... .... 0... .... = Workstation Trust Account: This account is NOT a workstation_trust_account
+                    .... .... .... .... .... .... .0.. .... = Interdomain trust Account: This account is NOT an interdomain_trust_account
+                    .... .... .... .... .... .... ..0. .... = MNS Logon Account: This account is NOT a mns_logon_account
+                    .... .... .... .... .... .... ...1 .... = Normal Account: This account is a NORMAL_ACCOUNT
+                    .... .... .... .... .... .... .... 0... = Temp Duplicate Account: This account is NOT a temp_duplicate_account
+                    .... .... .... .... .... .... .... .0.. = Password Not Required: This account REQUIRES a password
+                    .... .... .... .... .... .... .... ..0. = Home Directory Required: This account does NOT require_home_directory
+                    .... .... .... .... .... .... .... ...0 = Account Disabled: This account is NOT disabled
+```
+{% endcode %}
+
+This PAC is found in every tickets (`TGT` or `TGS`) and is encrypted either with the KDC key or with the requested service account’s key. Therefore the user has no control over this information, so he cannot modify his own rights, groups, etc.
+
+In fact the PAC is usually double signed to ensure it is not modified. When a PAC is attached to a `TGS-REP` by the KDC, the PAC is signed first by the key of the service account (service that is being requested in the `TGS-REQ/REP`). The PAC is then signed a second time using the domain controller's secret (NT Hash of the `krbtgt` account).
+
+#### PAC Validation
+
+The application on the server executing in the context of the service account checks the user's permissions from the group memberships included in the service ticket . However, the user and group permissions in the service ticket (`AP-REQ`) are not verified by the application in a majority of environments. In this case, the application blindly trusts the integrity of the service ticket since it is encrypted with a password hash that is, in theory, only known to the service account and the domain controller.
+
+[PAC Validation](https://learn.microsoft.com/en-us/openspecs/windows\_protocols/ms-apds/1d1f2b0c-8e8a-4d2a-8665-508d04976f84) is an optional verification process between the SPN application and the domain controller. If this is enabled, the user authenticating to the service and its privileges are validated by the domain controller.
+
+Recall from above that a PAC is double-signed. First using the service's account hash and then using `krbtgt`'s account secret. The first signature is always checked as part of processing the AP-REQ. It is the second signature, `krbtgt`'s, that is validated when PAC validation is enabled. This ensures that the PAC is legitimate and from the KDC not forged.
+
+With PAC enabled a [client service request](./#client-service-request) looks like this:
+
+<figure><img src="../../../.gitbook/assets/AD-KerberosPAC.png" alt=""><figcaption><p>PAC checks enabled</p></figcaption></figure>
+
+1. The client tries to access a resource requiring Kerberos authentication be sending an `AP-REQ` message
+2. The server passes the PAC to the operating system to receive an access token. The server operating system forwards the PAC signature in the `AP-REQ` to the domain controller for verification in a `KERB_VERIFY_PAC` message.
+3. The domain controller verifies the signature on the response and returns the result to the server.&#x20;
+   * An error is returned as the appropriate RPC status code.
+4. The server verifies the `AP-REQ`, and sends an `AP-REP` if the verification is successful.
 
 ## PKI in AD
 

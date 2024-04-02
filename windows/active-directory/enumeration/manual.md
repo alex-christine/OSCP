@@ -415,6 +415,14 @@ For PowerView, the property is also called .memberof but it is the text represen
 Get-DomainUser | Select name,memberof
 ```
 
+### User Privileges
+
+User privilege enumeration is covered [here](../../privilege-escalation/enumeration/manual-enumeration.md#privileges) but the command is:
+
+```sh
+whoami /priv
+```
+
 ### User Sessions
 
 It can be important to understand which machines a user has a session on.
