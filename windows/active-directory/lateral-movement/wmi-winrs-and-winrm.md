@@ -22,6 +22,8 @@ WMI is capable of creating processes via the `Create` method from the `Win32_Pro
 
 The example assumes the attacker has compromised an account (`jeff`) and is able to access the `CLIENT74` machine (`192.168.x.74`) with that login. The attacker is now attempting to move laterally to the `FILES04` machine (`192.168.x.73`).
 
+Also assume the attacker has access to the `jen:Nexus123!` account and credentials as they were compromised in [this example](../authentication/attacking-ad-authentication/password-attacks.md).
+
 This method used to be primarily conducted via `wmic` utility, but that has been [recently deprecated](https://docs.microsoft.com/en-us/windows/deployment/planning/windows-10-deprecated-features). Regardless, the demonstration will start with `wmic` and then show the same technique in PowerShell. Then an alternative technique leveraging WinRM can will be shown.
 
 ## WMIC

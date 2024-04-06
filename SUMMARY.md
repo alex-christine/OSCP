@@ -317,6 +317,7 @@
       * [DC Sync](windows/active-directory/authentication/attacking-ad-authentication/dc-sync.md)
   * [Lateral Movement](windows/active-directory/lateral-movement/README.md)
     * [WMI, WinRS, and WinRM](windows/active-directory/lateral-movement/wmi-winrs-and-winrm.md)
+    * [PsExec](windows/active-directory/lateral-movement/psexec.md)
 * [Core Concepts](windows/core-concepts/README.md)
   * [Common Information Model (CIM)](windows/core-concepts/common-information-model-cim.md)
   * [DISM](windows/core-concepts/dism.md)
