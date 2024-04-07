@@ -319,6 +319,7 @@
     * [WMI, WinRS, and WinRM](windows/active-directory/lateral-movement/wmi-winrs-and-winrm.md)
     * [PsExec](windows/active-directory/lateral-movement/psexec.md)
     * [Pass The Hash](windows/active-directory/lateral-movement/pass-the-hash.md)
+    * [Overpass The Hash](windows/active-directory/lateral-movement/overpass-the-hash.md)
 * [Core Concepts](windows/core-concepts/README.md)
   * [Common Information Model (CIM)](windows/core-concepts/common-information-model-cim.md)
   * [DISM](windows/core-concepts/dism.md)

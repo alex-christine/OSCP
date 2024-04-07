@@ -14,13 +14,13 @@ layout:
 
 # AS-REP Roasting
 
-As discussed [previously](../#operation-details), the first step in Kerberos authentication is the client sending an `AS-REQ` to the `KDC` (the DC in the case of AD). Based on this request, the DC can validate if the authentication is successful. If it is, the domain controller replies with an `AS-REP` containing the session key and TGT. This step is also commonly referred to as [**Kerberos Pre-Authentication**](https://learn.microsoft.com/en-us/archive/technet-wiki/23559.kerberos-pre-authentication-why-it-should-not-be-disabled) and prevents offline password guessing.
+As discussed [previously](../#operation-details), the first step in Kerberos authentication is the client sending an `AS-REQ` to the `KDC` (the DC in the case of AD). Assuming [pre-authentication](../#pre-authentication) is not enabled, the domain controller replies with an `AS-REP` containing the session key and TGT.
 
-Without Kerberos pre-authentication in place, an attacker could send an AS-REQ to the domain controller on behalf of any AD user. After obtaining the AS-REP from the domain controller, the attacker could perform an offline password attack against the encrypted part of the response. This attack is known as [**AS-REP Roasting**](https://harmj0y.medium.com/roasting-as-reps-e6179a65216b).
+If the attacker can submit a fake `AS-REQ` and get an `AS-REP` the password of the user for which the AS-REQ was submitted can theoretically be cracked. This is because the session key message returned by the KDC is encrypted with the user's password hash. This attack is known as [**AS-REP Roasting**](https://harmj0y.medium.com/roasting-as-reps-e6179a65216b). This technique _requires Kerberos Pre-Authentication be disabled on the target account_.
 
 ## Finding Targets
 
-By default, the AD user account option _Do not require Kerberos preauthentication_ is disabled, meaning that Kerberos pre-authentication is performed for all users. However, it is possible to enable this account option manually. In assessments, one may find accounts with this option enabled as some applications and technologies require it to function properly.
+By default, the AD user account option `Do not require Kerberos preauthentication` is disabled, meaning that Kerberos pre-authentication is performed for all users. However, it is possible to enable this account option manually. In assessments, one may find accounts with this option enabled as some applications and technologies require it to function properly.
 
 If already signed in as an authenticated (but otherwise unprivileged) user, one can easily enumerate what users in the domain have this setting with the LDAP filter `(userAccountControl:1.2.840.113556.1.4.803:=4194304)`. This functionality is present in&#x20;
 

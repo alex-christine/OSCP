@@ -226,6 +226,10 @@ Unlike [`kerberos::list`](https://tools.thehacker.recipes/mimikatz/modules/proce
 * `/export`: tickets are exported in `.kirbi` files. The tickets are saved in the current directory
   * They start with user's `LUID` and group number (`0` = TGS, `1` = client ticket(?) and `2` = TGT)
 
+#### Pass the Hash
+
+Mimikatz can be used for pass the hash attacks as demonstrated [here](../windows/active-directory/lateral-movement/overpass-the-hash.md#mimikatz).
+
 ### Crypto
 
 The [`crpyto`](https://tools.thehacker.recipes/mimikatz/modules/crypto) module deals with the Microsoft Crypto Magic world.

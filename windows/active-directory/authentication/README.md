@@ -210,6 +210,19 @@ The steps described above are visualized in the diagram below:
 
 <figure><img src="../../../.gitbook/assets/AD-KerberosDiagram.png" alt=""><figcaption><p>Client authenticating to a KDC then an SS</p></figcaption></figure>
 
+### Pre-Authentication
+
+Starting with Kerberos 5, [**pre-authentication**](https://learn.microsoft.com/en-us/archive/technet-wiki/23559.kerberos-pre-authentication-why-it-should-not-be-disabled) was introduced to prevent [AS-REP Roasting](attacking-ad-authentication/as-rep-roasting.md). Pre-Authentication requires a client to prove their identity prior to receiving an AS-REP message. The steps [above](./#client-authentication-to-as) describe operation without Pre-Authentication:
+
+1. Client sends `AS-REQ` which is just a clear-text user ID
+2. Server responds with `AS-REP` which is made up of 2 messages one of which is the TGT
+
+Pre-Authentication inserts an extra step. The client encrypt a timestamp with the user's password hash. The KDC then attempts to decrypt and verify this timestamp (recall the KDC also has access to the user's password hash). Assuming the timestamp can be decrypted it validates the client has access to the user's password (at least in theory).
+
+The way this actually works in practice is that instead of replying to the `AS-REQ` with an `AS-REP` immediately, the KDC instead replies with a `KRB_ERROR` message. This tells the client pre-authentication is required and the client can respond with the required encrypted timestamp as seen in the diagram below ([source](https://www.oreilly.com/library/view/kerberos-the-definitive/0596004036/ch03s03s06.html)):
+
+<figure><img src="../../../.gitbook/assets/image (4).png" alt=""><figcaption><p>Kerberos with pre-authentication enabled</p></figcaption></figure>
+
 ### Concepts
 
 #### KRBTGT
