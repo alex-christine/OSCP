@@ -24,5 +24,3 @@ The section will cover:
 * Abusing `PsExec` for lateral movement
 * Pass-the-hash and overpass-the-hash techniques
 * Misuse DCOM for lateral movement
-* Kerberos Golden Tickets
-* Shadow Copies

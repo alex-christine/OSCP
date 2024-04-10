@@ -51,7 +51,7 @@ All examples will be targeting the `corp\dave` account.
 
 ### Mimikatz
 
-[Mimikatz](../../../../software/mimikatz.md) can be used to conduct DC Sync attacks. `dcsync` is a sub-command of the `lsadump` command. The command must be run from an elevated shell session. Once launched the Mimikatz command to perform the attack is:
+[Mimikatz](../../../tools/mimikatz.md) can be used to conduct DC Sync attacks. `dcsync` is a sub-command of the `lsadump` command. The command must be run from an elevated shell session. Once launched the Mimikatz command to perform the attack is:
 
 ```
 lsadump::dcsync /user:corp\dave

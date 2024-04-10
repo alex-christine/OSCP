@@ -36,7 +36,7 @@ LSASS runs as part of the operating system with SYSTEM level privileges. Therefo
 
 #### Privilege Escalation Techniques
 
-More techniques are covered in [Privilege Escalation section](../windows/privilege-escalation/), but an attacker may elevate their privileges to the `SYSTEM` account with tools like [`PsExec`](https://learn.microsoft.com/en-us/sysinternals/downloads/psexec) or the built-in Mimikatz _token elevation function_ to obtain the required privileges. The token elevation function requires the [`SeImpersonatePrivilege`](https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege) access right to work, but all local administrators have it by default.
+More techniques are covered in [Privilege Escalation section](../privilege-escalation/), but an attacker may elevate their privileges to the `SYSTEM` account with tools like [`PsExec`](https://learn.microsoft.com/en-us/sysinternals/downloads/psexec) or the built-in Mimikatz _token elevation function_ to obtain the required privileges. The token elevation function requires the [`SeImpersonatePrivilege`](https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege) access right to work, but all local administrators have it by default.
 
 ### Restrictions
 
@@ -44,7 +44,7 @@ Starting with Windows 8.1 and Windows Server 2012 R2, the LM hash and “clear-t
 
 Below is a chart ([source](https://adsecurity.org/?page\_id=1821)) indicating what data is in memory on what operating systems. Really the only section still relevant are the bottom which is also applicable to Windows 10/11.
 
-<figure><img src="../.gitbook/assets/Mimikatz-InformationStoredOS.png" alt=""><figcaption><p>Information stored by OS version</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Mimikatz-InformationStoredOS.png" alt=""><figcaption><p>Information stored by OS version</p></figcaption></figure>
 
 ### LSA Protection
 
@@ -54,8 +54,8 @@ Starting with Windows 8.1 and later, [added protection](https://learn.microsoft.
 
 LSA Protection is controlled by the Registry Key `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa`. This key can have two subkeys:
 
-* RunAsPPL
-* RunAsPPLBoot
+* `RunAsPPL`
+* `RunAsPPLBoot`
 
 The following sample REG files show potential configurations. To turn off LSA protection:
 
@@ -199,6 +199,25 @@ The following command line arguments of `lsadump::dcsync` can be used for [ZeroL
 * `/authpassword`: it has to be set to blank `""`
 * `/authntlm`: user NTLM authentication
 
+#### LSA
+
+[This command](https://tools.thehacker.recipes/mimikatz/modules/lsadump/lsa) is used to extract hashes from memory by asking the LSA server:
+
+```
+lsadump::lsa
+```
+
+It can be used with the following command-line arguments:
+
+* `/name` or `/user` : the target user account
+* `/id` : the RID (relative identifier) for the target account (500 for Administrator)
+* `/patch` : Only dumps the LM and NT password hashes
+* `/inject`&#x20;
+  * When run on a workstation, it will dump the LM and NT password hashes
+  * When run on domain controller is will dump LM, NT, Wdigest, Kerberos keys and password history
+
+There have been observed instances where the `lsadump::lsa` command by itself failed but adding the `/patch` or `/inject` flags caused it to succeed.
+
 ### Sekurlsa
 
 The [sekurlsa](https://tools.thehacker.recipes/mimikatz/modules/sekurlsa) module is probably the most well-known and well-loved module of Mimikatz. It retrieves clear text passwords, Kerberos tickets, pin codes, etc (in other words, credentials from several Secure Service Providers) from the LSASS.
@@ -228,7 +247,7 @@ Unlike [`kerberos::list`](https://tools.thehacker.recipes/mimikatz/modules/proce
 
 #### Pass the Hash
 
-Mimikatz can be used for pass the hash attacks as demonstrated [here](../windows/active-directory/lateral-movement/overpass-the-hash.md#mimikatz).
+Mimikatz can be used for pass the hash attacks as demonstrated [here](../active-directory/lateral-movement/overpass-the-hash.md#mimikatz).
 
 ### Crypto
 
@@ -309,3 +328,52 @@ If needed, one can convert `PVK` files with:
 ```bash
 openssl rsa -inform pvk -in key.pvk -outform pem -out key.pem
 ```
+
+### Kerberos
+
+#### Pass the Ticket
+
+Mimikatz can be used for PtT attacks as demonstrated [here](../active-directory/lateral-movement/pass-the-ticket.md).
+
+#### Golden Ticket
+
+Mimikatz can be used for Golden Ticket attacks with the [`kerberos::golden`](https://tools.thehacker.recipes/mimikatz/modules/kerberos/golden) command:
+
+```
+kerberos::golden
+```
+
+It can be run with a multitude of command-line arguments:
+
+* `/domain`: the active directory domain (the user's domain to impersonate)
+* `/sid`: the SID of the active directory domain the user's hash is hold
+* `/sids`: the extra SID of the domain to target during the SIDHistory spoofing
+* `/user`: username to impersonate, keep in mind that Administrator is not the only name for this well-known account
+* `/ticket`: save the ticket to a `.kirbi` file
+* `/groups`: id of groups the user belongs (first is primary group, comma separator) - default is: `513,512,520,518,519` for the well-known Administrators groups
+* `/id`: The user RID. The default value is 500 (local administrator)
+* `/target` - the server/computer name where the service is hosted (ex: `share.server.local`, `sql.server.local:1433`)
+* `/service` - The service name for the silver ticket (ex: `cifs`, `rpcss`, `http`, `mssql`)
+* `/ptt`: inject the generated golden ticket into memory
+* `/startoffset`: The start offset when the ticket is available. Default is 0
+* `/endin`: The ticket's minutes lifetime. The default value is 10 years. The default active directory kerberos policy is 10 hours
+* `/renewmax`: The maximum ticket's minutes lifetime renewal. The default value is 10 years. The default active directory kerberos policy is 7 days
+* `/krbtgt`: specify the krbtgt NTLM key
+* `/des`: the DES key to be used
+* `/rc4`: the RC4 key to be used
+* `/aes128`: The AES128 key to be used. More opsec safe
+* `/aes256`: the AES256 key to be used. More opsec safe
+* `/claims`: [add additional values to a user’s kerberos ticket and then make access decisions based on those values at the client level](https://syfuhs.net/2017/07/29/active-directory-claims-and-kerberos-net/)
+* `/rodc`: for generating a golden ticket with the krbtgt hash of a Read Only Domain Controller
+
+It is used in an example in [another section](../active-directory/persistence/golden-ticket.md#mimikatz).
+
+#### Purge
+
+[This command](https://tools.thehacker.recipes/mimikatz/modules/kerberos/purge) purges all kerberos tickets similar to [`klist purge`](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/klist).
+
+```
+kerberos::purge
+```
+
+It is used in an example in [another section](../active-directory/persistence/golden-ticket.md#mimikatz).

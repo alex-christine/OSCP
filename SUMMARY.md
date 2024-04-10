@@ -17,7 +17,6 @@
 
 * [SQL Databases](software/sql-databases/README.md)
   * [PostgreSQL](software/sql-databases/postgresql.md)
-* [Mimikatz](software/mimikatz.md)
 
 ## Networking Tools
 
@@ -318,10 +317,16 @@
   * [Lateral Movement](windows/active-directory/lateral-movement/README.md)
     * [WMI, WinRS, and WinRM](windows/active-directory/lateral-movement/wmi-winrs-and-winrm.md)
     * [PsExec](windows/active-directory/lateral-movement/psexec.md)
-    * [Pass The Hash](windows/active-directory/lateral-movement/pass-the-hash.md)
-    * [Overpass The Hash](windows/active-directory/lateral-movement/overpass-the-hash.md)
+    * [Pass the Hash](windows/active-directory/lateral-movement/pass-the-hash.md)
+    * [Overpass the Hash](windows/active-directory/lateral-movement/overpass-the-hash.md)
+    * [Pass the Ticket](windows/active-directory/lateral-movement/pass-the-ticket.md)
+    * [DCOM](windows/active-directory/lateral-movement/dcom.md)
+  * [Persistence](windows/active-directory/persistence/README.md)
+    * [Golden Ticket](windows/active-directory/persistence/golden-ticket.md)
+    * [Shadow Copies](windows/active-directory/persistence/shadow-copies.md)
 * [Core Concepts](windows/core-concepts/README.md)
   * [Common Information Model (CIM)](windows/core-concepts/common-information-model-cim.md)
+  * [Component Object Model](windows/core-concepts/component-object-model.md)
   * [DISM](windows/core-concepts/dism.md)
   * [Task Scheduler](windows/core-concepts/task-scheduler.md)
   * [Windows Services](windows/core-concepts/windows-services.md)
@@ -333,6 +338,8 @@
     * [Dot-Sourcing](windows/built-in-tools/powershell/dot-sourcing.md)
     * [Shells](windows/built-in-tools/powershell/shells.md)
   * [Netsh](windows/built-in-tools/netsh.md)
+* [Tools](windows/tools/README.md)
+  * [Mimikatz](windows/tools/mimikatz.md)
 * [Privilege Escalation](windows/privilege-escalation/README.md)
   * [Privilege Basics](windows/privilege-escalation/privilege-basics.md)
   * [Enumeration](windows/privilege-escalation/enumeration/README.md)

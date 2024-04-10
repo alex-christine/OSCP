@@ -126,7 +126,7 @@ Now that the attacker has the hashes, they could attempt to crack them as seen i
 
 ## Kerberos Tickets
 
-In this example, instead of cracking the password hashes, the attacker will attempt to exploit Kerberos authentication by abusing TGT and service tickets. As noted [elsewhere](../../../software/mimikatz.md#lsass), Kerberos TGT and service tickets for users currently logged on to the local machine are stored for future use. These tickets are also stored in LSASS.
+In this example, instead of cracking the password hashes, the attacker will attempt to exploit Kerberos authentication by abusing TGT and service tickets. As noted [elsewhere](../../tools/mimikatz.md#lsass), Kerberos TGT and service tickets for users currently logged on to the local machine are stored for future use. These tickets are also stored in LSASS.
 
 For the purposes of the example, a service ticket will be deliberately created by attempting to enumerate an SMB share on the network via the `dir` command:
 
@@ -217,4 +217,4 @@ The sample output above shows both a TGT and a TGS. Stealing a TGS would allow s
 
 Mimikatz can also export tickets to the hard drive and import tickets into LSASS.
 
-Sometimes the [`crypto::capi`](../../../software/mimikatz.md#cryptoapi) or [`crypto::cng`](../../../software/mimikatz.md#cryptoapi-next-generation) will be needed to make "unexportable" keys/tickets exportable.
+Sometimes the [`crypto::capi`](../../tools/mimikatz.md#cryptoapi) or [`crypto::cng`](../../tools/mimikatz.md#cryptoapi-next-generation) will be needed to make "unexportable" keys/tickets exportable.

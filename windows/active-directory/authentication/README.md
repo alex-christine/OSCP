@@ -221,7 +221,7 @@ Pre-Authentication inserts an extra step. The client encrypt a timestamp with th
 
 The way this actually works in practice is that instead of replying to the `AS-REQ` with an `AS-REP` immediately, the KDC instead replies with a `KRB_ERROR` message. This tells the client pre-authentication is required and the client can respond with the required encrypted timestamp as seen in the diagram below ([source](https://www.oreilly.com/library/view/kerberos-the-definitive/0596004036/ch03s03s06.html)):
 
-<figure><img src="../../../.gitbook/assets/image (4).png" alt=""><figcaption><p>Kerberos with pre-authentication enabled</p></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/AD-KerberosPreAuthentication.png" alt=""><figcaption><p>Kerberos with pre-authentication enabled</p></figcaption></figure>
 
 ### Concepts
 
@@ -229,9 +229,9 @@ The way this actually works in practice is that instead of replying to the `AS-R
 
 The [`KRBTGT`](https://adsecurity.org/?p=483) account is a local default account that acts as a service account for the Key Distribution Center (KDC) service. This account cannot be deleted, and the account name cannot be changed. The KRBTGT account cannot be enabled in Active Directory.
 
-KRBTGT is also the security principal name used by the KDC for a Windows Server domain, as specified by [RFC 4120](http://www.ietf.org/rfc/rfc4120.txt). The KRBTGT account is the entity for the KRBTGT security principal, and it is created automatically when a new domain is created.
+`krbtgt` is also the security principal name used by the KDC for a Windows Server domain, as specified by [RFC 4120](http://www.ietf.org/rfc/rfc4120.txt). The `krbtgt` account is the entity for the `krbtgt` security principal, and it is created automatically when a new domain is created.
 
-Windows Server Kerberos authentication is achieved by the use of a special Kerberos ticket-granting ticket (TGT) enciphered with a symmetric key. This key is derived from the password of the server or service to which access is requested. The TGT password of the KRBTGT account is known only by the Kerberos service. In order to request a session ticket, the TGT must be presented to the KDC. The TGT is issued to the Kerberos client from the KDC.
+Windows Server Kerberos authentication is achieved by the use of a special Kerberos ticket-granting ticket (TGT) enciphered with a symmetric key. This key is derived from the password of the server or service to which access is requested. The TGT password of the `krbtgt` account is known only by the Kerberos service. In order to request a session ticket, the TGT must be presented to the KDC. The TGT is issued to the Kerberos client from the KDC.
 
 ### Drawbacks
 

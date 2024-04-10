@@ -12,7 +12,7 @@ layout:
     visible: true
 ---
 
-# Overpass The Hash
+# Overpass the Hash
 
 [Overpassing the Hash](https://www.blackhat.com/docs/us-14/materials/us-14-Duckwall-Abusing-Microsoft-Kerberos-Sorry-You-Guys-Don't-Get-It-wp.pdf) is similar in concept to passing the hash but it takes things a step further. It uses the compromised password hash to obtain a valid Kerberos TGT for the user. This allows authentication to any service the user has access to. Also because the attacker has the user's password hash this technique will work _even if Kerberos Pre-Authentication is enabled_.
 
