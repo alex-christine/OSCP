@@ -36,7 +36,7 @@ LSASS runs as part of the operating system with SYSTEM level privileges. Therefo
 
 #### Privilege Escalation Techniques
 
-More techniques are covered in [Privilege Escalation section](../privilege-escalation/), but an attacker may elevate their privileges to the `SYSTEM` account with tools like [`PsExec`](https://learn.microsoft.com/en-us/sysinternals/downloads/psexec) or the built-in Mimikatz _token elevation function_ to obtain the required privileges. The token elevation function requires the [`SeImpersonatePrivilege`](https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege) access right to work, but all local administrators have it by default.
+More techniques are covered in [Privilege Escalation section](../windows/privilege-escalation/), but an attacker may elevate their privileges to the `SYSTEM` account with tools like [`PsExec`](https://learn.microsoft.com/en-us/sysinternals/downloads/psexec) or the built-in Mimikatz _token elevation function_ to obtain the required privileges. The token elevation function requires the [`SeImpersonatePrivilege`](https://learn.microsoft.com/en-us/troubleshoot/windows-server/windows-security/seimpersonateprivilege-secreateglobalprivilege) access right to work, but all local administrators have it by default.
 
 ### Restrictions
 
@@ -44,7 +44,7 @@ Starting with Windows 8.1 and Windows Server 2012 R2, the LM hash and “clear-t
 
 Below is a chart ([source](https://adsecurity.org/?page\_id=1821)) indicating what data is in memory on what operating systems. Really the only section still relevant are the bottom which is also applicable to Windows 10/11.
 
-<figure><img src="../../.gitbook/assets/Mimikatz-InformationStoredOS.png" alt=""><figcaption><p>Information stored by OS version</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/Mimikatz-InformationStoredOS.png" alt=""><figcaption><p>Information stored by OS version</p></figcaption></figure>
 
 ### LSA Protection
 
@@ -247,7 +247,7 @@ Unlike [`kerberos::list`](https://tools.thehacker.recipes/mimikatz/modules/proce
 
 #### Pass the Hash
 
-Mimikatz can be used for pass the hash attacks as demonstrated [here](../active-directory/lateral-movement/overpass-the-hash.md#mimikatz).
+Mimikatz can be used for pass the hash attacks as demonstrated [here](../windows/active-directory/lateral-movement/overpass-the-hash.md#mimikatz).
 
 ### Crypto
 
@@ -333,7 +333,7 @@ openssl rsa -inform pvk -in key.pvk -outform pem -out key.pem
 
 #### Pass the Ticket
 
-Mimikatz can be used for PtT attacks as demonstrated [here](../active-directory/lateral-movement/pass-the-ticket.md).
+Mimikatz can be used for PtT attacks as demonstrated [here](../windows/active-directory/lateral-movement/pass-the-ticket.md).
 
 #### Golden Ticket
 
@@ -366,7 +366,7 @@ It can be run with a multitude of command-line arguments:
 * `/claims`: [add additional values to a user’s kerberos ticket and then make access decisions based on those values at the client level](https://syfuhs.net/2017/07/29/active-directory-claims-and-kerberos-net/)
 * `/rodc`: for generating a golden ticket with the krbtgt hash of a Read Only Domain Controller
 
-It is used in an example in [another section](../active-directory/persistence/golden-ticket.md#mimikatz).
+It is used in an example in [another section](../windows/active-directory/persistence/golden-ticket.md#mimikatz).
 
 #### Purge
 
@@ -376,4 +376,4 @@ It is used in an example in [another section](../active-directory/persistence/go
 kerberos::purge
 ```
 
-It is used in an example in [another section](../active-directory/persistence/golden-ticket.md#mimikatz).
+It is used in an example in [another section](../windows/active-directory/persistence/golden-ticket.md#mimikatz).

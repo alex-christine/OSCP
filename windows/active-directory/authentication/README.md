@@ -361,3 +361,20 @@ The AD CS role includes the following role services:
 #### Deployment Types
 
 When using AD CS, one can deploy two types of CAs: **standalone** and **enterprise**. These types of CAs are not about hierarchy, but instead, about functionality and integration with AD DS. A standalone CA doesn't depend on AD DS. An enterprise CA requires AD DS, to provide additional functionality, such as autoenrollment. Autoenrollment allows domain users and domain-joined devices to enroll automatically for certificates after you enable automatic certificate enrollment through Group Policy.
+
+## `NTDS.dit`
+
+`NTDS.DIT` stands for New Technology Directory Services Directory Information Tree. It serves as the primary database file within Microsoft’s Active Directory Domain Services (AD DS). Essentially, `NTDS.DIT` stores and organizes all the information related to objects in the domain, including users, groups, computers, and more. It acts as the backbone of Active Directory, housing critical data such as user account details, passwords, group memberships, and other object attributes.
+
+By default, the `Ntds.dit` file is stored in `C:\Windows\NTDS\Ntds.dit` on a domain controller. However, during the Active Directory installation process, the location can be modified based on specific requirements or preferences.
+
+The active directory database is stored in a single `Ntds.dit` file which is logically separated into the following partitions:
+
+<figure><img src="../../../.gitbook/assets/AD-NtdsDitStructure.png" alt=""><figcaption><p>NTDS.DIT structure</p></figcaption></figure>
+
+While Active Directory is running, it maintains a file system lock on the `Ntds.dit` file. Any attempts to access or copy it will fail. Fortunately there are ways around this ([source](https://www.netwrix.com/ntds\_dit\_security\_active\_directory.html)):
+
+* Simply stop Active Directory (though this is likely to result in being detected).
+* Use the Volume Shadow Copy Service (VSS) to snapshot the volume and extract `ntds.dit` from the snapshot as seen in [this example](../persistence/shadow-copies.md)
+* Use a PowerShell tool like PowerSploit’s `Invoke-NinjaCopy` to copy the files even though they are in use
+* Use a built-in tool like `DSDBUtil.exe` or `NTDSUtil.exe` to create active directory installation media files

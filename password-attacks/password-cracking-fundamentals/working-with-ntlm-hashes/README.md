@@ -10,4 +10,4 @@ To deter offline SAM database password attacks, Microsoft introduced the _SYSKEY
 
 On modern systems, the hashes in the SAM are stored as NTLM hashes. This hash implementation addresses many weaknesses of LM. For example, passwords are case-sensitive and are no longer split into smaller, weaker parts. However, NTLM **hashes stored in the SAM database are not salted.**
 
-One cannot simply copy, rename, or move the SAM database from `C:\Windows\system32\config\sam` while the Windows operating system is running because the kernel keeps an exclusive file system lock on the file. Fortunately, in many instances, the [Mimikatz](../../../windows/tools/mimikatz.md) tool can bypass this restriction.
+One cannot simply copy, rename, or move the SAM database from `C:\Windows\system32\config\sam` while the Windows operating system is running because the kernel keeps an exclusive file system lock on the file. Fortunately, in many instances, the [Mimikatz](../../../software/mimikatz.md) tool can bypass this restriction.

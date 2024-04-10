@@ -74,7 +74,7 @@ Credentials:
 ...
 ```
 
-Other options involve being able to connect to the DC and use Mimikatz's [`lsadump::lsa`](../../tools/mimikatz.md#lsa) to get the credential:
+Other options involve being able to connect to the DC and use Mimikatz's [`lsadump::lsa`](../../../software/mimikatz.md#lsa) to get the credential:
 
 ```
 lsadump::lsa /patch /user:krbtgt
@@ -111,7 +111,7 @@ Now that the hash has been extracted it is time to use it to mint TGTs.
 
 ### Mimikatz
 
-The [`kerberos::golden`](../../tools/mimikatz.md#golden-ticket) command can be used to launch this attack. It is recommended to first run the purge command to ensure there are no tickets saved in the session:
+The [`kerberos::golden`](../../../software/mimikatz.md#golden-ticket) command can be used to launch this attack. It is recommended to first run the purge command to ensure there are no tickets saved in the session:
 
 ```
 kerberos::purge

@@ -40,7 +40,7 @@ Once `dave`'s TGS is compromised this will become accessible.
 
 ### Obtaining the Tickets
 
-As usual Mimikatz has a module for this. The first step is to use the sekurlsa module to dump all tickets as seen [here](../../tools/mimikatz.md#tickets):
+As usual Mimikatz has a module for this. The first step is to use the sekurlsa module to dump all tickets as seen [here](../../../software/mimikatz.md#tickets):
 
 ```
 sekurlsa::tickets /export
