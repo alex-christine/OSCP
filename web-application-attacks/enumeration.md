@@ -72,3 +72,100 @@ Two common examples are the **manager** application for _Tomcat_ hosted at `/man
 
 While these consoles can be restricted to local access or may be hosted on custom TCP ports, one often finds them externally exposed by default configurations.
 
+## Determining Technology
+
+### Wappalyzer
+
+[Wappalyzer](https://www.wappalyzer.com/) is a browser extension that can be used to enumerate the technology stack of any website. It just sits in the browser bar and when clicked displays a site's tech stack. For example this site's stack appears as:
+
+<figure><img src="../.gitbook/assets/WAA-WappalyzerExample.png" alt=""><figcaption><p>Current page viewed with Wappalyzer at time of writing</p></figcaption></figure>
+
+### WhatWeb
+
+[WhatWeb](https://github.com/urbanadventurer/WhatWeb) recognizes web technologies including content management systems (CMS), blogging platforms, statistic/analytics packages, JavaScript libraries, web servers, and embedded devices.
+
+It can be installed via apt and then called with the whatweb command. For example to check the GitBook website the command would be:
+
+```bash
+whatweb https://app.gitbook.com
+```
+
+* The aggressiveness of the scan can be set with the `-a` flag. The level values are `1` (default), `3`, or `4` corresponding to Stealthy, Aggressive, and Heavy respectively
+
+And when run the output would look like:
+
+<pre class="language-shell-session" data-overflow="wrap"><code class="lang-shell-session"><strong>kali@kali:~$ whatweb https://app.gitbook.com                                                      
+</strong>https://app.gitbook.com [200 OK] Country[UNITED STATES][US], Email[icon_512x512@2x.png], HTML5, HTTPServer[cloudflare], IP[104.18.41.89], Script[module,text/javascript], Strict-Transport-Security[max-age=31536000], Title[GitBook], UncommonHeaders[cf-ray,cf-cache-status,access-control-allow-origin,alt-svc,content-security-policy,referrer-policy,x-content-type-options,x-goog-generation,x-goog-hash,x-goog-metageneration,x-goog-storage-class,x-goog-stored-content-encoding,x-goog-stored-content-length,x-guploader-uploadid,x-magic-hash,x-release], Via-Proxy[magic cache], X-Powered-By[GitBook]
+</code></pre>
+
+## Examining WordPress
+
+[WordPress](https://wordpress.com/) is one of many website platforms, technically a Content Management System (CMS). While it is only one, as of 2023, 43% of sites use WordPress ([source](https://barn2.com/blog/wordpress-market-share/)). If a site is determined to be using WordPress various tools exist to help an attacker examine that site.
+
+### WPScan
+
+[WPScan](https://wpscan.com/) is a WordPress vulnerability scanner. This tool attempts to determine the WordPress versions, themes, and plugins as well as their vulnerabilities.
+
+WPScan also looks up component vulnerabilities in the [WordPress Vulnerability Database](https://wpscan.com/statistics/), which requires an API token. A limited API key can be obtained for free by registering an account on the WPScan homepage. However, even without providing an API key, WPScan is a great tool to enumerate WordPress instances.
+
+The basic command structure for WPScan on Linux is:
+
+{% code overflow="wrap" %}
+```bash
+wpscan --url http://192.168.50.244 --enumerate p --plugins-detection aggressive -o machine.wpscan
+```
+{% endcode %}
+
+* `--enumerate p` enumerates all _popular_ plugins
+* `-plugins-detection aggressive` allows more aggressive scanning
+* `-o` generates an output file (file extension can be anything `.wpscan` is not a special file type or anything)
+* If an API token is available it is supplied with the `--api-token` flag
+
+When run the output will look something like this:
+
+{% code title="machine.wpscan" %}
+```
+[i] Plugin(s) Identified:
+
+[+] akismet
+ | Location: http://192.168.50.244/wp-content/plugins/akismet/
+ | Latest Version: 5.0
+ | Last Updated: 2022-07-26T16:13:00.000Z
+ |
+ | Found By: Known Locations (Aggressive Detection)
+ |  - http://192.168.50.244/wp-content/plugins/akismet/, status: 500
+ |
+ | The version could not be determined.
+
+[+] classic-editor
+ | Location: http://192.168.50.244/wp-content/plugins/classic-editor/
+ | Latest Version: 1.6.2 
+ | Last Updated: 2021-07-21T22:08:00.000Z
+...
+
+[+] contact-form-7
+ | Location: http://192.168.50.244/wp-content/plugins/contact-form-7/
+ | Latest Version: 5.6.3 (up to date)
+ | Last Updated: 2022-09-01T08:48:00.000Z
+...
+
+[+] duplicator
+ | Location: http://192.168.50.244/wp-content/plugins/duplicator/
+ | Last Updated: 2022-09-24T17:57:00.000Z
+ | Readme: http://192.168.50.244/wp-content/plugins/duplicator/readme.txt
+ | [!] The version is out of date, the latest version is 1.5.1
+ |
+ | Found By: Known Locations (Aggressive Detection)
+ |  - http://192.168.50.244/wp-content/plugins/duplicator/, status: 403
+ |
+ | Version: 1.3.26 (80% confidence)
+ | Found By: Readme - Stable Tag (Aggressive Detection)
+ |  - http://192.168.50.244/wp-content/plugins/duplicator/readme.txt
+
+[+] elementor
+ | Location: http://192.168.50.244/wp-content/plugins/elementor/
+ | Latest Version: 3.7.7 (up to date)
+ | Last Updated: 2022-09-20T14:51:00.000Z
+...
+```
+{% endcode %}

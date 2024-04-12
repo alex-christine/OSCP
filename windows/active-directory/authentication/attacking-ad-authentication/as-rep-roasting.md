@@ -161,14 +161,14 @@ kali@kali:~$ hashcat --help | grep Kerberos
 
 {% code overflow="wrap" %}
 ```bash
-sudo hashcat -m 18200 hashes.asreproast /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force
+hashcat -m 18200 -r /usr/share/hashcat/rules/best64.rule -o cracked.asreproast hashes.asreproast /usr/share/wordlists/rockyou.txt
 ```
 {% endcode %}
 
 Luckily this is a simple example and this works (and quickly):
 
 ```shell-session
-kali@kali:~$ sudo hashcat -m 18200 hashes.asreproast /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule --force
+kali@kali:~$ hashcat -m 18200 hashes.asreproast /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
 hashcat (v6.2.6) starting
 
 ...

@@ -374,3 +374,9 @@
 
 * [hetemit](labs/hetemit.md)
 * [PayDay](labs/payday.md)
+
+## Assembling The Pieces
+
+* [Introduction](assembling-the-pieces/introduction.md)
+* [Public Network Enumeration](assembling-the-pieces/public-network-enumeration.md)
+* [Obtaining a Foothold](assembling-the-pieces/obtaining-a-foothold.md)
