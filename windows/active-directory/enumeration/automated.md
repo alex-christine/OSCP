@@ -75,9 +75,7 @@ SharpHound.exe --CollectionMethods Session --Loop
 
 #### Example
 
-Continuing the example from the
-
-[manual enumeration](manual.md) section, assume the attacker has compromised the user `stephanie` and is able to use that account to access a machine (`CLIENT75`) joined to the `corp.com` domain. After transferring the executable to the machine the attacker can collect all information via the command:
+Continuing the example from the [manual enumeration](manual.md) section, assume the attacker has compromised the user `stephanie` and is able to use that account to access a machine (`CLIENT75`) joined to the `corp.com` domain. After transferring the executable to the machine the attacker can collect all information via the command:
 
 {% code overflow="wrap" %}
 ```sh
@@ -127,7 +125,7 @@ This is just a snapshot but the data can still prove useful. It is possible to m
 
 ## Analysis with BloodHound
 
-BloodHound provides a user interface for analyzing the output gathered by SharpHound.
+BloodHound provides a user interface for analyzing the output gathered by SharpHound. An example of Analysis being conducted with BloodHound can be seen [here](../../../assembling-the-pieces/pivoting-to-the-internal-network.md#domain-enumeration).
 
 ### Prerequisites
 
@@ -235,3 +233,51 @@ Once marked, the attacker could then use the `Shortest Paths to Domain Admins fr
 <figure><img src="../../../.gitbook/assets/AD-BloodHoundShortestOwnedPath.png" alt=""><figcaption><p>Path from Owned Principals</p></figcaption></figure>
 
 This shows a slimmed-down output of a path, starting with `stephanie`, that the attacker could follow to Domain Admins.
+
+### Custom Queries
+
+All BloodHound queries, even the predefined ones seen in examples above, are written with the [Cypher Query Language](https://neo4j.com/docs/cypher-manual/current/introduction/). BloodHound also offers the ability to supply custom queries. Some simple ones are enumerated below. For more complex ones see the list [here](https://hausec.com/2019/09/09/bloodhound-cypher-cheatsheet/) or the previously linked documentation for instructions on how to construct them.
+
+#### All Users, Groups, or Computers
+
+To retrieve all computer objects in the domain the query command is:
+
+```
+MATCH (c:Computer) RETURN c
+```
+
+The query starts with the keyword `MATCH`, which is used to select a set of objects. Then, the variable `c` is set containing all objects in the database with the property `Computer` (the variable name can be set to anything but I find it easier to use `c` for computers, `u` for users, and so on). Next, the `RETURN` keyword is used to build the resulting graph based on the objects in `c`. The `Computer` property could be replaced with `Group`, `User`, or `GPO` to see all groups, users, or group policy objects respectively:
+
+```
+MATCH (u:User) RETURN u
+```
+
+```
+MATCH (g:Group) RETURN g
+```
+
+```
+MATCH (g:GPO) RETURN g
+```
+
+#### User Sessions
+
+The above queries were only filtering on a single property. To determine if a session exists some relationships between objects must be examined. Since Cypher is a [querying language](https://neo4j.com/docs/cypher-manual/current/queries/basic/) it is possible to  build a relationship query with the syntax `(NODES)-[:RELATIONSHIP]->(NODES)`. Therefore to check for any users that have a session on a computer the command would be:
+
+```
+MATCH p = (c:Computer)-[:HasSession]->(m:User) RETURN p
+```
+
+#### Service Principal Names
+
+In order to check for all users with an associated SPN the query is:
+
+```
+MATCH (n:User)WHERE n.hasspn=true RETURN n
+```
+
+To check for any object that has an SPN (not just a user) the command is:
+
+```
+MATCH (n)WHERE n.hasspn=true RETURN n
+```

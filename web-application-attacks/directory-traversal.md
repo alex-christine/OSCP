@@ -24,10 +24,13 @@ In Linux systems, the `/var/www/html/` directory is often used as the web root. 
 
 If a web application is vulnerable to directory traversal, a user may access files outside of the web root by using relative paths, thus accessing sensitive files like SSH private keys (usually at user's home directory `/.ssh`) or configuration files.
 
+### Standard Attack Vector
+
 In Linux systems, a pretty standard vector for directory traversal is to:
 
 1. List the users of the system by displaying the contents of `/etc/passwd`
 2. Check for private keys in the users' home directories
+   * The default key name when generating a key is `id_rsa` therefore it is relatively common to find a key called `/home/user/.ssh/id_rsa`
 3. Use any found private keys to access the system via SSH
 
 While these steps will not guarantee a compromise, they are a good general understanding of the attack steps.

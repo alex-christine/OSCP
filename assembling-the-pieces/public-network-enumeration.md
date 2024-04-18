@@ -295,13 +295,20 @@ After the scan completes the output is examined:
 
 [+] akismet
  | Location: http://websrv1/wp-content/plugins/akismet/
+ | Latest Version: 5.3.2
+ | Last Updated: 2024-03-21T00:55:00.000Z
  | ...
+ |
+ | The version could not be determined.
 
 [+] classic-editor
  | Location: http://websrv1/wp-content/plugins/classic-editor/
  | Last Updated: 2024-04-06T00:44:00.000Z
  | Readme: http://websrv1/wp-content/plugins/classic-editor/readme.txt
  | [!] The version is out of date, the latest version is 1.6.3
+ | ...
+ |
+ | Version: 1.6.2 (80% confidence)
  | ...
 
 [+] contact-form-7
@@ -310,12 +317,18 @@ After the scan completes the output is examined:
  | Readme: http://websrv1/wp-content/plugins/contact-form-7/readme.txt
  | [!] The version is out of date, the latest version is 5.9.3
  | ...
+ |
+ | Version: 5.6.3 (80% confidence)
+ | ...
 
 [+] duplicator
  | Location: http://websrv1/wp-content/plugins/duplicator/
  | Last Updated: 2024-02-06T17:24:00.000Z
  | Readme: http://websrv1/wp-content/plugins/duplicator/readme.txt
  | [!] The version is out of date, the latest version is 1.5.8.1
+ | ...
+ |
+ | Version: 1.3.26 (80% confidence)
  | ...
 
 [+] elementor
@@ -324,12 +337,18 @@ After the scan completes the output is examined:
  | Readme: http://websrv1/wp-content/plugins/elementor/readme.txt
  | [!] The version is out of date, the latest version is 3.20.4
  | ...
+ |
+ | Version: 3.7.7 (100% confidence)
+ | ...
 
 [+] wordpress-seo
  | Location: http://websrv1/wp-content/plugins/wordpress-seo/
  | Last Updated: 2024-04-03T08:01:00.000Z
  | Readme: http://websrv1/wp-content/plugins/wordpress-seo/readme.txt
  | [!] The version is out of date, the latest version is 22.4
+ | ...
+ |
+ | Version: 19.7.1 (100% confidence)
  | ...
 
 [!] No WPScan API Token given, as a result vulnerability data has not been output.
@@ -357,19 +376,14 @@ kali@kali:~/beyond$ searchsploit --id duplicator
 ----------------------------------------------------------------------------------------- ---------------------------------
  Exploit Title                                                                           |  EDB-ID
 ----------------------------------------------------------------------------------------- ---------------------------------
-WordPress Plugin Duplicator - Cross-Site Scripting                                       | 38676
-WordPress Plugin Duplicator 0.5.14 - SQL Injection / Cross-Site Request Forgery          | 36735
-WordPress Plugin Duplicator 0.5.8 - Privilege Escalation                                 | 36112
-WordPress Plugin Duplicator 1.2.32 - Cross-Site Scripting                                | 44288
+...
 Wordpress Plugin Duplicator 1.3.26 - Unauthenticated Arbitrary File Read                 | 50420
 Wordpress Plugin Duplicator 1.3.26 - Unauthenticated Arbitrary File Read (Metasploit)    | 49288
-WordPress Plugin Duplicator 1.4.6 - Unauthenticated Backup Download                      | 50992
-WordPress Plugin Duplicator 1.4.7 - Information Disclosure                               | 50993
-WordPress Plugin Multisite Post Duplicator 0.9.5.1 - Cross-Site Request Forgery          | 40908
+...
 ----------------------------------------------------------------------------------------- ---------------------------------
 ```
 
-The output shows that there are two exploits matching the version of the Duplicator plugin on WEBSRV1. One is tagged with `Metasploit`, indicating that this exploit was developed for the Metasploit Framework.
+The output shows that there are two exploits matching the version of the Duplicator plugin (`1.3.26`) on `WEBSRV1`. One is tagged with `Metasploit`, indicating that this exploit was developed for the Metasploit Framework.
 
 ### Summary
 

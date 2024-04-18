@@ -41,7 +41,15 @@ This example will rely on a machine (`CLIENTWK220`) to which the attacker is ass
 
 ### Service Enumeration
 
-Once connected to the machine, the attacker can enumerate all Stopped and Running services:
+Once connected to the machine, the attacker can enumerate all Stopped and Running services with the following command:
+
+{% code overflow="wrap" %}
+```powershell
+Get-CimInstance -ClassName win32_service | Select Name,State,PathName
+```
+{% endcode %}
+
+When run the attacker finds there are quite a few services running
 
 ```powershell
 PS C:\Users\steve> Get-CimInstance -ClassName win32_service | Select Name,State,PathName
@@ -55,7 +63,7 @@ FontCache                                 Running C:\Windows\system32\svchost.ex
 GammaService                              Stopped C:\Program Files\Enterprise Apps\Current Version\GammaServ.exe
 ```
 
-There are quite a few services running but the most interesting is `GammaService`. It appears to exist at `C:\Program Files\Enterprise Apps\Current Version\GammaServ.exe` and the path to the binary is unquoted. This means when the service is started the following attempts will be made to find its binary:
+Of the running services, the most interesting is `GammaService`. It appears to exist at `C:\Program Files\Enterprise Apps\Current Version\GammaServ.exe` and the path to the binary is unquoted. This means when the service is started the following attempts will be made to find its binary:
 
 1. `C:\Program.exe`
 2. `C:\Program Files\Enterprise.exe`
@@ -66,9 +74,7 @@ If `steve` has write access to any of the directories that will be searched, the
 
 #### More Efficient Searching
 
-As noted in an&#x20;
-
-[another section](../../../core-concepts/windows-services.md#wmic), WMIC can be used to enumerate services:
+As noted in an [another section](../../../core-concepts/windows-services.md#wmic), WMIC can be used to enumerate services:
 
 ```powershell
 wmic service get name,pathname

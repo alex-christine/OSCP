@@ -380,3 +380,5 @@
 * [Introduction](assembling-the-pieces/introduction.md)
 * [Public Network Enumeration](assembling-the-pieces/public-network-enumeration.md)
 * [Obtaining a Foothold](assembling-the-pieces/obtaining-a-foothold.md)
+* [Privilege Escalation On Initial Host](assembling-the-pieces/privilege-escalation-on-initial-host.md)
+* [Pivoting to the Internal Network](assembling-the-pieces/pivoting-to-the-internal-network.md)

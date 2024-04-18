@@ -782,6 +782,10 @@ sig_key:        4B:6E:F5:AB:CA:66:98:25:17:8E:05:2C:84:66:7C:CB:C0:53:1F:8C
 
 This and online research can be used to potentially find methods of privilege escalation.
 
+### Git Repository Enumartion
+
+Steps to enumerate a found git repository (indicated by presence of `.git` file) are demonstrated [here](../../../assembling-the-pieces/privilege-escalation-on-initial-host.md#examining-the-git-repository).
+
 ## Network Information
 
 It is also important to review available network interfaces, routes, and open ports. This information can help attackers determine if the compromised target is connected to multiple networks and therefore could be used as a pivot. The presence of specific virtual interfaces may also indicate the existence of virtualization or antivirus software.

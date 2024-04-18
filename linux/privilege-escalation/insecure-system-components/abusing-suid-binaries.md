@@ -77,7 +77,7 @@ The two `perl` binaries are the most interesting here as they have both `cap_set
 
 The easiest way to find an exploit binary for any particular system is to check [GTFOBins](https://gtfobins.github.io/).
 
-GTFOBins is a curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems. The project collects legitimate functions of Unix binaries that can be abused to break out of restricted shells. It is not a list of exploits per se, rather it is a compendium about how to live off the land when there are only certain binaries available.
+[GTFOBins](https://gtfobins.github.io/) is a curated list of Unix binaries that can be used to bypass local security restrictions in misconfigured systems. The project collects legitimate functions of Unix binaries that can be abused to break out of restricted shells. It is not a list of exploits per se, rather it is a compendium about how to live off the land when there are only certain binaries available.
 
 Searching "Perl" on GTFOBins will reveal [this page](https://gtfobins.github.io/gtfobins/perl/#capabilities), which contains the exact command to turn this misconfiguration into elevated privileges:
 

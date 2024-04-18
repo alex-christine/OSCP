@@ -193,7 +193,9 @@ joe@debian-privesc:~$ ./linpeas.sh -a > lp_check.txt
 
 In this case all output is sent to a file `lp_check.txt` as opposed to being printed on the console. Once the command returns, the output file can be fetched from the target and reviewed. For this output it is helpful to use the parsers provided in the parsers/ directory. They can be used to transform the output `.txt` file first to JSON and then to HTML or PDF for easier viewing.
 
-In this example, the output was transformed to HTML:
+### Transforming the Output
+
+PEAS-ng provides several [parsers](https://github.com/peass-ng/PEASS-ng/tree/master/parsers). Generally the steps are to convert the raw output to JSON using [`peas2json.py`](https://github.com/peass-ng/PEASS-ng/blob/master/parsers/peas2json.py) (or `.ps1` if on Windows). The JSON is then converted using [`json2html.py`](https://github.com/peass-ng/PEASS-ng/blob/master/parsers/json2html.py) or [`json2pdf.py`](https://github.com/peass-ng/PEASS-ng/blob/master/parsers/json2pdf.py). This allows for easy viewing. In this example, the output was transformed to HTML:
 
 ```shell-session
 kali@kali:~$ python3 PEASS-ng/parsers/peas2json.py lp_check.txt lp_check.json 

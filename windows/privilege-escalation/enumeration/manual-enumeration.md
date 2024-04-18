@@ -797,6 +797,12 @@ This utility can come in handy for checking permissions on service binaries, DLL
 
 To list all network interfaces use the `ipconfig` command with the `/all` flag (cmd.exe or PowerShell):
 
+```sh
+ipconfig /all
+```
+
+When run the output looks like this:
+
 ```powershell
 PS C:\Users\dave> ipconfig /all
 

