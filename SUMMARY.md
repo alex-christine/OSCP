@@ -221,7 +221,7 @@
       * [msfvenom](attack-vectors/exploit-frameworks/metasploit/payloads/msfvenom.md)
     * [Post-Exploitation](attack-vectors/exploit-frameworks/metasploit/post-exploitation.md)
       * [Post-Exploit Modules](attack-vectors/exploit-frameworks/metasploit/post-exploitation/post-exploit-modules.md)
-      * [Pivoting](attack-vectors/exploit-frameworks/metasploit/post-exploitation/pivoting.md)
+      * [Port Forwarding](attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md)
     * [Automation](attack-vectors/exploit-frameworks/metasploit/automation.md)
 * [Client-Side Attacks](attack-vectors/client-side-attacks/README.md)
   * [Target Reconnaissance](attack-vectors/client-side-attacks/target-reconnaissance.md)

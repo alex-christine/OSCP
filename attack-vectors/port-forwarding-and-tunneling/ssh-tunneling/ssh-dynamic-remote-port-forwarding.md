@@ -211,7 +211,7 @@ If an attacker wants to run an SSH session through the SOCKS proxy pivot, they c
 
 {% code overflow="wrap" %}
 ```bash
-sh -o ProxyCommand='ncat --proxy-type socks5 --proxy 127.0.0.1:9998 %h %p' database_admin@10.4.190.215
+ssh -o ProxyCommand='ncat --proxy-type socks5 --proxy 127.0.0.1:9998 %h %p' database_admin@10.4.190.215
 ```
 {% endcode %}
 
