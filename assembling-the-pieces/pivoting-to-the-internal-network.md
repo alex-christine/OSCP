@@ -536,7 +536,7 @@ The next step would be to enumerate the internal network; especially `INTERNALSR
 
 #### Launching Meterpreter
 
-The attacker will use Metasploit to set up a dynamic [port forward](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md). It will leverage the [`autoroute`](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md#autoroute) and [`socks_proxy`](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md#socks-proxy) modules.
+The attacker will use Metasploit to set up a dynamic [port forward](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/pivoting.md). It will leverage the [`autoroute`](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/pivoting.md#autoroute) and [`socks_proxy`](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/pivoting.md#socks-proxy) modules.
 
 First the attacker should create a generic Windows Meterpreter Reverse Shell via `msfvenom`:
 
@@ -577,7 +577,7 @@ Active sessions
 
 #### Autoroute
 
-Now that a session has been created the attacker can use the [`autoroute`](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md#autoroute) module to begin the creation of a SOCKS Proxy. The commands are listed one-per-block for easier copy/pasting:
+Now that a session has been created the attacker can use the [`autoroute`](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/pivoting.md#autoroute) module to begin the creation of a SOCKS Proxy. The commands are listed one-per-block for easier copy/pasting:
 
 ```
 use multi/manage/autoroute
@@ -828,4 +828,4 @@ The attacker can try some login attempts such as known credentials and common pa
 
 The attacker has found a lot of useful information in this section. They enumerated all active sessions and found the domain administrator `beccy` has an active session on `MAILSRV1`. Next, they identified `daniela` as a kerberoastable user due to the `http/internalsrv1.beyond.com` SPN.
 
-They then set up a SOCKS5 proxy with [Metasploit](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/port-forwarding.md) and used [CrackMapExec](../windows/active-directory/authentication/attacking-ad-authentication/password-attacks.md#crackmapexec) and [Nmap](../networking-tools/nmap/) to perform network enumeration via [Proxychains](../attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-dynamic-port-forwarding.md#proxychains). The output revealed that `MAILSRV1` and `INTERNALSRV1` each have an accessible web server and SMB signing disabled. Via [Chisel](../attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/http-tunneling/chisel.md), they were able to browse to the WordPress instance on `INTERNALSRV1`. However, none of the credentials worked to log in to the WordPress login page.
+They then set up a SOCKS5 proxy with [Metasploit](../attack-vectors/exploit-frameworks/metasploit/post-exploitation/pivoting.md) and used [CrackMapExec](../windows/active-directory/authentication/attacking-ad-authentication/password-attacks.md#crackmapexec) and [Nmap](../networking-tools/nmap/) to perform network enumeration via [Proxychains](../attack-vectors/port-forwarding-and-tunneling/ssh-tunneling/ssh-dynamic-port-forwarding.md#proxychains). The output revealed that `MAILSRV1` and `INTERNALSRV1` each have an accessible web server and SMB signing disabled. Via [Chisel](../attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/http-tunneling/chisel.md), they were able to browse to the WordPress instance on `INTERNALSRV1`. However, none of the credentials worked to log in to the WordPress login page.

@@ -12,7 +12,7 @@ The overall goal of this example will be to leverage unprivileged code execution
 
 #### Assumptions
 
-* Attacker has access to `FILES01` (hosted at `192.168.241.211`)as an unprivileged user (`files02admin`)
+* Attacker has access to `FILES01` (hosted at `192.168.241.211`) as an unprivileged user (`files02admin`)
   * Cannot run Mimikatz to extract passwords
   * Access is via a bind shell running on port `5555`
 * Attacker attempted to use the steps illustrated in [Cracking NTLMv2](cracking-net-ntlmv2.md) and successfully obtained a hash of the password but was unable to crack it due to the password's complexity
@@ -26,14 +26,14 @@ The overall structure of the attack will be:
 1. Cause the machine `FILES01` to attempt authentication to an **SMB relay** that is under the attacker's control
    * Attacker will use the `dir` command to attempt to enumerate a "share" on the attacker's machine (actually the relay software)
 2. The relay will handle the process of accepting an incoming authentication attempt, capturing the hash, and passing it to the target (`FILES02`) for authentication.
-   * If _files02admin_ is a local user of FILES02, the authentication is valid and therefore accepted by the machine
+   * If `files02admin` is a local user of `FILES02`, the authentication is valid and therefore accepted by the machine
    * If the relayed authentication is from a user (`files02admin` in the example) with local Administrator (member of the local Administrators group) privileges on the target (`FILES02`) , it can use it to authenticate and then execute commands over SMB with methods similar to those used by `psexec` or `wmiexec`
 
 #### SMB Relay
 
-The SMB relay software used in this attack will be the [ntlmrelayx.py](https://github.com/fortra/impacket/blob/master/examples/ntlmrelayx.py) script from the [impacket library](https://github.com/fortra/impacket/tree/master). This tool does the heavy lifting for of setting up an SMB server and relaying the authentication part of an incoming SMB connection to a target of the attacker's choice.
+The SMB relay software used in this attack will be the [`ntlmrelayx.py`](https://github.com/fortra/impacket/blob/master/examples/ntlmrelayx.py) script from the [impacket library](https://github.com/fortra/impacket/tree/master). This tool does the heavy lifting for of setting up an SMB server and relaying the authentication part of an incoming SMB connection to a target of the attacker's choice.
 
-ntlmrelayx can also accept a command to be executed on the target machine. In this case, a PowerShell one-liner reverse shell will be used:
+`ntlmrelayx` can also accept a command to be executed on the target machine. In this case, a PowerShell one-liner reverse shell will be used:
 
 {% code title="rev_shell.ps1" overflow="wrap" %}
 ```powershell

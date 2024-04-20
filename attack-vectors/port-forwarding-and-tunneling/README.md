@@ -99,7 +99,7 @@ To enable inbound connections, each private (firewalled) network must have a DPF
 
 ### Tools for Port Forwarding
 
-Metasploit offers cross-platform port forwarding as seen [here](../exploit-frameworks/metasploit/post-exploitation/port-forwarding.md).
+Metasploit offers cross-platform port forwarding as seen [here](../exploit-frameworks/metasploit/post-exploitation/pivoting.md).
 
 #### Linux Tools
 

