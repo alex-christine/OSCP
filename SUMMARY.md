@@ -370,11 +370,6 @@
 * [Linux Buffer Overflow](buffer-overflows/linux-buffer-overflow/README.md)
   * [Prevention Mechanisms](buffer-overflows/linux-buffer-overflow/prevention-mechanisms.md)
 
-## Labs
-
-* [hetemit](labs/hetemit.md)
-* [PayDay](labs/payday.md)
-
 ## Assembling The Pieces
 
 * [Introduction](assembling-the-pieces/introduction.md)
@@ -384,3 +379,15 @@
 * [Pivoting to the Internal Network](assembling-the-pieces/pivoting-to-the-internal-network.md)
 * [Attacking an Internal Web Application](assembling-the-pieces/attacking-an-internal-web-application.md)
 * [Gaining Access to the Domain Controller](assembling-the-pieces/gaining-access-to-the-domain-controller.md)
+
+## Challenge Labs
+
+* [Lab 1: MEDTECH](challenge-labs/lab-1-medtech/README.md)
+  * [External Enumeration](challenge-labs/lab-1-medtech/external-enumeration.md)
+  * [Obtaining Initial Access](challenge-labs/lab-1-medtech/obtaining-initial-access.md)
+
+## Practice Labs
+
+* [Pebbles](practice-labs/pebbles.md)
+* [hetemit](practice-labs/hetemit.md)
+* [PayDay](practice-labs/payday.md)

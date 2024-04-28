@@ -16,10 +16,10 @@ The application's [user manual](https://github.com/sqlmapproject/sqlmap/wiki) pr
 
 ### Example
 
-Using sqlmap to examine the `/debug.php` page from earlier examples and exercises:
+Using e to examine the `/debug.php` page from earlier examples and exercises:
 
 ```bash
-kali@kali:~$ sqlmap -u http://192.168.197.10/debug.php?id=1 -p "id"
+sqlmap -u http://192.168.197.10/debug.php?id=1 -p "id"
 ```
 
 This will result in the identification of a successful injection point:

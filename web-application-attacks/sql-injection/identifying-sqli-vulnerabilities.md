@@ -85,7 +85,7 @@ For further details, see linked page.
 
 ## Sample Workflow
 
-Below is a general-purpose example of how to find a SQLi vulnerability on a page/application. As SQLi testing is generally a black box this will mostly conisist of trial and error:
+Below is a general-purpose example of how to find a SQLi vulnerability on a page/application. As SQLi testing is generally a black box this will mostly consist of trial and error:
 
 1. Identify all places on the application that may require database interaction
 2. Place a single-quote (`'`) character in each field identified in step 1 to see what happens
