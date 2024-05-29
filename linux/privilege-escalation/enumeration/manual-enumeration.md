@@ -590,6 +590,14 @@ find / -perm -u=s -type f 2>/dev/null
 * `-type f` limits results to files
 * `2>/dev/null` filters out errors (standard output `2`) by sending the output to `/dev/null`
 
+It is often helpful to pipe this to a sort call to make it more readable
+
+{% code overflow="wrap" %}
+```bash
+find / -perm -u=s -type f 2>/dev/null | sort
+```
+{% endcode %}
+
 On the example machine, this can be used to search for special-permission binaries
 
 {% code lineNumbers="true" %}
