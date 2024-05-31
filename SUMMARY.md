@@ -388,7 +388,11 @@
 
 ## Practice Labs
 
-* [Pebbles](practice-labs/pebbles.md)
-* [hetemit](practice-labs/hetemit.md)
-* [PayDay](practice-labs/payday.md)
-* [ProStore](practice-labs/prostore.md)
+* [Linux](practice-labs/linux/README.md)
+  * [ProStore](practice-labs/linux/prostore.md)
+* [Windows](practice-labs/windows/README.md)
+  * [Symbolic](practice-labs/windows/symbolic.md)
+* [In-Progress](practice-labs/in-progress/README.md)
+  * [hetemit](practice-labs/in-progress/hetemit.md)
+  * [PayDay](practice-labs/in-progress/payday.md)
+  * [Pebbles](practice-labs/in-progress/pebbles.md)

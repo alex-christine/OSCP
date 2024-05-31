@@ -87,7 +87,7 @@ The machine is hosting HTTP on several different ports.
 
 The port 80 page is a login portal:
 
-<figure><img src="../.gitbook/assets/pebbles_Port80Portal.png" alt=""><figcaption><p>Login Portal</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pebbles_Port80Portal.png" alt=""><figcaption><p>Login Portal</p></figcaption></figure>
 
 #### Port 3305
 
@@ -132,13 +132,13 @@ feroxbuster -u http://192.168.192.52 -o pebbles.feroxbuster -t 10 -L 10 -w /usr/
 
 Navigating to the `/zm` directory found by feroxbuster an instance of [ZoneMinder](https://zoneminder.com/) `v1.29.0` is found:
 
-<figure><img src="../.gitbook/assets/pebbles_zmDirectory.png" alt=""><figcaption><p>ZoneMinder in /zm</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pebbles_zmDirectory.png" alt=""><figcaption><p>ZoneMinder in /zm</p></figcaption></figure>
 
 ZoneMinder is an open-source tool for monitoring CCTV systems.
 
 Some preliminary research reveals a potential SQLi vulnerability for this exact version: [EDB-ID 41239](https://www.exploit-db.com/exploits/41239). The SQLi portion of the disclosure is shown here:
 
-<figure><img src="../.gitbook/assets/pebbles_ZoneMinderSQLi.png" alt=""><figcaption><p>SQLi Payload</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pebbles_ZoneMinderSQLi.png" alt=""><figcaption><p>SQLi Payload</p></figcaption></figure>
 
 * Method is `POST`
 * Destination is `http://X.X.X.X/zm/index.php`
@@ -171,11 +171,11 @@ view=request&request=log&task=query&limit=100;(SELECT * FROM (SELECT(SLEEP(5)))O
 
 To leverage this, BurpSuite will be used to capture some `POST` request on `/zm/index.php`. To force a `POST` a new monitor can be created. Once captured:
 
-<figure><img src="../.gitbook/assets/pebbles_zmPostUnaltered.png" alt=""><figcaption><p>Unaltered POST</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pebbles_zmPostUnaltered.png" alt=""><figcaption><p>Unaltered POST</p></figcaption></figure>
 
 The payload can then be substituted in and the machine is observed to hang for 5 seconds before returning a 200 response (hang not pictured):
 
-<figure><img src="../.gitbook/assets/pebbles_ZmPostPayload.png" alt=""><figcaption><p>With payload and response</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/pebbles_ZmPostPayload.png" alt=""><figcaption><p>With payload and response</p></figcaption></figure>
 
 #### Creating A Web-Shell
 

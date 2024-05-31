@@ -22,7 +22,7 @@ The techniques below will assume the attacker has access to a compromised accoun
 
 Several tools exist for Active Directory enumeration. They will be described in more detail below in the relevant sections but a high-level overview of each is provided here.
 
-* [**Net Commands**](https://learn.microsoft.com/en-US/troubleshoot/windows-server/networking/net-commands-on-operating-systems)**:** similar to enumerating local accounts and groups, net commands can be run against the domain with a /domain flag. Net Commands are installed by default on Windows machines and are thus a good place to start
+* [**Net Commands**](https://learn.microsoft.com/en-US/troubleshoot/windows-server/networking/net-commands-on-operating-systems)**:** similar to enumerating local accounts and groups, net commands can be run against the domain with a `/domain` flag. Net Commands are installed by default on Windows machines and are thus a good place to start
 * **PowerShell:** Through the use of the .NET classes (DirectoryServices in particular), PowerShell can be used as an AD enumeration tool
 * **Sysinternals Tools:** some Sysinternals tools such as `PsLoggedOn` will be used to overcome shortcomings in other tools (PowerView) caused by Windows updates
 
