@@ -389,6 +389,7 @@
 ## Practice Labs
 
 * [Linux](practice-labs/linux/README.md)
+  * [Depreciated](practice-labs/linux/depreciated.md)
   * [ProStore](practice-labs/linux/prostore.md)
 * [Windows](practice-labs/windows/README.md)
   * [Symbolic](practice-labs/windows/symbolic.md)
