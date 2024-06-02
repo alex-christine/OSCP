@@ -112,14 +112,15 @@ The basic command structure for WPScan on Linux is:
 
 {% code overflow="wrap" %}
 ```bash
-wpscan --url http://192.168.50.244 --enumerate p --plugins-detection aggressive -o machine.wpscan
+wpscan --url http://192.168.50.244 -e --plugins-detection aggressive -o machine.wpscan
 ```
 {% endcode %}
 
-* `--enumerate p` enumerates all _popular_ plugins
+* `-e` enumerates the instance. The default mode is to enumerate _config backups_ and _all plugins_
+  * The `--help` function provides a list of options that can be used here such as `ap` and `vp` for all and vulnerable plugins respectively
 * `-plugins-detection aggressive` allows more aggressive scanning
 * `-o` generates an output file (file extension can be anything `.wpscan` is not a special file type or anything)
-* If an API token is available it is supplied with the `--api-token` flag
+* If an API token is available it is supplied with the `--api-token` flag (future self, you have one so use it)
 
 When run the output will look something like this:
 

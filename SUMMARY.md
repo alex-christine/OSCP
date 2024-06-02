@@ -390,6 +390,7 @@
 
 * [Linux](practice-labs/linux/README.md)
   * [Depreciated](practice-labs/linux/depreciated.md)
+  * [Nukem](practice-labs/linux/nukem.md)
   * [ProStore](practice-labs/linux/prostore.md)
 * [Windows](practice-labs/windows/README.md)
   * [Symbolic](practice-labs/windows/symbolic.md)
