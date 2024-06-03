@@ -389,6 +389,7 @@
 ## Practice Labs
 
 * [Linux](practice-labs/linux/README.md)
+  * [Banzai](practice-labs/linux/banzai.md)
   * [Depreciated](practice-labs/linux/depreciated.md)
   * [Nukem](practice-labs/linux/nukem.md)
   * [ProStore](practice-labs/linux/prostore.md)

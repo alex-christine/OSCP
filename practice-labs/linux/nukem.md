@@ -244,3 +244,8 @@ Root access achieved.
 ## Learned
 
 * **Using `wpscan`'s `-e` correctly**: I was originally copy/pasting a command that only revealed popular plugins but not necessarily all or vulnerable ones. I read the documentation and figured out how to use `-e` more effectively.
+
+### Difficulty Rating
+
+* **Foothold - 3/10:** There was a lot to enumerate but the actual WordPress exploit was easy to find and use once the vulnerable plugin was found&#x20;
+* **Privilege Escalation - 2/10:** SUID was easy to find but it took a minute to figure out what I had and how to leverage it
