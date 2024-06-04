@@ -34,7 +34,7 @@ The first test will be to attempt to clone the [ExploitDB repository](https://gi
 
 While it is interesting that any git repo can be cloned, looking at the actual request via Burp provides some other insight:
 
-<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption><p>git clone request via Burp</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt=""><figcaption><p>git clone request via Burp</p></figcaption></figure>
 
 Examining this POST request it would seem there is just an `Archive` parameter that is just the command text URL encoded.
 

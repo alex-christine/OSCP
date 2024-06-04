@@ -355,7 +355,7 @@ OpenSSH 8.9p1 Ubuntu 3
 
 When examined via [Launchpad](https://launchpad.net/ubuntu/+source/openssh) it turns out that version was bundled with Ubuntu 22.04 (Jammy Jellyfish):
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 This provides some insight but not much more yet.
 

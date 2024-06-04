@@ -397,5 +397,6 @@
   * [Symbolic](practice-labs/windows/symbolic.md)
 * [In-Progress](practice-labs/in-progress/README.md)
   * [hetemit](practice-labs/in-progress/hetemit.md)
+  * [midnight](practice-labs/in-progress/midnight.md)
   * [PayDay](practice-labs/in-progress/payday.md)
   * [Pebbles](practice-labs/in-progress/pebbles.md)
