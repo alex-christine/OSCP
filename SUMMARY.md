@@ -394,6 +394,7 @@
   * [Nukem](practice-labs/linux/nukem.md)
   * [ProStore](practice-labs/linux/prostore.md)
 * [Windows](practice-labs/windows/README.md)
+  * [Shenzi](practice-labs/windows/shenzi.md)
   * [Symbolic](practice-labs/windows/symbolic.md)
 * [In-Progress](practice-labs/in-progress/README.md)
   * [hetemit](practice-labs/in-progress/hetemit.md)

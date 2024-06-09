@@ -28,7 +28,7 @@ When `NOTE` is used the service is presumably just reading the command line inpu
 
 Eventually I find something weird with apostrophes `'`. When I run NOTE ' and then READ there is an extra carriage return. The standard behavior can be seen with `READ 11` which correctly read double quotes entered via `NOTE ""`. After printing the note contents there is a single empty line before the next input prompt:
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>Weird processing around '</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/PgPr-Midnight-ApostropheError.png" alt=""><figcaption><p>Weird processing around '</p></figcaption></figure>
 
 However `READ 12` has 2 carriage returns. And `READ 13` gets quite strange. So this implies somehow the ' is escaping the normal processing. If I can figure out what sort of loop this is running in perhaps I can inject commands. This will take more messing with the service.
 
