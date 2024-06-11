@@ -33,7 +33,7 @@ Both objectives will be accomplished by passing the hash obtained from `FILES01`
 
 ### Extracting the Hash
 
-After connection to FILES01, first attempt connection to the SMB share located at \\\192.168.235.212\secrets via File Explorer using the user gunther's credentials:
+After connection to FILES01, first attempt connection to the SMB share located at \\\192.168.235.212\secrets via File Explorer using the user `gunther`'s credentials:
 
 <figure><img src="../../../.gitbook/assets/PassAttack-NTLMPass_NoAccess.png" alt=""><figcaption><p>It would seem Gunther does not have access to this share</p></figcaption></figure>
 
