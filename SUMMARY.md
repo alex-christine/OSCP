@@ -396,6 +396,7 @@
 * [Windows](practice-labs/windows/README.md)
   * [access](practice-labs/windows/access.md)
   * [Billyboss](practice-labs/windows/billyboss.md)
+  * [Resourced](practice-labs/windows/resourced.md)
   * [Shenzi](practice-labs/windows/shenzi.md)
   * [Symbolic](practice-labs/windows/symbolic.md)
 * [In-Progress](practice-labs/in-progress/README.md)
