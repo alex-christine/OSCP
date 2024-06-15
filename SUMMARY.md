@@ -400,6 +400,7 @@
   * [Resourced](practice-labs/windows/resourced.md)
   * [Shenzi](practice-labs/windows/shenzi.md)
   * [Symbolic](practice-labs/windows/symbolic.md)
+  * [Vault](practice-labs/windows/vault.md)
 * [In-Progress](practice-labs/in-progress/README.md)
   * [hetemit](practice-labs/in-progress/hetemit.md)
   * [midnight](practice-labs/in-progress/midnight.md)

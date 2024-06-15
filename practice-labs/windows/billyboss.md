@@ -280,5 +280,4 @@ Root access achieved.
 ### Difficulty Rating
 
 * **Foothold - 5/10:** The upload functionality was sufficiently misleading to make me chase it for a bit. Ultimately the only challenge was creating custom wordlists for `hydra` to crack the login on port 8081 allowing the use of the authenticated RCE
-* **Privilege Escalation - 2/10:** SeImpersonatePrivilege made this fairly easy. 2 instead of 1 because PrintSpoofer failed and I had to learn a new tool.
-
+* **Privilege Escalation - 2/10:** `SeImpersonatePrivilege` made this fairly easy. 2 instead of 1 because `PrintSpoofer` failed and I had to learn a new tool.
