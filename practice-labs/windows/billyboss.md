@@ -241,7 +241,7 @@ I was then able to do SMB file transfers and it even had the benefit of capturin
 I was then able to run peas.exe with the command:
 
 ```sh
-.\peas.exe -a quiet log=nathan_peas.txt
+    .\peas.exe -a quiet log=nathan_peas.txt
 ```
 
 ### SeImpersonatePrivilege
