@@ -14,9 +14,15 @@ layout:
 
 # Automated
 
-## SharpHound
+The main tools for automated domain enumeration fall into the [BloodHound](https://bloodhound.readthedocs.io/en/latest/index.html) family. BloodHound is an automatic enumeration tool that uses graph theory to reveal the hidden and often unintended relationships within an Active Directory environment. It offers several ingestors to fetch the data (SharpHound and bloodhound-python) as well as the BloodHound interface itself for analyzing the results.
 
-[BloodHound](https://bloodhound.readthedocs.io/en/latest/index.html) is an automatic enumeration tool that uses graph theory to reveal the hidden and often unintended relationships within an Active Directory environment.
+Some other tools exist for more niche enumeration:
+
+* [**Certipy**](automated.md#certipy)**:** used to enumerate and interact with [AD CS](../#active-directory-certificate-services)
+  * Some of the output from `certipy` can be fed into BloodHound
+* **`ldeep`:** used to craft raw LDAP/S queries on Linux
+
+## SharpHound
 
 [SharpHound](https://bloodhound.readthedocs.io/en/latest/data-collection/sharphound.html) is the official data collector for BloodHound. It is written in C# and uses native Windows API functions and LDAP namespace functions to collect data from domain controllers and domain-joined Windows systems.
 
@@ -281,3 +287,93 @@ To check for any object that has an SPN (not just a user) the command is:
 ```
 MATCH (n)WHERE n.hasspn=true RETURN n
 ```
+
+## bloodhound-python
+
+[`bloodhound-python`](https://www.kali.org/tools/bloodhound.py/) is the Linux command-line ingestor for BloodHound. It can be seen being used in [this lab example](../../../practice-labs/windows/nara.md#getting-to-admin).
+
+## Certipy
+
+[Certipy](https://github.com/ly4k/Certipy) is an offensive tool for enumerating and abusing Active Directory Certificate Services (AD CS).
+
+### Finding Certificates
+
+It can be incredibly helpful to enumerate the certificates in a domain. This can be done with the Certipy `find` command with the general structure:
+
+{% code overflow="wrap" %}
+```bash
+certipy-ad find -u <username> -p <password> -dc-ip <dc_ip> -old-bloodhound -enabled
+```
+{% endcode %}
+
+* `-old-bloodhound` saves the collected data in a zip that can be uploaded to BloodHound. It can be uploaded alongside whatever is collected via SharpHound or `bloodhound-python` to give a more detailed picture
+* `-enabled` only displays enabled certificates to hopefully cut down on noise
+* The tool also offers a `-hashes` flag allowing a hash to be used instead of a password
+
+### Using Certificates
+
+Assuming the attacker has access to a user who is allowed to generate certificates the steps for using a certificate are pretty simple:
+
+1. Request the certificate
+2. Use the certificate
+
+#### Requesting a Certificate
+
+The `req` sub-command will be used to request certificates with the structure shown below:
+
+{% code overflow="wrap" %}
+```bash
+certipy-ad req -u <username> -p <password> -dc-ip <dc_ip> -target <domain> -ca <ca_name> -template <template_name> -sid <sid_of_object>
+```
+{% endcode %}
+
+This command would request a certificate (likely for authentication) for an `object` which is specified by its SID. The actual certificate will be saved into a `.pfx` file in the current directory.
+
+* Credentials would be provided with `-u` and `-p` flags. Though this command also offers the `-hashes` authentication option
+* `-dc-ip` specifies the IP address of the domain controller
+* `-target` is the domain in which the object resides
+* `-ca` is used to provide the name of the certificate authority
+* `-template` is an optional flag for specifying the [template](../#certificate-templates) with which the certificate should be issued
+* `-sid` allows the specification of the object for which a certificate is requested by SID. This can be replaced with `-upn` to name an object by UPN; by `-dns` to request an object with its DNS name; or by `-subject` to specify the object with its distinguished name
+
+#### Using the Certificate
+
+Assuming the certificate requested was for authentication the `auth` sub-command will be used to actually authenticate. It follows the general structure of:
+
+{% code overflow="wrap" %}
+```bash
+certipy-ad auth -pfx <path_to_pfx> -domain <domain> -username <auth_as_user> -dc-ip <dc_ip>
+```
+{% endcode %}
+
+This command would use the specified `.pfx` file to authenticate to `domain` as the user specified in `-username`. This command would output the hash for the requested user. The hash can then be used with any tool that accepts hashes (e.g. `evil-winrm`).
+
+For an example please see the [box writeup for nara](../../../practice-labs/windows/nara.md#leveraging-a-certificate).
+
+## ldeep
+
+[`ldeep`](https://github.com/franc-pentest/ldeep) "in-depth LDAP enumeration utility." It seems to be written in Python and can be installed as a command-line utility in Kali. The help menu can be viewed with the command:
+
+{% code overflow="wrap" %}
+```bash
+ldeep ldap -h
+```
+{% endcode %}
+
+#### Basic Command Structure
+
+The basic structure of the commands falls into an authentication section and the command section as shown here:
+
+```
+ldeep ldap -u <username> -p <password> -d <domain> -s ldap://<dc_ip> command
+```
+
+The possible commands are listed in the help menu:
+
+<figure><img src="../../../.gitbook/assets/PgPr-nara-LdeepCommands.png" alt=""><figcaption><p>Commands displayed by help menu</p></figcaption></figure>
+
+It usually requires authentication to the domain. It does offer an anonymous mode with `-a` but usually there is not much information exposed for anonymous enumeration via LDAP (at least there shouldn't be).
+
+Beyond simple enumeration, some of the commands (`add_to_group`, `create_user`, `modify_password`, etc.) allow manipulation of the domain, assuming the user has sufficient permissions.
+
+For an example of ldeep being used please see the [box writeup for nara](../../../practice-labs/windows/nara.md#ldeep).

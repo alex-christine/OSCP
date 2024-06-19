@@ -394,3 +394,52 @@ A Group Policy object (GPO) is a logical object composed of two components, a Gr
 [Group Policy Preferences](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/dn581922\(v=ws.11\)) (GPP) is a collection of Group Policy client-side extensions that _deliver preference settings to domain-joined computers_ running Microsoft Windows desktop and server operating systems.
 
 Preference settings are administrative configuration choices deployed to desktops and servers. Preference settings differ from policy settings because users have a choice to alter the administrative configuration. Policy settings administratively enforce setting, which restricts user choice.
+
+## Active Directory Certificate Services
+
+[Active Directory Certificate Services](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/active-directory-certificate-services-overview) (AD CS) is a Windows Server role for issuing and managing public key infrastructure (PKI) certificates used in secure communication and authentication protocols.
+
+Digital certificates can be used to encrypt and digitally sign electronic documents and messages as well as for authentication of computer, user, or device accounts on a network. For example, digital certificates are used to provide:
+
+* Confidentiality through encryption.
+* Integrity through digital signatures.
+* Authentication by associating certificate keys with the computer, user, or device accounts on a computer network.
+
+The general functioning of AD CS is partially explained in this diagram:
+
+<figure><img src="../../.gitbook/assets/AD-ADCS_Diagram.png" alt=""><figcaption><p>Basic usage of AD CS</p></figcaption></figure>
+
+In this instance Client has requested a certificate that can be used for code signing. Assuming validation checks are passed Client will receive a certificate (signed by the Enterprise CA) that can be used for signing code. This is the practical mechanism used in an organization when they sign code. Not all developers have access to _the_ code signing certificate. Instead they get a certificate signed by the CA which validates up the chain of trust to provide code signing.
+
+In a similar manner a certificate that allows signing in to specific machines could be generated, assuming the user has proper permissions. This is helpful if there is a machine hosting a database that multiple users need to sign in to (call it `DB01`). Instead of giving them credentials it would be possible to set up a certificate for authentication to DB01 and then users could just have their AD CS setup configured to allow requesting of an authentication certificate for `DB01`.
+
+### Benefits of AD CS
+
+AD CS provides the following important features:
+
+* **Certification authorities:** Root and subordinate Certificate Authorities (CAs) are used to issue certificates to users, computers, and services, and to manage certificate validity.
+* **Web enrollment:** Web enrollment allows users to connect to a CA with a Web browser in order to request certificates and retrieve certificate revocation lists (CRLs).
+* **Online Responder:** The Online Responder service decodes revocation status requests for specific certificates, evaluates the status of these certificates, and sends back a signed response containing the requested certificate status information.
+* **Network Device Enrollment Service:** The Network Device Enrollment Service allows routers and other network devices that don't have domain accounts to obtain certificates.
+* **TPM key attestation:** Lets the certification authority verify the private key is protected by a hardware-based TPM and that the TPM is one that the CA trusts. TPM key attestation prevents the certificate from being exported to an unauthorized device and can bind the user identity to the device.
+* **Certificate Enrollment Policy Web Service:** The Certificate Enrollment Policy Web Service enables users and computers to obtain certificate enrollment policy information.
+* **Certificate Enrollment Web Service:** Certificate Enrollment Web Service enables users and computers to perform certificate enrollment through a web service. Together with the Certificate Enrollment Policy Web Service, this enables policy-based certificate enrollment when the client computer isn't a member of a domain or when a domain member isn't connected to the domain.
+
+### Certificate Templates
+
+[Certificate templates](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/certificate-template-concepts) can greatly simplify the task of administering an Active Directory Certificate Services (AD CS) certification authority (CA) by allowing an administrator to issue certificates pre-configured for selected tasks. The Certificate Templates snap-in allows an administrator to perform the following tasks:
+
+* View properties for each certificate template.
+* Copy and modify certificate templates.
+* Control which users and computers can read templates and enroll for certificates.
+* Perform other administrative tasks relating to certificate templates.
+
+Certificate templates are the sets of rules and settings that are configured on a CA to be applied against incoming certificate requests. Certificate templates also give instructions to the client on how to create and submit a valid certificate request.
+
+Only an enterprise CA can issue certificates based on a certificate template.
+
+There are many [default certificate templates](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/certificate-template-concepts#default-certificate-templates) that are available and designed by Microsoft to meet the needs of most organizations.
+
+### Enumeration
+
+AD CS can be a source of misconfigurations leading to security holes. Some techniques for enumerating AD CS are covered in the [Enumeration section](enumeration/automated.md#certipy).
