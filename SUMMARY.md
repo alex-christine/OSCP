@@ -398,6 +398,7 @@
   * [Billyboss](practice-labs/windows/billyboss.md)
   * [Craft2](practice-labs/windows/craft2.md)
   * [Heist](practice-labs/windows/heist.md)
+  * [Nagoya](practice-labs/windows/nagoya.md)
   * [nara](practice-labs/windows/nara.md)
   * [Resourced](practice-labs/windows/resourced.md)
   * [Shenzi](practice-labs/windows/shenzi.md)

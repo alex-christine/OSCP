@@ -289,3 +289,7 @@ RawContent        : HTTP/1.1 200 OK
 ```
 
 Authentication was successful with the forged ticket! The ticket will remain valid as long as PAC validation remains off and until the `iis_service` account password (and thus hash) is changed.
+
+## Impacket
+
+The above shows how to perform a Silver Ticket attack in a Windows environment. If working on Linux, Impacket offers a ticketer script that allows requesting of tickets. For an example of its use see the privilege escalation section of the [Nagoya writeup](../../../../practice-labs/windows/nagoya.md#silver-ticket).

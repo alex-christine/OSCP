@@ -18,7 +18,8 @@ The main tools for automated domain enumeration fall into the [BloodHound](https
 
 Some other tools exist for more niche enumeration:
 
-* [**Certipy**](automated.md#certipy)**:** used to enumerate and interact with [AD CS](../#active-directory-certificate-services)
+* **Certify:** Windows tool used to enumerate and interact with [AD CS](../#active-directory-certificate-services)
+* **Certipy:** Linux tool used to enumerate and interact with [AD CS](../#active-directory-certificate-services)
   * Some of the output from `certipy` can be fed into BloodHound
 * **`ldeep`:** used to craft raw LDAP/S queries on Linux
 
@@ -292,9 +293,28 @@ MATCH (n)WHERE n.hasspn=true RETURN n
 
 [`bloodhound-python`](https://www.kali.org/tools/bloodhound.py/) is the Linux command-line ingestor for BloodHound. It can be seen being used in [this lab example](../../../practice-labs/windows/nara.md#getting-to-admin).
 
+## Certify
+
+[Certify](https://github.com/GhostPack/Certify) is a C# tool to enumerate and abuse misconfigurations in Active Directory Certificate Services (AD CS).
+
+The tool is fairly well documented on its page and has roughly the same commands as [Certipy](automated.md#certipy). It can be somewhat easier to use than Certipy since it is run from a Windows machine inside the domain environment. Therefore there is no need to authenticate with each command.
+
+### Finding Certificates
+
+Certificates are found with the find command:
+
+```sh
+Certify.exe find /vulnerable
+```
+
+* `/vulnerable` is an optional flag that limits output to only vulnerable certificates. This can be helpful in a large domain environment
+* An optional combination of the `/json /outfile:out.json` flags can be used to output the certificates (in JSON format) to `out.json`
+
+For a full walkthrough of using Certify follow the [example](https://github.com/GhostPack/Certify?tab=readme-ov-file#example-walkthrough) in their documentation.
+
 ## Certipy
 
-[Certipy](https://github.com/ly4k/Certipy) is an offensive tool for enumerating and abusing Active Directory Certificate Services (AD CS).
+[Certipy](https://github.com/ly4k/Certipy) is an offensive tool for enumerating and abusing Active Directory Certificate Services (AD CS). This is the Linux version of [Certify](automated.md#certify).
 
 ### Finding Certificates
 
