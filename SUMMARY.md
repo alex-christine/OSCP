@@ -392,6 +392,7 @@
   * [Banzai](practice-labs/linux/banzai.md)
   * [Depreciated](practice-labs/linux/depreciated.md)
   * [Nukem](practice-labs/linux/nukem.md)
+  * [Pelican](practice-labs/linux/pelican.md)
   * [ProStore](practice-labs/linux/prostore.md)
 * [Windows](practice-labs/windows/README.md)
   * [access](practice-labs/windows/access.md)
