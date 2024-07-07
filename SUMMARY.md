@@ -390,6 +390,7 @@
 
 * [Linux](practice-labs/linux/README.md)
   * [Banzai](practice-labs/linux/banzai.md)
+  * [Fail](practice-labs/linux/fail.md)
   * [Depreciated](practice-labs/linux/depreciated.md)
   * [Nukem](practice-labs/linux/nukem.md)
   * [Pelican](practice-labs/linux/pelican.md)
