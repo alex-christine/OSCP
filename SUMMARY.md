@@ -398,6 +398,7 @@
 * [Windows](practice-labs/windows/README.md)
   * [access](practice-labs/windows/access.md)
   * [Billyboss](practice-labs/windows/billyboss.md)
+  * [Butch](practice-labs/windows/butch.md)
   * [Craft2](practice-labs/windows/craft2.md)
   * [Heist](practice-labs/windows/heist.md)
   * [Nagoya](practice-labs/windows/nagoya.md)
