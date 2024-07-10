@@ -407,6 +407,7 @@
   * [Shenzi](practice-labs/windows/shenzi.md)
   * [Symbolic](practice-labs/windows/symbolic.md)
   * [Vault](practice-labs/windows/vault.md)
+  * [Vector](practice-labs/windows/vector.md)
 * [In-Progress](practice-labs/in-progress/README.md)
   * [hetemit](practice-labs/in-progress/hetemit.md)
   * [Hokkaido](practice-labs/in-progress/hokkaido.md)
