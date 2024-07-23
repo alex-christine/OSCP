@@ -161,7 +161,7 @@ The machine at  appears to be a Linux machine running a web server on port 80 as
 
 According to launchpad the particular version was bundled with Debian bullseye. This is likely the version of Linux running on the machine:
 
-<figure><img src="../../.gitbook/assets/CL1-120_DebianSSHBundle.png" alt=""><figcaption><p>OpenSSH version for machine 120</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/CL1-121_DebianSSHBundle.png" alt=""><figcaption><p>OpenSSH version for machine 120</p></figcaption></figure>
 
 ### Web Server (80)
 
