@@ -386,6 +386,7 @@
   * [External Enumeration](challenge-labs/lab-1-medtech/external-enumeration.md)
   * [Obtaining Initial Access](challenge-labs/lab-1-medtech/obtaining-initial-access.md)
   * [WEB02 Pivot](challenge-labs/lab-1-medtech/web02-pivot.md)
+  * [FILES02](challenge-labs/lab-1-medtech/files02.md)
 
 ## Practice Labs
 
