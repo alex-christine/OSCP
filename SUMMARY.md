@@ -250,6 +250,7 @@
       * [Chisel](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/http-tunneling/chisel.md)
     * [DNS Tunneling](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/dns-tunneling/README.md)
       * [dnscat2](attack-vectors/port-forwarding-and-tunneling/tunneling-through-dpi/dns-tunneling/dnscat2.md)
+  * [ligolo-ng](attack-vectors/port-forwarding-and-tunneling/ligolo-ng.md)
 
 ## Linux
 
@@ -387,6 +388,15 @@
   * [Obtaining Initial Access](challenge-labs/lab-1-medtech/obtaining-initial-access.md)
   * [WEB02 Pivot](challenge-labs/lab-1-medtech/web02-pivot.md)
   * [FILES02](challenge-labs/lab-1-medtech/files02.md)
+  * [CLIENT01](challenge-labs/lab-1-medtech/client01.md)
+  * [CLIENT02](challenge-labs/lab-1-medtech/client02.md)
+  * [DEV04](challenge-labs/lab-1-medtech/dev04.md)
+  * [DC01](challenge-labs/lab-1-medtech/dc01.md)
+  * [WEB01](challenge-labs/lab-1-medtech/web01.md)
+  * [VPN01](challenge-labs/lab-1-medtech/vpn01.md)
+  * [NTP](challenge-labs/lab-1-medtech/ntp.md)
+* [Lab 2: Relia](challenge-labs/lab-2-relia/README.md)
+  * [External Enumeration](challenge-labs/lab-2-relia/external-enumeration.md)
 
 ## Practice Labs
 

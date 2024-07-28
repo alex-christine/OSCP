@@ -12,6 +12,8 @@ So my first attempt of enumeration went poorly. I set up a chisel proxy, and ran
 
 Not finding this particularly helpful I decided to see what else was on the WEB02 machine before trying to get in the network.
 
+**Note Added Afterwards:** according to [this article](https://ine.com/blog/pentesting-101-hiding-while-fingerprinting) only Nmap TCP Connect scans (`-sT`) work over a SOCKS proxy so that is probably the cause of this.
+
 ## Privilege Escalation
 
 I run `whoami /all` and my user has `SeImpersonatePrivilege`:
@@ -123,10 +125,185 @@ sudo proxychains nmap -sT -Pn -A -p- -o web02_connect_internal.nmap 172.16.215.1
 ```
 {% endcode %}
 
-{% code title="web02_connect_internal" %}
+{% code title="web02_connect_internal.nmap" %}
 ```
+# Nmap 7.94SVN scan initiated Thu Jul 25 15:16:29 2024 as: nmap -sT -Pn -A -o web02_connect_internal.nmap 172.16.215.10-14,82-83
+RTTVAR has grown to over 2.3 seconds, decreasing to 2.0
+Nmap scan report for 172.16.215.10
+Host is up (0.0017s latency).
+Not shown: 993 closed tcp ports (conn-refused)
+PORT     STATE SERVICE       VERSION
+53/tcp   open  domain        Simple DNS Plus
+88/tcp   open  kerberos-sec  Microsoft Windows Kerberos (server time: 2024-07-25 23:18:49Z)
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: medtech.com0., Site: Default-First-Site-Name)
+445/tcp  open  microsoft-ds?
+3268/tcp open  ldap          Microsoft Windows Active Directory LDAP (Domain: medtech.com0., Site: Default-First-Site-Name)
+OS fingerprint not ideal because: Didn't receive UDP response. Please try again with -sSU
+No OS matches for host
+Service Info: Host: DC01; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled and required
+| smb2-time: 
+|   date: 2024-07-25T23:21:02
+|_  start_date: N/A
+
+
+
+
+Nmap scan report for 172.16.215.11
+Host is up (0.00011s latency).
+Not shown: 997 closed tcp ports (conn-refused)
+PORT    STATE SERVICE       VERSION
+135/tcp open  msrpc         Microsoft Windows RPC
+139/tcp open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp open  microsoft-ds?
+OS fingerprint not ideal because: Didn't receive UDP response. Please try again with -sSU
+No OS matches for host
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2024-07-25T23:20:51
+|_  start_date: N/A
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+
+
+
+
+Nmap scan report for 172.16.215.12
+Host is up (0.00011s latency).
+Not shown: 996 closed tcp ports (conn-refused)
+PORT     STATE SERVICE       VERSION
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds?
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+| ssl-cert: Subject: commonName=DEV04.medtech.com
+| Not valid before: 2024-03-27T16:42:35
+|_Not valid after:  2024-09-26T16:42:35
+|_ssl-date: 2024-07-25T23:21:45+00:00; 0s from scanner time.
+OS fingerprint not ideal because: Didn't receive UDP response. Please try again with -sSU
+No OS matches for host
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2024-07-25T23:21:13
+|_  start_date: N/A
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+
+
+
+
+Nmap scan report for 172.16.215.13
+Host is up (0.00010s latency).
+Not shown: 997 closed tcp ports (conn-refused)
+PORT    STATE SERVICE       VERSION
+135/tcp open  msrpc         Microsoft Windows RPC
+139/tcp open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp open  microsoft-ds?
+OS fingerprint not ideal because: Didn't receive UDP response. Please try again with -sSU
+No OS matches for host
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2024-07-25T23:21:15
+|_  start_date: N/A
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+
+
+
+
+Nmap scan report for 172.16.215.14
+Host is up (0.00011s latency).
+Not shown: 999 closed tcp ports (conn-refused)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.4p1 Debian 5+deb11u1 (protocol 2.0)
+| ssh-hostkey: 
+|   3072 eb:0e:77:7c:69:f2:4a:a5:65:2a:1c:ec:ec:6e:79:19 (RSA)
+|   256 74:51:ee:1e:8f:61:d6:0f:c5:11:52:2e:f9:ef:ac:29 (ECDSA)
+|_  256 5f:4f:29:47:7a:14:65:4d:bc:f3:74:40:a7:45:7e:94 (ED25519)
+OS fingerprint not ideal because: Didn't receive UDP response. Please try again with -sSU
+No OS matches for host
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+
+
+
+Nmap scan report for 172.16.215.82
+Host is up (0.00012s latency).
+Not shown: 996 closed tcp ports (conn-refused)
+PORT     STATE SERVICE       VERSION
+135/tcp  open  msrpc         Microsoft Windows RPC
+139/tcp  open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds?
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+|_ssl-date: 2024-07-25T23:21:45+00:00; 0s from scanner time.
+| ssl-cert: Subject: commonName=CLIENT01.medtech.com
+| Not valid before: 2024-03-27T17:51:36
+|_Not valid after:  2024-09-26T17:51:36
+OS fingerprint not ideal because: Didn't receive UDP response. Please try again with -sSU
+No OS matches for host
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+| smb2-time: 
+|   date: 2024-07-25T23:21:15
+|_  start_date: N/A
+
+
+
+
+Nmap scan report for 172.16.215.83
+Host is up (0.00013s latency).
+Not shown: 997 closed tcp ports (conn-refused)
+PORT    STATE SERVICE       VERSION
+135/tcp open  msrpc         Microsoft Windows RPC
+139/tcp open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp open  microsoft-ds?
+OS fingerprint not ideal because: Didn't receive UDP response. Please try again with -sSU
+No OS matches for host
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2024-07-25T23:21:18
+|_  start_date: N/A
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+
+Post-scan script results:
+| clock-skew: 
+|   0s: 
+|     172.16.215.11
+|     172.16.215.83
+|     172.16.215.82
+|     172.16.215.12
+|     172.16.215.13
+|_    172.16.215.10
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Jul 25 17:21:47 2024 -- 7 IP addresses (7 hosts up) scanned in 7518.76 seconds
+
 ```
 {% endcode %}
+
+* `traceroute` results were removed because the proxy made them weird
 
 ### SMB Spray
 
