@@ -397,6 +397,14 @@
   * [NTP](challenge-labs/lab-1-medtech/ntp.md)
 * [Lab 2: Relia](challenge-labs/lab-2-relia/README.md)
   * [External Enumeration](challenge-labs/lab-2-relia/external-enumeration.md)
+  * [External Machines](challenge-labs/lab-2-relia/external-machines/README.md)
+    * [LOGIN](challenge-labs/lab-2-relia/external-machines/login.md)
+    * [WEB01](challenge-labs/lab-2-relia/external-machines/web01.md)
+    * [WEB02](challenge-labs/lab-2-relia/external-machines/web02.md)
+    * [EXTERNAL](challenge-labs/lab-2-relia/external-machines/external.md)
+    * [LEGACY](challenge-labs/lab-2-relia/external-machines/legacy.md)
+    * [DEMO](challenge-labs/lab-2-relia/external-machines/demo.md)
+    * [MAIL](challenge-labs/lab-2-relia/external-machines/mail.md)
 
 ## Practice Labs
 

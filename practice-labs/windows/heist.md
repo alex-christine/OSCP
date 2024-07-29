@@ -318,7 +318,7 @@ evil-winrm -i 192.168.247.165 -u enox -p california
 ```
 {% endcode %}
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption><p>Interactive user shell</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption><p>Interactive user shell</p></figcaption></figure>
 
 User access achieved as (`enox`).
 

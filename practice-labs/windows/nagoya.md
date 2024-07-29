@@ -432,7 +432,7 @@ As `Christopher.Lewis` I will use my WinRM session to run [Chisel](../../attack-
 
 At this point a connection is seen on the server:
 
-<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 #### Accessing MSSQL
 

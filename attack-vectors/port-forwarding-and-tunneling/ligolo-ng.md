@@ -126,10 +126,36 @@ This makes it very easy to work with. I have yet to find a type of traffic I can
 
 ## Tear-down
 
+### User Interface
+
+To tear down a tunnel first remove any routes associated using the `del_route` command:
+
+```
+del_route --route 172.16.225.0/24
+```
+
+Then use the following command to delete the network interface from the local machine:
+
+```
+ifdel --name "<interface_name>"
+```
+
+Lastly the tunnel is stopped with either the `tunnel_stop` or the `stop` command.
+
+```
+tunnel_stop
+```
+
+This example shows deleting an interface `external_relia` which is handling a route to `172.16.158.0/24`:
+
+<figure><img src="../../.gitbook/assets/Relia-EXTERNAL-TunnelSetup.png" alt=""><figcaption><p>Deleting a tunnel via the interface</p></figcaption></figure>
+
+### Command Line
+
+If I do not tear down the tunnel before exiting the [`proxy` session](ligolo-ng.md#proxy-set-up) it will remain on the machine until deleted. This can cause an issue if I attempt to use `ligolo-ng` and create an interface with the same name again.
+
 After exiting the console I can use the following command to remove the tunnel:
 
 ```bash
 sudo ip tuntap del mode tun "<interface_name>"
 ```
-
-I do not believe this is done automatically because I once had issues when I stopped and restarted a [`proxy` session](ligolo-ng.md#proxy-set-up) and attempted to create an interface with the same name in the new session.
