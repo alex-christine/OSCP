@@ -143,9 +143,11 @@ The default credentials of `admin:admin` log me in.
 
 #### RCE
 
+I quickly find this exploit on Exploit-DB. I use the Method 2:
 
+<figure><img src="../../../.gitbook/assets/Relia-LEGACY-EdbRce.png" alt=""><figcaption><p>EDB Description</p></figcaption></figure>
 
-I upload the shell to `/media`:
+I upload the shell to `/media` as `rs.pHp`:
 
 <figure><img src="../../../.gitbook/assets/Relia-LEGACY-RiteCmsShell.png" alt=""><figcaption><p>Uploaded shell</p></figcaption></figure>
 
@@ -159,3 +161,46 @@ User access achieved as `adrian`.
 
 ## Privilege Escalation
 
+
+
+
+
+<figure><img src="../../../.gitbook/assets/Relia-LEGACY-AdminShell.png" alt=""><figcaption><p>Elevated shell</p></figcaption></figure>
+
+I realize the whoami command did not work but I can do everything with elevated privileges so I must be `Administrator`.
+
+## Post-Exploit
+
+Mimikatz does not run on this machine unfortunately.
+
+### Git Examination
+
+I start looking around manually. I find mention of git in the `damon` user's home directory:
+
+<figure><img src="../../../.gitbook/assets/Relia-LEGACY-GitLocation.png" alt=""><figcaption><p>Damon's git</p></figcaption></figure>
+
+I compress the whole `C:\staging` drive by navigating to it and using the command:
+
+```
+tar -cvzf C:\staging.zip *
+```
+
+Then I copy `staging.zip` back to my machine, decompress it, and use the [`git` commands](https://www.atlassian.com/git/glossary#commands) below to enumerate it:
+
+```bash
+git status
+git log
+git show
+```
+
+I quickly find some potential credentials:
+
+<figure><img src="../../../.gitbook/assets/Relia-LEGACY-GitEnumCreds.png" alt=""><figcaption><p>Git Command Enumeration</p></figcaption></figure>
+
+#### Validating Credentials
+
+I validate `maildmz` with CME:
+
+<figure><img src="../../../.gitbook/assets/Relia-MaildmzCme.png" alt=""><figcaption><p>Validating maildmz</p></figcaption></figure>
+
+The most interesting part is this user has some access to `MAIL`. Unfortunately not WinRM, but perhaps I can finally phish with this user. I add this to my `creds.txt` and continue on my way.

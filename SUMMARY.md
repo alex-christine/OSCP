@@ -405,6 +405,10 @@
     * [LEGACY](challenge-labs/lab-2-relia/external-machines/legacy.md)
     * [DEMO](challenge-labs/lab-2-relia/external-machines/demo.md)
     * [MAIL](challenge-labs/lab-2-relia/external-machines/mail.md)
+  * [Internal Machines](challenge-labs/lab-2-relia/internal-machines/README.md)
+    * [Domain](challenge-labs/lab-2-relia/internal-machines/domain.md)
+    * [WK01](challenge-labs/lab-2-relia/internal-machines/wk01.md)
+    * [INTRANET](challenge-labs/lab-2-relia/internal-machines/intranet.md)
 
 ## Practice Labs
 

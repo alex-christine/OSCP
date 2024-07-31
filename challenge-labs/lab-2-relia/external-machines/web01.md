@@ -250,7 +250,7 @@ hydra -L ./lists/users.txt" -P /usr/share/wordlists/rockyou.txt ftp://web01.reli
 
 Moving on to other machines for now.
 
-## Foothold
+### Cracking Leaked SSH Key Password
 
 I eventually decide to try cracking the SSH key's passphrase because I see no other way forward. I start by converting the key file to a John-crackable file:
 
