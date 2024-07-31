@@ -344,6 +344,7 @@
   * [Mimikatz](software/mimikatz.md)
 * [Privilege Escalation](windows/privilege-escalation/README.md)
   * [Privilege Basics](windows/privilege-escalation/privilege-basics.md)
+  * [S1ren Escalation Checklist](https://sirensecurity.io/blog/windows-privilege-escalation-resources/)
   * [Enumeration](windows/privilege-escalation/enumeration/README.md)
     * [Manual Enumeration](windows/privilege-escalation/enumeration/manual-enumeration.md)
     * [Hidden In Plain Sight](windows/privilege-escalation/enumeration/hidden-in-plain-sight.md)
@@ -408,7 +409,10 @@
   * [Internal Machines](challenge-labs/lab-2-relia/internal-machines/README.md)
     * [Domain](challenge-labs/lab-2-relia/internal-machines/domain.md)
     * [WK01](challenge-labs/lab-2-relia/internal-machines/wk01.md)
+    * [WK02](challenge-labs/lab-2-relia/internal-machines/wk02.md)
     * [INTRANET](challenge-labs/lab-2-relia/internal-machines/intranet.md)
+    * [BACKUP](challenge-labs/lab-2-relia/internal-machines/backup.md)
+    * [PRODUCTION](challenge-labs/lab-2-relia/internal-machines/production.md)
 
 ## Practice Labs
 

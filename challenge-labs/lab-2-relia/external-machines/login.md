@@ -125,3 +125,17 @@ feroxbuster -L 20 -k -C 404 -C 400 -r --thorough -n -w dir_enum.txt -u http://lo
 
 It turns up nothing helpful.
 
+## Administrator Access
+
+I found the `dmozadmin` credentials on the `WK01` machine in `jim`'s `Database.kdbx` file. This allowed me to RDP directly onto this machine as a member of the `BUILTIN\Administrator` group:
+
+<figure><img src="../../../.gitbook/assets/Relia-LOGIN-Rdp.png" alt=""><figcaption><p>RDP to LOGIN</p></figcaption></figure>
+
+Out of curiosity I try using these credentials to sign in to the web service on port 80. The sign in is successful but it just takes me to a default install of IIS.
+
+## Post-Exploit
+
+
+
+
+
