@@ -128,7 +128,13 @@ This makes it very easy to work with. I have yet to find a type of traffic I can
 
 ### User Interface
 
-To tear down a tunnel first remove any routes associated using the `del_route` command:
+To tear down a tunnel, first the tunnel is stopped with either the `tunnel_stop` or the `stop` command.
+
+```
+tunnel_stop
+```
+
+Then remove any routes associated using the `del_route` command:
 
 ```
 del_route --route 172.16.225.0/24
@@ -138,12 +144,6 @@ Then use the following command to delete the network interface from the local ma
 
 ```
 ifdel --name "<interface_name>"
-```
-
-Lastly the tunnel is stopped with either the `tunnel_stop` or the `stop` command.
-
-```
-tunnel_stop
 ```
 
 This example shows deleting an interface `external_relia` which is handling a route to `172.16.158.0/24`:

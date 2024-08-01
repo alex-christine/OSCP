@@ -53,7 +53,7 @@ Start with `sudo -l` and see:
 
 ### pspy
 
-Trust pspy is used. In it I see some `borg` commands which both provide a credential and some insight into how the service works:
+Trust `pspy` is used. In it I see some `borg` commands which both provide a credential and some insight into how the service works:
 
 <figure><img src="../../../.gitbook/assets/Relia-BACKUP-Pspy.png" alt=""><figcaption><p>borg creation commands</p></figcaption></figure>
 
@@ -95,3 +95,14 @@ The output appears to be a `.bashrc` file that contains some credentials:
 
 <figure><img src="../../../.gitbook/assets/Relia-BACKUP-BorgContents.png" alt=""><figcaption><p>Credentials in output</p></figcaption></figure>
 
+### Amy
+
+I decide that `amy`'s password looks hashed so I copy it and lookup what kind it is on [this site](https://hashes.com/en/tools/hash\_identifier). Conveniently an option to decrypt was also present and it decrypted to `backups1`:
+
+<figure><img src="../../../.gitbook/assets/Relia-WEB01-AmyHashDecrypt.png" alt=""><figcaption><p>Hash decrypted</p></figcaption></figure>
+
+* This is extra handy because it actually was not cracked with `rockyou.txt` and `best64.rule` in `hashcat`
+
+I try running as `amy` with `su` and it works. `amy` has `sudo` permissions for all commands according to `sudo -l`:
+
+<figure><img src="../../../.gitbook/assets/Relia-WEB01-AmyElevatedShell.png" alt=""><figcaption><p>Elevated shell as amy</p></figcaption></figure>

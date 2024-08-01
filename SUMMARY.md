@@ -413,6 +413,7 @@
     * [INTRANET](challenge-labs/lab-2-relia/internal-machines/intranet.md)
     * [BACKUP](challenge-labs/lab-2-relia/internal-machines/backup.md)
     * [PRODUCTION](challenge-labs/lab-2-relia/internal-machines/production.md)
+    * [FILES](challenge-labs/lab-2-relia/internal-machines/files.md)
 
 ## Practice Labs
 
