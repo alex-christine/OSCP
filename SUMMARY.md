@@ -414,6 +414,12 @@
     * [BACKUP](challenge-labs/lab-2-relia/internal-machines/backup.md)
     * [PRODUCTION](challenge-labs/lab-2-relia/internal-machines/production.md)
     * [FILES](challenge-labs/lab-2-relia/internal-machines/files.md)
+* [Lab 4: OSCP A](challenge-labs/lab-4-oscp-a/README.md)
+  * [External Machines](challenge-labs/lab-4-oscp-a/external-machines/README.md)
+    * [MS01](challenge-labs/lab-4-oscp-a/external-machines/ms01.md)
+  * [Domain Machines](challenge-labs/lab-4-oscp-a/domain-machines/README.md)
+    * [MS02](challenge-labs/lab-4-oscp-a/domain-machines/ms02.md)
+    * [DC01](challenge-labs/lab-4-oscp-a/domain-machines/dc01.md)
 
 ## Practice Labs
 

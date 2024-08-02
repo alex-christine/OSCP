@@ -1,3 +1,17 @@
+---
+layout:
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+---
+
 # ligolo-ng
 
 [`ligolo-ng`](https://github.com/nicocha30/ligolo-ng) is the best tool for tunneling particularly when attempting to go through a pivot machine into the internal network. It runs with root privileges but allows the attacker to just use IP addresses natively without concern.
@@ -66,7 +80,7 @@ Once the interface is stood up I am ready to start an agent on a victim.
 
 ## Agent
 
-The agent is run on the victim machine. In this example I will be running it on a machine called WEB02 which serves as a pivot between a 192.168.225.0/24 network to which I am connects and an internal 172.16.225.0/24 network which I want to reach.
+The agent is run on the victim machine. In this example I will be running it on a machine called `WEB02` which serves as a pivot between a `192.168.225.0/24` network to which I am connects and an internal `172.16.225.0/24` network which I want to reach.
 
 I assume I have compromised a victim machine. In this instance the shell on the victim is running as `SYSTEM` but it _does not need to be elevated_, it can be just any user.
 
@@ -124,7 +138,54 @@ Once set up, I can simply use the tunnel just by addressing traffic to the `172.
 
 This makes it very easy to work with. I have yet to find a type of traffic I cannot send over this tunnel.
 
+### Port Forwarding
+
+Consider a scenario where a victim machine is the pivot point between the external and internal networks such as this:
+
+<figure><img src="../../.gitbook/assets/LigoloNg-PivotDiagram.png" alt=""><figcaption><p>Pivot to internal</p></figcaption></figure>
+
+The `ligolo_ng` agent would be running on the `PIVOTE` machine in this diagram. proxy would be running on the attacker's machine, `MSF`. This works perfectly for traffic flowing `MSF` -> `TARGET`. However it may not be possible for `TARGET` to reach `MSF`. if `TARGET` does not possess a route to the external network/Internet. If TARGET is only routed to other `TARGET` machines and `PIVOTE` but traffic cannot exit that subnet, an attacker running a shell on `TARGET` would not be able to download tools from `MSF` because it is unreachable.
+
+Fortunately, ligolo\_ng has this situation covered. From the proxy shell session (on MSF) the attacker can remotely add a listener on `PIVOTE` that would allow traffic to flow back to MSF.
+
+```
+listener_add --addr <listen_interface>:<listen_port> --to <dest_ip>:<dest_port>
+```
+
+* `--addr` is the address (on the agent) which will listen for incoming traffic
+  * Set to `0.0.0.0` to listen on all interfaces
+* `--to` is the destination for traffic received at `--addr`
+
+#### Example
+
+In the practice exam OSCP A there is a machine, `MS01`, that serves as the pivot between the internal and external networks. It is where the `ligolo_ng` agent is run in that lab.
+
+On the internal network is a machine, `MS02`, that can only route traffic to the internal network. So when I gained WinRM access to `MS02` I was unable to download tools from my HTTP server on my machine. To solve this I added a listener on port `8000` of `MS01` that would route any received traffic to my HTTP server at `192.168.45.154:80`. From _inside a selected session_ I use the command below to add a listener:
+
+```
+listener_add --addr 0.0.0.0:8000 --to 192.168.45.154:80
+```
+
+* &#x20;`--addr` tells `MS01` to listen on all interfaces (`0.0.0.0`) at port 8000 for traffic to forward
+* `--to` specifies the address of my HTTP server
+
+<figure><img src="../../.gitbook/assets/LigoloNg-ListenerAdd.png" alt=""><figcaption><p>Listener setup commands</p></figcaption></figure>
+
+After execution I can see the listener at port 8000 from my shell session on MS01:
+
+<figure><img src="../../.gitbook/assets/LigoloNg-PortForward-ListeningPortAgent.png" alt=""><figcaption><p>Viewing the listener on the victim</p></figcaption></figure>
+
+After the listener is set up I can use it from `MS02` by attempting to access my web server at the internal address of `MS01` (`10.10.158.141`) on port 8000
+
+<figure><img src="../../.gitbook/assets/LigoloNg-PortForward-MS02_Interface.png" alt=""><figcaption><p>Network configuration of MS02</p></figcaption></figure>
+
+<figure><img src="../../.gitbook/assets/LigoloNg-PortForward-Download.png" alt=""><figcaption><p>Successful download with port forward</p></figcaption></figure>
+
+The same listener can be used to upload files back to my HTTP server.
+
 ## Tear-down
+
+It is important to remove the created interfaces and stop the tunnel when shutting down `ligolo_ng`.
 
 ### User Interface
 
