@@ -418,6 +418,8 @@
   * [External Machines](challenge-labs/lab-4-oscp-a/external-machines/README.md)
     * [MS01](challenge-labs/lab-4-oscp-a/external-machines/ms01.md)
     * [AERO](challenge-labs/lab-4-oscp-a/external-machines/aero.md)
+    * [CRYSTAL](challenge-labs/lab-4-oscp-a/external-machines/crystal.md)
+    * [HERMES](challenge-labs/lab-4-oscp-a/external-machines/hermes.md)
   * [Domain Machines](challenge-labs/lab-4-oscp-a/domain-machines/README.md)
     * [MS02](challenge-labs/lab-4-oscp-a/domain-machines/ms02.md)
     * [DC01](challenge-labs/lab-4-oscp-a/domain-machines/dc01.md)
