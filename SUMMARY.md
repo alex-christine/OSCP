@@ -423,6 +423,11 @@
   * [Domain Machines](challenge-labs/lab-4-oscp-a/domain-machines/README.md)
     * [MS02](challenge-labs/lab-4-oscp-a/domain-machines/ms02.md)
     * [DC01](challenge-labs/lab-4-oscp-a/domain-machines/dc01.md)
+* [Lab 5: OSCP B](challenge-labs/lab-5-oscp-b/README.md)
+  * [Domain](challenge-labs/lab-5-oscp-b/domain/README.md)
+    * [MS01](challenge-labs/lab-5-oscp-b/domain/ms01.md)
+    * [MS02](challenge-labs/lab-5-oscp-b/domain/ms02.md)
+    * [DC01](challenge-labs/lab-5-oscp-b/domain/dc01.md)
 
 ## Practice Labs
 
