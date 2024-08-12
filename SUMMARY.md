@@ -428,6 +428,8 @@
     * [MS01](challenge-labs/lab-5-oscp-b/domain/ms01.md)
     * [MS02](challenge-labs/lab-5-oscp-b/domain/ms02.md)
     * [DC01](challenge-labs/lab-5-oscp-b/domain/dc01.md)
+  * [Standalone](challenge-labs/lab-5-oscp-b/standalone/README.md)
+    * [KIERO](challenge-labs/lab-5-oscp-b/standalone/kiero.md)
 
 ## Practice Labs
 
