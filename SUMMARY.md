@@ -431,6 +431,7 @@
   * [Standalone](challenge-labs/lab-5-oscp-b/standalone/README.md)
     * [KIERO](challenge-labs/lab-5-oscp-b/standalone/kiero.md)
     * [BERLIN](challenge-labs/lab-5-oscp-b/standalone/berlin.md)
+    * [GUST](challenge-labs/lab-5-oscp-b/standalone/gust.md)
 
 ## Practice Labs
 

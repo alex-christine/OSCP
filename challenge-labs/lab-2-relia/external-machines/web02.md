@@ -222,7 +222,7 @@ This is helpful for accessing the machine easily but it does not provide any lat
 
 <figure><img src="../../../.gitbook/assets/Relia-WEB02-AdminHashCme.png" alt=""><figcaption><p>Administrator hash verification</p></figcaption></figure>
 
-I can also use the hash to sign in with evil-winrm:
+I can also use the hash to sign in with `evil-winrm`:
 
 {% code overflow="wrap" %}
 ```bash
@@ -242,7 +242,4 @@ crackmapexec smb 192.168.198.247 -u 'Administrator' -H '2f2b8d5d4d756a2c72c55458
 ```
 {% endcode %}
 
-<figure><img src="../../../.gitbook/assets/Relia-WEB02-SamCme.png" alt=""><figcaption></figcaption></figure>
-
-
-
+<figure><img src="../../../.gitbook/assets/Relia-WEB02-SamCme.png" alt=""><figcaption><p>SAM hashes dumped with CME</p></figcaption></figure>
