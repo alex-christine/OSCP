@@ -414,6 +414,16 @@
     * [BACKUP](challenge-labs/lab-2-relia/internal-machines/backup.md)
     * [PRODUCTION](challenge-labs/lab-2-relia/internal-machines/production.md)
     * [FILES](challenge-labs/lab-2-relia/internal-machines/files.md)
+* [Lab 3: Skylark](challenge-labs/lab-3-skylark/README.md)
+  * [External](challenge-labs/lab-3-skylark/external/README.md)
+    * [VM11](challenge-labs/lab-3-skylark/external/vm11.md)
+    * [AUSTIN02](challenge-labs/lab-3-skylark/external/austin02.md)
+    * [VM13](challenge-labs/lab-3-skylark/external/vm13.md)
+    * [VM14](challenge-labs/lab-3-skylark/external/vm14.md)
+    * [VM15](challenge-labs/lab-3-skylark/external/vm15.md)
+    * [VM16](challenge-labs/lab-3-skylark/external/vm16.md)
+    * [VM17](challenge-labs/lab-3-skylark/external/vm17.md)
+    * [SYDNEY08](challenge-labs/lab-3-skylark/external/sydney08.md)
 * [Lab 4: OSCP A](challenge-labs/lab-4-oscp-a/README.md)
   * [External Machines](challenge-labs/lab-4-oscp-a/external-machines/README.md)
     * [MS01](challenge-labs/lab-4-oscp-a/external-machines/ms01.md)
@@ -462,3 +472,9 @@
   * [midnight](practice-labs/in-progress/midnight.md)
   * [PayDay](practice-labs/in-progress/payday.md)
   * [Pebbles](practice-labs/in-progress/pebbles.md)
+
+## Checklists
+
+* [Windows](checklists/windows/README.md)
+  * [Local Privilege Escalation](checklists/windows/local-privilege-escalation/README.md)
+    * [Siren Security](https://sirensecurity.io/blog/windows-privilege-escalation-resources/)
