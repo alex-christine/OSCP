@@ -270,9 +270,14 @@ I can now login with the key to the [`DEMO`](demo.md) machine:
 
 <figure><img src="../../../.gitbook/assets/Relia-DEMO-AnitaSsh.png" alt=""><figcaption><p>User access</p></figcaption></figure>
 
+## Privilege Escalation
 
+### CVE-2021-3156
 
+[This exploit](https://github.com/worawit/CVE-2021-3156) can be used to gain root. The `exploit_nss.py` is the only one needed. Simply download and run:
 
+```bash
+python3 exploit_nss.py
+```
 
-
-
+`root` access achieved.

