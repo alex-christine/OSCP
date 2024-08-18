@@ -12,11 +12,11 @@ layout:
     visible: true
 ---
 
-# VM17
+# TOKYO07
 
 ## Enumeration
 
-Host at `192.168.xxx.226`. Output from `nmap` scan report generated [here](./#network-enumeration):
+Host at `192.168.xxx.226` and referred to as `VM 17` on the lab startup page. Output from `nmap` scan report generated [here](./#network-enumeration):
 
 ```
 Nmap scan report for 192.168.247.226
@@ -122,4 +122,68 @@ Host script results:
 ```
 
 
+
+### Port 24621
+
+According to the scan this seems to be running FileZilla which is an FTP server. I attempt to sign in with `lftp`:
+
+<figure><img src="../../../.gitbook/assets/SL-VM17-24621_AnonFtpFailed.png" alt=""><figcaption><p>Anonymous FTP failed</p></figcaption></figure>
+
+It seems anonymous and no password are insufficient for login.
+
+One note about the attempt, `lftp` does not initiate a connection until it has to. This means the connection to the server was not actually made until I ran my first ls command. Then `lftp` attempts to sign in and run the command on the server. The first attempt failed due to an untrusted SSL certificate being presented by the server. The "`set ssl:verify-certificate false;`" command turns off certificate validation. I can actually run it from the command line with the `-e` flag:
+
+```bash
+lftp ftp://anonymous@vm17.skylark:24621 -e "set ssl:verify-certificate false;"
+```
+
+This would launch me straight into a session though `ls` would still fail because my credentials are invalid.
+
+### Port 24680
+
+This appears to be a web server but it is all in Japanese
+
+<figure><img src="../../../.gitbook/assets/SL-VM17-24680_Landing.png" alt=""><figcaption><p>Landing page</p></figcaption></figure>
+
+There is some sort of store:
+
+<figure><img src="../../../.gitbook/assets/SL-VM17-24680_Store.png" alt=""><figcaption><p>Store page</p></figcaption></figure>
+
+Each product has its own page but the buy button does not do anything. On another page, I find a list of potential team members which I save into a text file:
+
+<figure><img src="../../../.gitbook/assets/SL-VM17-24680_Team.png" alt=""><figcaption><p>Potential team member names</p></figcaption></figure>
+
+I also find potentially valid email address if I need to phish later:
+
+<figure><img src="../../../.gitbook/assets/SL-VM17-24680_EmailAddress.png" alt=""><figcaption><p>Email address</p></figcaption></figure>
+
+At this point I feel safe calling this machine `TOKYO07.dmz.skylark.com` from the [scenario diagram](../#scenario).
+
+I decide to run feroxbuster with Seclists's `directory-2.3-medium.txt` to see what I find:
+
+{% code overflow="wrap" %}
+```bash
+feroxbuster -L 20 -k -C 404 -C 400 -r --thorough -w dir_enum.txt -u http://vm17.skylark:24680 -o p24680_directory.feroxbuster
+```
+{% endcode %}
+
+A lot turns up. Unfortunately it does not seem to be anything new. Most of what came up were the product pages for the store.
+
+The site seems to be built on the [Umbraco CMS](https://umbraco.com/). I check for exploits. I find an [authenticated RCE](https://www.exploit-db.com/exploits/49488) but I have no credentials and I am unsure what version I am working with so I don't even know that would work if I did.
+
+#### Page Parameter
+
+As I am looking around what appears to be a blog section I find a URL that has a e parameter:
+
+<figure><img src="../../../.gitbook/assets/SL-VM17-24680_PageParameter.png" alt=""><figcaption><p>Page parameter in URL</p></figcaption></figure>
+
+I test this for SQLi with `sqlmap` but no luck:
+
+{% code overflow="wrap" %}
+```bash
+sqlmap -u 'http://vm17.skylark:24680/%E3%83%96%E3%83%AD%E3%82%B0/?page=1' -p 'page'
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/SL-VM17-24680_Sqlmap.png" alt=""><figcaption><p>Failed to find injection</p></figcaption></figure>
 
