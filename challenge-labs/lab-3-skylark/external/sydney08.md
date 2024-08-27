@@ -50,3 +50,21 @@ Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
 
 Machine name discovered in scan. Based on this and [`AUSTIN02`](austin02.md)'s place in the IP range it seems like the image given in the [scenario](../#scenario) may actually be the machines in order but I cannot be 100% sure yet.
 
+### Port 80
+
+the landing page on port 80 is simply a page that says "Decommissioned" with no extra technology stack or anything:
+
+<figure><img src="../../../.gitbook/assets/SL-S08-80_Landing.png" alt=""><figcaption><p>Landing page on port 80</p></figcaption></figure>
+
+I decide to run feroxbuster against the port to see if there is something else here. I actually ran a couple scans, working up to using the big directory list, but it turned up nothing. The only hit /%5C  just leads to the same "Decommissioned" page:
+
+{% code overflow="wrap" %}
+```bash
+feroxbuster -L 20 -k -C 404 -C 400 -r --thorough -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-big.txt -u http://sydney08.skylark.com -o p80_directory_big.feroxbuster
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/SL-S08-80_FeroxDirBig.png" alt=""><figcaption><p>Nothing of use from feroxbuster</p></figcaption></figure>
+
+
+

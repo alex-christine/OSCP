@@ -420,8 +420,8 @@
     * [AUSTIN02](challenge-labs/lab-3-skylark/external/austin02.md)
     * [VM13](challenge-labs/lab-3-skylark/external/vm13.md)
     * [MILAN](challenge-labs/lab-3-skylark/external/milan.md)
-    * [VM15](challenge-labs/lab-3-skylark/external/vm15.md)
-    * [VM16](challenge-labs/lab-3-skylark/external/vm16.md)
+    * [AMSTERDAM05](challenge-labs/lab-3-skylark/external/amsterdam05.md)
+    * [SINGAPORE06](challenge-labs/lab-3-skylark/external/singapore06.md)
     * [TOKYO07](challenge-labs/lab-3-skylark/external/tokyo07.md)
     * [SYDNEY08](challenge-labs/lab-3-skylark/external/sydney08.md)
 * [Lab 4: OSCP A](challenge-labs/lab-4-oscp-a/README.md)
@@ -472,9 +472,3 @@
   * [midnight](practice-labs/in-progress/midnight.md)
   * [PayDay](practice-labs/in-progress/payday.md)
   * [Pebbles](practice-labs/in-progress/pebbles.md)
-
-## Checklists
-
-* [Windows](checklists/windows/README.md)
-  * [Local Privilege Escalation](checklists/windows/local-privilege-escalation/README.md)
-    * [Siren Security](https://sirensecurity.io/blog/windows-privilege-escalation-resources/)
