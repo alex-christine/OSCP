@@ -1,9 +1,10 @@
 ---
+description: Domain-connected Windows Machine
 layout:
   title:
     visible: true
   description:
-    visible: false
+    visible: true
   tableOfContents:
     visible: true
   outline:
@@ -12,7 +13,7 @@ layout:
     visible: true
 ---
 
-# VM13
+# PARIS03
 
 ## Enumeration
 
@@ -69,6 +70,8 @@ Host script results:
 |   date: 2024-08-14T00:35:39
 |_  start_date: N/A
 ```
+
+I eventually learn the machine's name of `PARIS03` while spraying the `SKYLARK\kiosk` credential [found on `SINGAPORE06`](vm16.md#credential-spray).
 
 ### Anonymous RPC & SMB
 

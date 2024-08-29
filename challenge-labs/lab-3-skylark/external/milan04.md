@@ -1,9 +1,10 @@
 ---
+description: Standalone Linux Machine
 layout:
   title:
     visible: true
   description:
-    visible: false
+    visible: true
   tableOfContents:
     visible: true
   outline:
@@ -12,7 +13,7 @@ layout:
     visible: true
 ---
 
-# MILAN
+# MILAN04
 
 ## Enumeration
 

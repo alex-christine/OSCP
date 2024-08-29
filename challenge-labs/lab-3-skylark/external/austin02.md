@@ -1,9 +1,10 @@
 ---
+description: Domain-connected Windows Machine
 layout:
   title:
     visible: true
   description:
-    visible: false
+    visible: true
   tableOfContents:
     visible: true
   outline:
@@ -172,3 +173,28 @@ Tried some exploits:
 
 Unfortunately nothing else is particularly compelling on this machine so I move on for now.
 
+### RDWeb
+
+After completing `SINGAPORE06` I come back here in search of the /RDWeb directory mentioned in the [PDF found](vm16.md#manual-enumeration) on `SINGAPORE06`. I assumed it would be on port 3387 or 10000 of this machine but I was incorrect. Before I left I checked 80 and 443 where I finally found it:
+
+```
+https://austin02.skylark.com/RDWeb
+```
+
+
+
+I tried logging in with the credentials from the PDF (`SKYLARK\kiosk:XEwUS^9R2Gwt8O914`) and they work:
+
+
+
+Inside the web portal I find several applications listed:
+
+
+
+Clicking on any of them downloads an RDP configuration file. None of the files actually worked with Remmina but I was able to pull pieces from them and manually configure Remmina to get it working:
+
+
+
+User access achieved as `kiosk`.
+
+## Privilege Escalation
