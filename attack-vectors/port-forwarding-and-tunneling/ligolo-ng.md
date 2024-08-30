@@ -213,7 +213,7 @@ I download the agent software to `/tmp/lng_agent`. I connect it back to my machi
 
 #### Local Forward Configuration
 
-ligolo-ng uses the `240.0.0.1` IP address to route traffic locally through a tunnel. To configure the port forward I will:
+`ligolo-ng` uses the `240.0.0.1` IP address to route traffic locally through a tunnel. To configure the port forward I will:
 
 1. Create an interface (called `berlin`)
 2. Start a tunnel to the `BERLIN` machine

