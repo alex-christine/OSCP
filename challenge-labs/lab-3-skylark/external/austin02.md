@@ -207,9 +207,36 @@ I set up a `ligolo-ng` proxy and use it to run an `nmap` scan of the internal ne
 
 I also download `SharpHound` to the machine and use it to scan the `SKYLARK.com` domain.
 
+### Kerberoasting
+
+The SharpHound output reveals that there is a Kerberoastable user `backup_service`:
+
+
+
+I download Rubeus to the machine and use it to Kerberoast backup\_service:
+
+
+
+I then crack it with `hashcat`:
+
+
+
+It cracks and I verify with CME:
+
+
+
+It validates and I add it to my list of AD credentials:
+
+{% code title="ad_creds.txt" %}
+```
+SKYLARK\kiosk:XEwUS^9R2Gwt8O914     Found in RDWeb instructions on SINGAPORE06
+SKYLARK\backup_service:It4Server    Kerberoasted as kiosk from AUSTIN02
+```
+{% endcode %}
+
 ## Privilege Escalation
 
-Started with PEAS.
+Started with PEAS but it was not particularly helpful.
 
 ### Manual Enumeration
 
