@@ -66,5 +66,13 @@ feroxbuster -L 20 -k -C 404 -C 400 -r --thorough -w /usr/share/wordlists/seclist
 
 <figure><img src="../../../.gitbook/assets/SL-S08-80_FeroxDirBig.png" alt=""><figcaption><p>Nothing of use from feroxbuster</p></figcaption></figure>
 
+## Foothold
 
+Initial access is provided with the local Administrator credentials (`Administrator:DowntownAbbey1923`) which I find in the `credentials.txt` file on [`DC.SKYLARK.COM`](../subnet-10.10.xxx.0-24/dc.md#possible-credential-files).
+
+I am able to use these credentials with RDP (via Remmina) to access the machine:
+
+<figure><img src="../../../.gitbook/assets/SL-S08-RDP-LocalAdmin.png" alt=""><figcaption><p>Local Administrator Access</p></figcaption></figure>
+
+## Post-Exploit
 
