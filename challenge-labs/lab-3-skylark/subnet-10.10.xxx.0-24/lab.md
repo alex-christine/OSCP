@@ -64,3 +64,43 @@ impacket-psexec SKYLARK/backup_service:It4Server@lab.skylark.com
 
 ## Post Exploit
 
+### Manual Enumeration
+
+#### Interesting Files
+
+Ran all "important" file searches from my checklist but found nothing.
+
+Started poking around the machine manually and found some credentials in a `C:\backup` directory:
+
+<figure><img src="../../../.gitbook/assets/SL-LAB-CredentialsInFiles.png" alt=""><figcaption><p>Credentials found in files in C:\backup</p></figcaption></figure>
+
+The `ftp_jp` credentials I already had but not the set for the "Partner Portal." I recall that one of the external machines, `HOUSTON01`, had a "Partner Portal" on its web server at port 80. I head there and try the credentials which seem to work. The site looks much the same [as it did unauthenticated](../external/vm11.md#no-login) but I do now have access to an upload page:
+
+<figure><img src="../../../.gitbook/assets/SL-H01-80-PartnerPortalUpload.png" alt=""><figcaption></figcaption></figure>
+
+I am note sure what this is worth since I already have `SYSTEM`-level access to that machine via the `SKYLARK\backup_service` account and `impacket-psexec`.&#x20;
+
+Regardless of how useful or useless they may be, I add them to my `creds.txt` file:
+
+{% code title="creds.txt" %}
+```
+---------------------------------------  DOMAIN CREDENTIALS  ---------------------------------------
+
+SKYLARK\kiosk           XEwUS^9R2Gwt8O914   Found in RDWeb instructions on SINGAPORE06
+SKYLARK\backup_service  It4Server           Kerberoasted as kiosk from AUSTIN02
+SKYLARK\helpdesk_setup  Tuna6Helper         DCSync to obtain hash and then cracked with hashcat
+
+
+
+---------------------------------------  OTHER CREDENTIALS  ----------------------------------------
+
+Administrator   DowntownAbbey1923       SYDNEY08 Local Administrator
+Administrator   MusingExtraCounty98     PARIS03 Local Administrator
+ftp_jp          ~be<3@6fe1Z:2e8         Honestly not really sure what this is but I found it on PARIS03 in C:\TFTP_SRV\backup.cfg
+skylark         User+dcGvfwTbjV[]       Found on LAB in C:\backup\file.txt - Works on web portal on HOUSTON01's port 80
+```
+{% endcode %}
+
+### Mimikatz
+
+I did run Mimikatz on this machine but found no hashes of any users I did not already possess.

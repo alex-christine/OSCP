@@ -37,7 +37,7 @@ There are 5 machines listed in the network (names are just taken from machine la
 I start with a standard Nmap scan which is run through a `ligolo-ng` proxy on [`AUSTIN02`](../external/austin02.md#internal-pivot).
 
 ```bash
-sudo nmap -sS -Pn -A -p- -o ./first_hop_tcp_all.nmap -iL hostnames.txt
+sudo nmap -sT -Pn -A -p- -o ./first_hop_tcp_all.nmap -iL hostnames.txt
 ```
 
 The output for each machine will be included in its specific page.

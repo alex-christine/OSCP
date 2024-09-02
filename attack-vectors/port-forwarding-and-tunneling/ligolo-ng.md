@@ -138,6 +138,10 @@ Once set up, I can simply use the tunnel just by addressing traffic to the `172.
 
 This makes it very easy to work with. I have yet to find a type of traffic I cannot send over this tunnel.
 
+### Multi-Pivot Tunneling
+
+It is possible to use ligolo-ng to pivot through multiple machines to create a chain of proxies to machines behind multiple layers of networks. For an example refer to the [`SKYLARK` lab](../../challenge-labs/lab-3-skylark/), specifically the [`MAIL` machine writeup](../../challenge-labs/lab-3-skylark/subnet-10.10.xxx.0-24/mail.md#double-pivot-with-ligolo-ng).
+
 ## Port Forwarding
 
 ### Remote Port Forwarding
