@@ -34,5 +34,14 @@ sudo nmap -sT -Pn -p- -A -o ./10_20-tcp_connect-all.nmap -iL hostnames.txt
 
 * Output from this command will be provided in each machine's writeup
 
+### CrackMapExec
 
+As I start my enumeration it seems some of these machines are also domain-connected. Given that DC was fully compromised this means I likely already have a way in here. I start with what worked before, spraying `SKYLARK\backup_service`'s credentials across the hosts:
 
+```bash
+cme smb hosts.txt -d 'SKYLARK' -u 'backup_service' -p 'It4Server' --shares
+```
+
+<figure><img src="../../../.gitbook/assets/SL-10_20-CME-BackupService.png" alt=""><figcaption><p>Results of spraying backup_service's credentials</p></figcaption></figure>
+
+Given that I have `READ/WRITE` on ADMIN$ for all 3 machines I can probably just use `impacket-psexec` for full `SYSTEM` access.

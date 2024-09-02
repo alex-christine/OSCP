@@ -54,15 +54,17 @@ Post-scan script results:
 |_    10.20.111.15 (vm6.skylark)
 ```
 
-
-
 ## Foothold
 
+Initial access is provided as `SYSTEM` by using the `SKYLARK\backup_service` credentials and `impacket-psexec`:
 
+{% code overflow="wrap" %}
+```bash
+rlwrap impacket-psexec SKYLARK/backup_service:'It4Server'@client02.skylark.com
+```
+{% endcode %}
 
-## Privilege Escalation
-
-
+<figure><img src="../../../.gitbook/assets/SL-C02-SystemPsExec.png" alt=""><figcaption><p>SYSTEM command prompt using impacket-psexec</p></figcaption></figure>
 
 ## Post-Exploit
 

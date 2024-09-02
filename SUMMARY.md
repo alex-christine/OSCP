@@ -432,7 +432,7 @@
     * [MAIL](challenge-labs/lab-3-skylark/subnet-10.10.xxx.0-24/mail.md)
   * [Subnet 10.20.XXX.0/24](challenge-labs/lab-3-skylark/subnet-10.20.xxx.0-24/README.md)
     * [VM5](challenge-labs/lab-3-skylark/subnet-10.20.xxx.0-24/vm5.md)
-    * [VM6](challenge-labs/lab-3-skylark/subnet-10.20.xxx.0-24/vm6.md)
+    * [PREPROD](challenge-labs/lab-3-skylark/subnet-10.20.xxx.0-24/preprod.md)
     * [CLIENT01](challenge-labs/lab-3-skylark/subnet-10.20.xxx.0-24/client01.md)
     * [CLIENT02](challenge-labs/lab-3-skylark/subnet-10.20.xxx.0-24/client02.md)
 * [Lab 4: OSCP A](challenge-labs/lab-4-oscp-a/README.md)

@@ -1,4 +1,8 @@
-# VM6
+---
+description: Domain-connected Windows Machine on Second-Level Internal Network
+---
+
+# PREPROD
 
 ## Enumeration
 
@@ -108,15 +112,98 @@ Host script results:
 |_nbstat: NetBIOS name: PREPROD, NetBIOS user: <unknown>, NetBIOS MAC: 00:50:56:bf:aa:8e (VMware)
 ```
 
+### Git Enumeration
 
+Before I noticed this machine was domain-connected I started doing some enumeration of the `git` repository that was left exposed on the web server.
+
+The landing page of the web server makes it look like some sort of staging server:
+
+<figure><img src="../../../.gitbook/assets/SL-VM6-80-Landing.png" alt=""><figcaption><p>Landing page on port 80</p></figcaption></figure>
+
+Regardless, `nmap` discovered a `.git` directory on the web server. I download it with `wget`:
+
+```bash
+wget --no-parent -r http://vm6.skylark/.git/
+```
+
+From here I start using basic `git` enumeration commands:
+
+```bash
+git status
+```
+
+This works but does not reveal anything useful. I then check the commit history:
+
+```bash
+git log
+```
+
+The commit message on one of them looks interesting:
+
+<figure><img src="../../../.gitbook/assets/SL-VM6-git-Log.png" alt=""><figcaption><p>Commit history</p></figcaption></figure>
+
+I examine that commit and find 2 sets of credentials in it:
+
+```bash
+git show c7922cddb7862f591ef35fd964d5eb48998a4f70
+```
+
+<figure><img src="../../../.gitbook/assets/SL-VM6-git-CredentialInCommit.png" alt=""><figcaption><p>SQL credentials in commit</p></figcaption></figure>
+
+<figure><img src="../../../.gitbook/assets/SL-VM6-git-CredentialInCommit_1.png" alt=""><figcaption></figcaption></figure>
+
+Several of these seem to be accounts for the web application, but the SQL credentials seem valid since this machine is running `MSSQL` at port `1433`, and they are the credentials in the second (later) commit which mentions security (found above with `git log`).  I file these in `creds.txt`:
+
+{% code title="creds.txt" %}
+```
+---------------------------------------  DOMAIN CREDENTIALS  ---------------------------------------
+
+SKYLARK\kiosk           XEwUS^9R2Gwt8O914   Found in RDWeb instructions on SINGAPORE06
+SKYLARK\backup_service  It4Server           Kerberoasted as kiosk from AUSTIN02
+SKYLARK\helpdesk_setup  Tuna6Helper         DCSync to obtain hash and then cracked with hashcat
+
+
+
+---------------------------------------  OTHER CREDENTIALS  ----------------------------------------
+
+Administrator   DowntownAbbey1923       SYDNEY08 Local Administrator
+Administrator   MusingExtraCounty98     PARIS03 Local Administrator
+ftp_jp          ~be<3@6fe1Z:2e8         Honestly not really sure what this is but I found it on PARIS03 in C:\TFTP_SRV\backup.cfg
+skylark         User+dcGvfwTbjV[]       Found on LAB in C:\backup\file.txt - Works on web portal on HOUSTON01's port 80
+sa              FrogColossusMad1        Found in .git of PREPROD web server - Likely for MSSQL service running on ports 1433 and 65307 of machine
+```
+{% endcode %}
+
+Before I do any more with them I realized that I probably already had access to this machine with `backup_service`. I went and [sprayed those credentials](./#crackmapexec) across the network and then ...
 
 ## Foothold
 
+Initial access is provided as `SYSTEM` by using the `SKYLARK\backup_service` credentials and `impacket-psexec`:
 
+{% code overflow="wrap" %}
+```bash
+rlwrap impacket-psexec SKYLARK/backup_service:'It4Server'@preprod.skylark.com
+```
+{% endcode %}
 
-## Privilege Escalation
-
-
+<figure><img src="../../../.gitbook/assets/SL-PRE-SystemPsExec.png" alt=""><figcaption><p>SYSTEM access with impacket-psexec</p></figcaption></figure>
 
 ## Post-Exploit
+
+### Manual Enumeration
+
+As I am poking around the C:\ directory I find something potentially interesting in the web root in a file at `C:\inetpub\TODO.txt`:
+
+<figure><img src="../../../.gitbook/assets/SL-PRE-POST-ArchiveCredentials.png" alt=""><figcaption><p>Credentials found in TODO file</p></figcaption></figure>
+
+The note makes mention of [`ARCHIVE`](../subnet-10.10.xxx.0-24/archive.md). Given that machine has been inaccessible thus far, maybe something can be done with these. I also file them in `creds.txt`:
+
+{% code title="creds.txt" %}
+```
+...
+admin           Complex__1__Password!   Found in C:\inetpub\TODO.txt on PREPROD - Note in file mentions ARCHIVE
+```
+{% endcode %}
+
+
 
