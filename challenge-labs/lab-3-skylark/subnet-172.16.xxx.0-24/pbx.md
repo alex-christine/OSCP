@@ -1,5 +1,5 @@
 ---
-description: Windows Machine on Network Behind AMSTERDAM05
+description: Linux Machine on Network Behind AMSTERDAM05
 ---
 
 # PBX
@@ -192,3 +192,26 @@ The Squid proxy is terrible so one of the first things I do is set up a `ligolo-
 
 <figure><img src="../../../.gitbook/assets/SL-PBX-POST-LigoloNg.png" alt=""><figcaption><p>Setting up ligolo-ng tunnel from proxy interface</p></figcaption></figure>
 
+### Manual Enumeration
+
+I spent awhile poking around the machine manually.
+
+#### `tcpdump` Credential Leak
+
+Eventually while listening to UDP traffic on the `ens192` interface I found some credentials:
+
+```
+tcpdump -i ens192 -vvv
+```
+
+<figure><img src="../../../.gitbook/assets/SL-PBX-POST-CredsInTcpdump.png" alt=""><figcaption><p>Credentials leaked in network traffic</p></figcaption></figure>
+
+They are coming from the `172.16.XXX.30` machine. I decide to try the credentials there. The machine has ports 3390 and 22 open. I first tried it with the Linux RDP port (3390) since the `desktop` username implied it might be for that. This works:
+
+<figure><img src="../../../.gitbook/assets/SL-TERMINAL-F-RdpAccess.png" alt=""><figcaption><p>Desktop access on port 3390</p></figcaption></figure>
+
+After a bit I did not like this interface and I tried the credentials on SSH where they also worked:
+
+<figure><img src="../../../.gitbook/assets/SL-TERMINAL-F-SshAccess.png" alt=""><figcaption><p>SSH access</p></figcaption></figure>
+
+The rest of the writeup will be on the [`TERMINAL` page](terminal.md#privilege-escalation).

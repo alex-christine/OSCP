@@ -436,7 +436,7 @@
     * [CLIENT01](challenge-labs/lab-3-skylark/subnet-10.20.xxx.0-24/client01.md)
     * [CLIENT02](challenge-labs/lab-3-skylark/subnet-10.20.xxx.0-24/client02.md)
   * [Subnet 172.16.XXX.0/24](challenge-labs/lab-3-skylark/subnet-172.16.xxx.0-24/README.md)
-    * [VM9](challenge-labs/lab-3-skylark/subnet-172.16.xxx.0-24/vm9.md)
+    * [TERMINAL](challenge-labs/lab-3-skylark/subnet-172.16.xxx.0-24/terminal.md)
     * [VM10](challenge-labs/lab-3-skylark/subnet-172.16.xxx.0-24/vm10.md)
     * [PBX](challenge-labs/lab-3-skylark/subnet-172.16.xxx.0-24/pbx.md)
 * [Lab 4: OSCP A](challenge-labs/lab-4-oscp-a/README.md)

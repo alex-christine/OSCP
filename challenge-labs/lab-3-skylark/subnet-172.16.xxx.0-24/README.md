@@ -36,7 +36,7 @@ Initial enumeration is done after the completion of `TOKYO07` via the Squid prox
 
 ### Squid Proxy
 
-It is possible to [scan with `nmap`](https://book.hacktricks.xyz/network-services-pentesting/3128-pentesting-squid#nmap-proxified) over a Squid proxy but it is very slow.
+Using `proxychains`, it is possible to [scan with `nmap`](https://book.hacktricks.xyz/network-services-pentesting/3128-pentesting-squid#nmap-proxified) over a Squid proxy but it is very slow.
 
 #### Proxychains Configuration
 
@@ -50,7 +50,7 @@ http 192.168.XXX.224 3128 ext_acc DoNotShare!SkyLarkLegacyInternal2008
 
 #### Nmap Scan
 
-Once proxychains is configured I can just run nmap with the command:
+Once `proxychains` is configured I can just run `nmap` with the command:
 
 {% code overflow="wrap" %}
 ```bash
@@ -61,3 +61,15 @@ sudo proxychains nmap -Pn -sT -A --top-ports 1000 -o squid_proxychains_top1000_a
 * Normally I would do all ports but chose the top 1,000 because of how slow this is. Even limiting it to 1,000 ports this took 4.5 hours.
 
 Results of the scan will be included in the machine writeups.
+
+### Second Enumeration
+
+Once I complete `PBX` and [set up a `ligolo-ng` agent](pbx.md#proxy-setup) on that machine I revisit network enumeration and run a full scan of the remaining hosts:
+
+{% code overflow="wrap" %}
+```bash
+sudo nmap -sT -Pn -p- -A -o ./172_16-tcp_connect-all.nmap vm9.skylark.com vm10.skylark.com
+```
+{% endcode %}
+
+The output of this command will be used for the enumeration sections of the remaining machines.
