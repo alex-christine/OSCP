@@ -214,4 +214,11 @@ After a bit I did not like this interface and I tried the credentials on SSH whe
 
 <figure><img src="../../../.gitbook/assets/SL-TERMINAL-F-SshAccess.png" alt=""><figcaption><p>SSH access</p></figcaption></figure>
 
+After validating, I add the credentials to `creds.txt`:
+
+<pre data-title="creds.txt"><code><strong>...
+</strong>ext_acc         DoNotShare!SkyLarkLegacyInternal2008    Squid proxy credentials (proxy is on AMSTERDAM05)
+<strong>desktop         Deskt0pTermin4L             Found with "tcpdump -i ens192 -vvv" run on PBX (provides SSH access on TERMINAL)
+</strong></code></pre>
+
 The rest of the writeup will be on the [`TERMINAL` page](terminal.md#privilege-escalation).

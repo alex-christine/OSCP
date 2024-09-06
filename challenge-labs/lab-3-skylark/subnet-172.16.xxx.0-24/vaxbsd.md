@@ -1,8 +1,22 @@
-# VM10
+---
+layout:
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+---
+
+# VAXBSD
 
 ## Enumeration
 
-Host at `172.16.XXX.31`. Output from nmap command run [here](./#nmap-scan):
+Host at `172.16.XXX.31`. Output from `nmap` command run [here](./#nmap-scan):
 
 ```
 Nmap scan report for vm10.skylark.com (172.16.151.31)
@@ -70,15 +84,26 @@ No OS matches for host
 Service Info: Host: vaxbsd; OSs: Linux, Unix; CPE: cpe:/o:linux:linux_kernel
 ```
 
+I try spraying some of my credentials at SSH to see if anything sticks but nothing does.
 
+### Port 2323
+
+I cannot figure out what this is so I start with a simple Netcat connection to the port:
+
+```bash
+nc vm10.skylark.com
+```
+
+This brings up a login prompt of some kind:
+
+<figure><img src="../../../.gitbook/assets/SL-VAXBSD-ENUM-Nc2323.png" alt=""><figcaption></figcaption></figure>
+
+I Google the text in the banner to figure out what I have here. It seems to be a simulator of a [VAX-11/780](https://gunkies.org/wiki/VAX-11/780) created by [SimH](http://simh.trailing-edge.com/) which is a project to simulate historical computers.
 
 ## Foothold
 
+Port 2323 really seems to be the only path forward. I start trying to guess the login. Eventually I am trying to login with `root:root` or the like. As soon as I type the username I am logged in (no password requested):
 
+<figure><img src="../../../.gitbook/assets/SL-VAXBSD-F-RootShell.png" alt=""><figcaption><p>Root shell on machine</p></figcaption></figure>
 
-## Privilege Escalation
-
-
-
-## Post-Exploit
-
+I learn the hostname for the machine (`vaxbsd`) here. The simulator does not have an `ip addr` or equivalent but I am running as `root` so privilege escalation is not needed. I find it unlikely that any post-exploitation enumeration will be needed either. I am calling this machine complete.

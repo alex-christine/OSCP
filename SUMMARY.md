@@ -437,7 +437,7 @@
     * [CLIENT02](challenge-labs/lab-3-skylark/subnet-10.20.xxx.0-24/client02.md)
   * [Subnet 172.16.XXX.0/24](challenge-labs/lab-3-skylark/subnet-172.16.xxx.0-24/README.md)
     * [TERMINAL](challenge-labs/lab-3-skylark/subnet-172.16.xxx.0-24/terminal.md)
-    * [VM10](challenge-labs/lab-3-skylark/subnet-172.16.xxx.0-24/vm10.md)
+    * [VAXBSD](challenge-labs/lab-3-skylark/subnet-172.16.xxx.0-24/vaxbsd.md)
     * [PBX](challenge-labs/lab-3-skylark/subnet-172.16.xxx.0-24/pbx.md)
 * [Lab 4: OSCP A](challenge-labs/lab-4-oscp-a/README.md)
   * [External Machines](challenge-labs/lab-4-oscp-a/external-machines/README.md)

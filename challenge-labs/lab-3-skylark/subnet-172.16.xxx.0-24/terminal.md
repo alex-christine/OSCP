@@ -64,4 +64,14 @@ After trying these a few different places I eventually find they provide SSH acc
 
 <figure><img src="../../../.gitbook/assets/SL-A05-F-SshLegacy.png" alt=""><figcaption><p>SSH access to AMSTERDAM05</p></figcaption></figure>
 
-More on that in the [`AMSTERDAM05` writeup](../external/vm15.md).
+I add the credentials to `creds.txt`:
+
+{% code title="creds.txt" %}
+```
+...
+desktop         Deskt0pTermin4L             Found with "tcpdump -i ens192 -vvv" run on PBX (provides SSH access on TERMINAL)
+legacy          I_Miss_Windows3.1           Found in /home/legacy/.bash_history on TERMINAL (provides SSH access on AMSTERDAM05)
+```
+{% endcode %}
+
+Next steps in the [`AMSTERDAM05` writeup](../external/vm15.md).
