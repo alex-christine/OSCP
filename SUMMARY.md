@@ -457,6 +457,15 @@
     * [KIERO](challenge-labs/lab-5-oscp-b/standalone/kiero.md)
     * [BERLIN](challenge-labs/lab-5-oscp-b/standalone/berlin.md)
     * [GUST](challenge-labs/lab-5-oscp-b/standalone/gust.md)
+* [Lab 6: OSCP C](challenge-labs/lab-6-oscp-c/README.md)
+  * [Domain](challenge-labs/lab-6-oscp-c/domain/README.md)
+    * [MS01](challenge-labs/lab-6-oscp-c/domain/ms01.md)
+    * [MS02](challenge-labs/lab-6-oscp-c/domain/ms02.md)
+    * [DC01](challenge-labs/lab-6-oscp-c/domain/dc01.md)
+  * [Standalone](challenge-labs/lab-6-oscp-c/standalone/README.md)
+    * [PASCHA](challenge-labs/lab-6-oscp-c/standalone/pascha.md)
+    * [FRANKFURT](challenge-labs/lab-6-oscp-c/standalone/frankfurt.md)
+    * [CHARLIE](challenge-labs/lab-6-oscp-c/standalone/charlie.md)
 
 ## Practice Labs
 

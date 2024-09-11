@@ -13,7 +13,7 @@ There are 4 machines listed in the network (names are just taken from machine la
 ```
 {% endcode %}
 
-* For easier scanning I also split by column into 2 files called `hosts.txt` and `hostnames.txt` containing the IP address and hostname columns respectively
+* For easier scanning I also split this file by column into 2 files called `hosts.txt` and `hostnames.txt` containing the IP address and hostname columns respectively
 * Machine names will be updated as new information is discovered
 
 ## Network Access
